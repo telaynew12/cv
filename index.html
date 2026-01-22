@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master CV Builder - Telaynew Ambachew</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --navy: #1a3c5e; --green: #27ae60; --bg: #f0f2f5; --red: #e74c3c; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .editor-container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        
+        /* Editor Styling */
+        .section-box { border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 25px; background: #fff; border-top: 5px solid var(--navy); position: relative; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .section-header input { border: none; font-size: 18px; font-weight: bold; color: var(--navy); text-transform: uppercase; width: 50%; }
+        
+        .row-item { background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px dashed #ccc; margin-bottom: 10px; position: relative; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        label { display: block; font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; margin-top: 8px; }
+        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; font-family: inherit; }
+        
+        .btn-add { background: var(--navy); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .btn-remove { color: var(--red); cursor: pointer; border: none; background: none; font-size: 18px; font-weight: bold; position: absolute; top: 5px; right: 5px; }
+        
+        .btn-add-section { background: #34495e; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 20px 0; font-weight: bold; }
+        .generate-btn { width: 100%; padding: 20px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 20px; cursor: pointer; font-weight: bold; }
+        
+        .controls-small { display: flex; gap: 8px; align-items: center; font-size: 12px; }
+        .order-input { width: 45px !important; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="editor-container">
+    <h1 style="text-align: center; color: var(--navy);">Infinite CV Content Manager</h1>
+    
+    <form id="cvForm">
+        <div class="section-box">
+            <div class="section-header"><h3>Main Header (Contact Info)</h3></div>
+            <div class="grid-2">
+                <div><label>Full Name</label><input type="text" id="userName" value="TELAYNEW AMBACHEW"></div>
+                <div><label>Job Title</label><input type="text" id="userTitle" value="AI and Data Engineer"></div>
+            </div>
+            <label>Contacts</label>
+            <div id="contact-list">
+                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-phone"><input type="text" class="c-val" value="+251963391736"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
+                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-envelope"><input type="text" class="c-val" value="telaynew11@gmail.com"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
+                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fab fa-linkedin"><input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
+            </div>
+            <button type="button" class="btn-add" onclick="addContactField()">+ Add Contact Field</button>
+        </div>
+
+        <div id="sections-container">
+            </div>
+
+        <button type="button" class="btn-add-section" onclick="addNewSection()">+ ADD NEW SECTION (Projects, Awards, etc.)</button>
+        <button type="button" class="generate-btn" onclick="generateCV()">Download Perfect 1-Page PDF</button>
+    </form>
+</div>
+
+<script>
+    // Initial data from your CV
+    const initialSections = [
+        { title: "Summary", col: "side", order: 1, items: [{ title: "", date: "", sub: "", bullets: "Results-driven AI and Data Science professional in developing machine learning solutions. Proficient in Python, SQL, and frameworks like Scikit-learn and PyTorch. Skilled in translating complex business challenges into actionable, data-driven strategies." }] },
+        { title: "Experience", col: "main", order: 1, items: [
+            { title: "AI GTP", date: "03/2025 - 06/2025", sub: "IE Network Solutions | Addis Ababa", bullets: "Comprehensive training in AI and Data Science.\nHands-on experience with real-world projects.\nDeveloped teamwork and communication skills." },
+            { title: "Internship", date: "01/2024 - 03/2024", sub: "Amhara Bank | Gondar", bullets: "Configuring, troubleshooting, and maintaining network infrastructure." }
+        ]},
+        { title: "Education", col: "main", order: 2, items: [{ title: "BSc in Computer Science", date: "2021 - 2024", sub: "University of Gondar", bullets: "Graduated with Honors." }] },
+        { title: "Skills", col: "side", order: 2, items: [{ title: "", date: "", sub: "", bullets: "Azure, Deep Learning, GitHub, Python, PyTorch, SQL, TensorFlow, React, Node.js" }] },
+        { title: "Certification", col: "side", order: 3, items: [
+            { title: "DP 100 - Azure Data Science", date: "", sub: "Microsoft", bullets: "" },
+            { title: "Data Scientist", date: "", sub: "Datacamp", bullets: "" }
+        ]}
+    ];
+
+    function addContactField(icon = "fas fa-link", val = "") {
+        const div = document.createElement('div');
+        div.className = 'row-item';
+        div.innerHTML = `<div class="grid-2"><input type="text" class="c-icon" value="${icon}"><input type="text" class="c-val" value="${val}"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>`;
+        document.getElementById('contact-list').appendChild(div);
+    }
+
+    function addRow(containerId, data = {title:'', date:'', sub:'', bullets:''}) {
+        const div = document.createElement('div');
+        div.className = 'row-item';
+        div.innerHTML = `
+            <div class="grid-2"><input type="text" class="r-title" value="${data.title}" placeholder="Title"><input type="text" class="r-date" value="${data.date}" placeholder="Date"></div>
+            <input type="text" class="r-sub" value="${data.sub}" placeholder="Subtitle/Company">
+            <textarea class="r-bullets" rows="2" placeholder="Bullets">${data.bullets}</textarea>
+            <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
+        `;
+        document.getElementById(containerId).appendChild(div);
+    }
+
+    function addNewSection(data = {title: "New Section", col: "main", order: 5, items: []}) {
+        const id = 'sec_' + Math.random().toString(36).substr(2, 9);
+        const div = document.createElement('div');
+        div.className = 'section-box';
+        div.setAttribute('data-id', id);
+        div.innerHTML = `
+            <div class="section-header">
+                <input type="text" class="sec-title-input" value="${data.title}">
+                <div class="controls-small">
+                    Order: <input type="number" class="sec-order" value="${data.order}">
+                    Col: <select class="sec-col">
+                        <option value="main" ${data.col==='main'?'selected':''}>Main</option>
+                        <option value="side" ${data.col==='side'?'selected':''}>Side</option>
+                    </select>
+                    <button type="button" class="btn-remove" style="position:static" onclick="this.closest('.section-box').remove()">×</button>
+                </div>
+            </div>
+            <div id="rows_${id}"></div>
+            <button type="button" class="btn-add" onclick="addRow('rows_${id}')">+ Add Row</button>
+        `;
+        document.getElementById('sections-container').appendChild(div);
+        if(data.items.length > 0) data.items.forEach(item => addRow(`rows_${id}`, item));
+        else addRow(`rows_${id}`);
+    }
+
+    // Load initial data
+    initialSections.forEach(s => addNewSection(s));
+
+    function generateCV() {
+        const name = document.getElementById('userName').value;
+        const job = document.getElementById('userTitle').value;
+        const contacts = Array.from(document.querySelectorAll('#contact-list .row-item')).map(r => ({
+            icon: r.querySelector('.c-icon').value,
+            val: r.querySelector('.c-val').value
+        }));
+
+        const sectionNodes = document.querySelectorAll('.section-box[data-id]');
+        const sectionData = Array.from(sectionNodes).map(node => {
+            const rows = Array.from(node.querySelectorAll('.row-item')).map(row => {
+                const rt = row.querySelector('.r-title').value;
+                const rd = row.querySelector('.r-date').value;
+                const rs = row.querySelector('.r-sub').value;
+                const rb = row.querySelector('.r-bullets').value.split('\n').filter(b=>b.trim()).map(b=>`<li>${b}</li>`).join('');
+                return `<div style="margin-bottom:10px;">
+                    <div style="display:flex;justify-content:space-between;color:#1a3c5e;font-size:10pt;"><strong>${rt}</strong><span>${rd}</span></div>
+                    ${rs?`<div style="font-weight:bold;font-size:9pt;color:#555;">${rs}</div>`:''}
+                    ${rb?`<ul style="margin:2px 0 0 15px;padding:0;font-size:9pt;line-height:1.3;">${rb}</ul>` : ''}
+                </div>`;
+            }).join('');
+            return { 
+                title: node.querySelector('.sec-title-input').value,
+                order: parseInt(node.querySelector('.sec-order').value),
+                col: node.querySelector('.sec-col').value,
+                html: rows
+            };
+        });
+
+        const mainHtml = sectionData.filter(s=>s.col==='main').sort((a,b)=>a.order-b.order).map(s=>`<div class="stitle">${s.title}</div>${s.html}`).join('');
+        const sideHtml = sectionData.filter(s=>s.col==='side').sort((a,b)=>a.order-b.order).map(s=>`<div class="stitle">${s.title}</div>${s.html}`).join('');
+
+        const cvHtml = `
+        <html><head>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
+            <style>
+                /* CRITICAL FIX: Global Reset to remove all white space */
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                @page { size: A4; margin: 0; }
+                body { margin: 0; padding: 0; width: 210mm; background: white; font-family: sans-serif; overflow: hidden; }
+                
+                #page-container { width: 210mm; height: 297mm; position: relative; background: white; }
+                
+                /* FIXED HEADER: Absolute positioning to touch the left, top, and right edges exactly */
+                .header { 
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 210mm; 
+                    background: #1a3c5e; 
+                    color: white; 
+                    padding: 45px 50px; 
+                    margin: 0;
+                }
+                
+                .content { padding: 185px 50px 50px 50px; display: grid; grid-template-columns: 1.7fr 1fr; gap: 30px; }
+                .title-block h1 { font-size: 32pt; text-transform: uppercase; margin: 0; }
+                .title-block h2 { font-size: 16pt; opacity: 0.9; font-weight: 300; margin-top: 5px; }
+                .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 9pt; margin-top: 20px; }
+                .stitle { font-size: 13pt; font-weight: bold; color: #1a3c5e; text-transform: uppercase; border-bottom: 2px solid #1a3c5e; margin: 15px 0 10px 0; padding-bottom: 3px; }
+                #dl-trigger { position: fixed; bottom: 30px; right: 30px; background: #27ae60; color: white; padding: 15px 25px; border-radius: 50px; cursor: pointer; border: none; font-weight: bold; z-index: 9999; }
+            </style>
+        </head>
+        <body>
+            <button id="dl-trigger" onclick="downloadPDF()">Download PDF Now</button>
+            <div id="page-container">
+                <div class="header">
+                    <div class="title-block">
+                        <h1>${name}</h1>
+                        <h2>${job}</h2>
+                    </div>
+                    <div class="contact-grid">
+                        ${contacts.map(c=>`<span><i class="${c.icon}"></i> ${c.val}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="content">
+                    <div>${mainHtml}</div>
+                    <div>${sideHtml}</div>
+                </div>
+            </div>
+            <script>
+                function downloadPDF() {
+                    const el = document.getElementById('page-container');
+                    const btn = document.getElementById('dl-trigger');
+                    btn.style.display = 'none';
+                    // Use a 0 margin array to ensure the engine doesn't inject white space
+                    const opt = { 
+                        margin: [0, 0, 0, 0], 
+                        filename: 'Telaynew_Ambachew_CV.pdf', 
+                        html2canvas: { scale: 4, useCORS: true }, 
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
+                    };
+                    html2pdf().set(opt).from(document.body).save().then(() => btn.style.display = 'block');
+                }
+            <\/script>
+        </body></html>`;
+
+        const win = window.open('', '_blank');
+        win.document.write(cvHtml);
+        win.document.close();
+    }
+</script>
+</body>
+</html>
