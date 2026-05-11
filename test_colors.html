@@ -189,7 +189,7 @@
                     const btn = document.getElementById('dl-trigger');
                     btn.style.display = 'none';
                     html2pdf().set({
-                        margin: 0, filename: 'Telaynew_Ambachew_CV.pdf',
+                        margin: 0, filename: 'Telaynew_Ambachew_AI_updated.pdf',
                         html2canvas: { scale: 3, useCORS: true },
                         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
                     }).from(el).save().then(() => btn.style.display = 'block');

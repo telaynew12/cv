@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "timestamp": "2026-01-02T07:21:43.856460",
+  "endpoint": "https://ie-okr-backend.selamnew.com/api/v1/plan",
+  "session_id": "8473a9ad-f77c-40c9-91b9-ce5d087adf48",
+  "status_code": 200,
+  "total_plans": 8961,
+  "raw_response": [
+    {
+      "id": "45167907-293c-4031-8acb-4201142a6226",
+      "createdAt": "2025-12-01T04:48:36.520Z",
+      "updatedAt": "2025-12-08T08:04:53.717Z",
+      "deletedAt": null,
+      "createdBy": "fe5128ea-a425-491a-ba41-ad8be38c21b2",
+      "updatedBy": "fe5128ea-a425-491a-ba41-ad8be38c21b2",
+      "deletedBy": null,
+      "userId": "fe5128ea-a425-491a-ba41-ad8be38c21b2",
+      "tenantId": "9b320d7d-bece-4dd4-bb87-dd226f70daef",
+      "sessionId": "8473a9ad-f77c-40c9-91b9-ce5d087adf48",
+      "description": "Weekly",
+      "isValidated": false,
+      "isReportValidated": false,
+      "isReported": true,
+      "parentPlanId": null,
+      "level": 0,
+      "planningPeriodId": "369f2340-96dc-4a04-b977-473963a91687"
+    },
