@@ -47,6 +47,7 @@
                 <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-phone"><input type="text" class="c-val" value="+251963391736"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
                 <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-envelope"><input type="text" class="c-val" value="telaynew11@gmail.com"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
                 <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fab fa-linkedin"><input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
+                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-globe"><input type="text" class="c-val" value="https://telaynew.vercel.app"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
             </div>
             <button type="button" class="btn-add" onclick="addContactField()">+ Add Contact Field</button>
         </div>
@@ -62,22 +63,24 @@
 <script>
     // Initial data from your CV
     const initialSections = [
-        { title: "Experience", col: "main", order: 1, items: [
-            { title: "AI & Data Engineer", date: "Feb 2025 - Apr 2026", sub: "IE Network Solutions | Addis Ababa", bullets: "Built AI-powered enterprise assistant integrating multiple REST APIs.\nImplemented LLM-based intent routing (API, AI, Hybrid decision systems).\nDeveloped scalable backend services using FastAPI.\nDeployed production-grade AI systems on Microsoft Azure.\nDesigned automation workflows to improve operational efficiency." },
-            { title: "Full Stack Developer", date: "Jul 2023 - Feb 2025", sub: "Freelance", bullets: "Designed and developed end-to-end full stack applications using React, Next.js, Express.js, and NestJS.\nBuilt scalable backend systems and RESTful APIs to support dynamic web platforms and data-driven applications.\nDeveloped and deployed AI-powered features including NLP pipelines for document processing and automation.\nIntegrated third-party APIs and services for authentication, data exchange, and external system connectivity.\nImplemented modern frontend architectures with responsive UI/UX and optimized performance.\nBuilt and deployed applications using cloud platforms (Azure) with focus on scalability and reliability.\nApplied clean architecture and modular design patterns for maintainable and production-ready systems." }
+        { title: "EXPERIENCE", col: "main", order: 1, items: [
+            { title: "Software Developer", date: "Apr 2026 - Aug 2026", sub: "IE Network Solutions | Addis Ababa", bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nDesigned REST APIs, service layers, validation pipelines, and reusable backend architecture.\nBuilt ticket management, SLA tracking, escalation workflows, and CRM automation features.\nDesigned optimized relational database schemas for operational reporting and analytics.\nIntegrated CRM and Service Desk modules through workflow automation.\nStandardized frontend-backend API contracts, improving development efficiency across teams.\nCollaborated with cross-functional teams to deliver production-ready enterprise software." },
+            { title: "AI & Data Engineer", date: "Jul 2025 - Apr 2026", sub: "Freelance", bullets: "Built enterprise AI assistants using Azure OpenAI to automate business processes and improve operational efficiency.\nDesigned and implemented Retrieval-Augmented Generation (RAG) systems with embedding pipelines, document chunking, and prompt engineering.\nDeveloped scalable backend services and REST APIs using FastAPI.\nIntegrated AI services with multiple internal and external REST APIs.\nDeployed and maintained production AI applications on Microsoft Azure.\nBuilt intelligent request-routing systems for AI, API, and hybrid workflows.\nImproved AI system performance by optimizing retrieval quality, latency, and response reliability." },
+            { title: "Full Stack Developer", date: "2024 - 2025", sub: "Freelance", bullets: "Designed and developed end-to-end web applications using React, Next.js, TypeScript, Express.js, and NestJS.\nBuilt scalable backend services, REST APIs, and secure authentication systems.\nDesigned PostgreSQL databases and optimized data models for business applications.\nDeveloped AI-powered features including document processing and workflow automation.\nIntegrated third-party APIs for authentication and external business services.\nDeployed applications to Microsoft Azure using modern cloud deployment practices.\nApplied clean architecture and modular design principles to build maintainable production systems." }
         ]},
-        { title: "Education", col: "main", order: 2, items: [{ title: "BSc in Computer Science", date: "2021 - 2024", sub: "University of Gondar", bullets: "Graduated with Honors." }] },
-        { title: "Certification", col: "main", order: 3, items: [
-            { title: "DP 100 - Azure Data Science", date: "", sub: "Microsoft", bullets: "" },
-            { title: "Data Scientist", date: "", sub: "Datacamp", bullets: "" }
-        ]},
-        { title: "Summary", col: "side", order: 1, items: [{ title: "", date: "", sub: "", bullets: "AI Engineer and Full Stack Developer with hands-on experience building data-driven systems, machine learning models, and intelligent dashboards. Skilled in Python, JavaScript (React/Node.js), and cloud-based AI solutions. Experienced in developing end-to-end applications including APIs, data pipelines, and predictive models. Strong interest in applying AI, NLP, and analytics to real-world challenges such as humanitarian data systems, forecasting, and decision support tools." }] },
-        { title: "Skills", col: "side", order: 2, items: [{ title: "", date: "", sub: "", bullets: "Azure, Deep Learning, GitHub, Python, PyTorch, SQL, TensorFlow, React, Node.js" }] },
-        { title: "Key Projects", col: "side", order: 3, items: [
-            { title: "Food Recipe Website", date: "", sub: "Recipe Sharing & Meal Planning Platform", bullets: "Built a full stack recipe management web application using React / Next.js and Node.js (Express/NestJS).\nImplemented features for recipe creation, search, filtering, and categorization.\nDesigned user authentication system (login/signup, profile management).\nIntegrated API for nutritional data and ingredient suggestions." },
+        { title: "SUMMARY", col: "side", order: 1, items: [{ title: "", date: "", sub: "", bullets: "AI Software Engineer with hands-on experience designing, building, and deploying production-grade backend systems and AI-powered applications. Experienced in FastAPI, NestJS, React, TypeScript, Python, Azure, and Large Language Models (LLMs). Specialized in Retrieval-Augmented Generation (RAG), Azure OpenAI, REST APIs, workflow automation, and cloud deployment. Passionate about building scalable software that solves real business problems through reliable engineering and practical AI solutions." }] },
+        { title: "KEY PROJECTS", col: "side", order: 2, items: [
+            { title: "Enterprise CRM & Service Desk", date: "", sub: "IE Network Solutions", bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nImplemented ticket management, SLA tracking, workflow automation, and reporting features.\nDesigned scalable REST APIs and optimized relational database schemas." },
             { title: "AI Enterprise Assistant (Copilot System)", date: "", sub: "IE Networks Solution", bullets: "Built LLM-powered assistant for automation and decision support.\nIntegrated multiple APIs with intelligent routing.\nEnabled task automation and business insights generation." },
-            { title: "OKR Recommendation System", date: "", sub: "IE Networks solutions", bullets: "Designed AI-driven planning and recommendation engine.\nBuilt and deployed APIs on Azure for real-time recommendations." }
-        ]}
+            { title: "Food Recipe AI Platform", date: "", sub: "Freelance", bullets: "Developed a full-stack AI-powered recipe recommendation platform.\nBuilt frontend using React/Next.js and backend with Node.js.\nIntegrated AI recommendations based on available ingredients and user preferences." }
+        ]},
+        { title: "EDUCATION", col: "side", order: 3, items: [{ title: "BSc in Computer Science", date: "2021 - 2024", sub: "University of Gondar", bullets: "Graduated with Honors." }] },
+        { title: "CERTIFICATION", col: "main", order: 3, items: [
+            { title: "DP 100 - Azure Data Science", date: "", sub: "Microsoft", bullets: "" },
+            { title: "Data Scientist", date: "", sub: "Datacamp", bullets: "" },
+            { title: "AI 102 Design AI Solution", date: "", sub: "Microsoft", bullets: "" }
+        ]},
+        { title: "SKILLS", col: "side", order: 4, items: [{ title: "", date: "", sub: "", bullets: "Python, TypeScript, JavaScript, FastAPI, NestJS, React, Next.js, Azure, Azure OpenAI, RAG, LangChain, REST APIs, PostgreSQL, Docker, Git, Linux" }] }
     ];
 
     function addContactField(icon = "fas fa-link", val = "") {
@@ -87,14 +90,18 @@
         document.getElementById('contact-list').appendChild(div);
     }
 
-    function addRow(containerId, data = {title:'', date:'', sub:'', bullets:''}) {
+    function addRow(containerId, data = {title:'', date:'', sub:'', bullets:'', order:1}) {
         const div = document.createElement('div');
         div.className = 'row-item';
         div.innerHTML = `
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+                <span style="font-size:10px;font-weight:bold;color:#888;">Order:</span>
+                <input type="number" class="r-order" value="${data.order || 1}" style="width:50px;text-align:center;padding:4px;border:1px solid #ccc;border-radius:4px;">
+                <button type="button" class="btn-remove" style="position:static;margin-left:auto;" onclick="this.closest('.row-item').remove()">×</button>
+            </div>
             <div class="grid-2"><input type="text" class="r-title" value="${data.title}" placeholder="Title"><input type="text" class="r-date" value="${data.date}" placeholder="Date"></div>
             <input type="text" class="r-sub" value="${data.sub}" placeholder="Subtitle/Company">
             <textarea class="r-bullets" rows="2" placeholder="Bullets">${data.bullets}</textarea>
-            <button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>
         `;
         document.getElementById(containerId).appendChild(div);
     }
@@ -117,11 +124,17 @@
                 </div>
             </div>
             <div id="rows_${id}"></div>
-            <button type="button" class="btn-add" onclick="addRow('rows_${id}')">+ Add Row</button>
+            <button type="button" class="btn-add" onclick="addRow('rows_${id}', {order: (document.querySelectorAll('#rows_${id} .row-item').length + 1)})">+ Add Row</button>
         `;
         document.getElementById('sections-container').appendChild(div);
-        if(data.items.length > 0) data.items.forEach(item => addRow(`rows_${id}`, item));
-        else addRow(`rows_${id}`);
+        if(data.items.length > 0) {
+            data.items.forEach((item, idx) => {
+                if(!item.order) item.order = idx + 1;
+                addRow(`rows_${id}`, item)
+            });
+        } else {
+            addRow(`rows_${id}`);
+        }
     }
 
     // Load initial data
@@ -137,17 +150,23 @@
 
         const sectionNodes = document.querySelectorAll('.section-box[data-id]');
         const sectionData = Array.from(sectionNodes).map(node => {
-            const rows = Array.from(node.querySelectorAll('.row-item')).map(row => {
-                const rt = row.querySelector('.r-title').value;
-                const rd = row.querySelector('.r-date').value;
-                const rs = row.querySelector('.r-sub').value;
-                const rb = row.querySelector('.r-bullets').value.split('\n').filter(b=>b.trim()).map(b=>`<li>${b}</li>`).join('');
-                return `<div style="margin-bottom:6px;">
-                    <div style="display:flex;justify-content:space-between;color:#1a3c5e;font-size:9pt;"><strong>${rt}</strong><span>${rd}</span></div>
-                    ${rs?`<div style="font-weight:bold;font-size:8pt;color:#555;margin-top:1px;">${rs}</div>`:''}
-                    ${rb?`<ul style="margin:1px 0 0 15px;padding:0;font-size:8pt;line-height:1.2;">${rb}</ul>` : ''}
-                </div>`;
-            }).join('');
+            const rows = Array.from(node.querySelectorAll('.row-item'))
+                .sort((a, b) => {
+                    const oA = parseInt(a.querySelector('.r-order').value) || 999;
+                    const oB = parseInt(b.querySelector('.r-order').value) || 999;
+                    return oA - oB;
+                })
+                .map(row => {
+                    const rt = row.querySelector('.r-title').value;
+                    const rd = row.querySelector('.r-date').value;
+                    const rs = row.querySelector('.r-sub').value;
+                    const rb = row.querySelector('.r-bullets').value.split('\n').filter(b=>b.trim()).map(b=>`<li>${b}</li>`).join('');
+                    return `<div style="margin-bottom:6px;">
+                        <div style="display:flex;justify-content:space-between;color:#1a3c5e;font-size:9pt;"><strong>${rt}</strong><span>${rd}</span></div>
+                        ${rs?`<div style="font-weight:bold;font-size:8pt;color:#555;margin-top:1px;">${rs}</div>`:''}
+                        ${rb?`<ul style="margin:1px 0 0 15px;padding:0;font-size:8pt;line-height:1.2;">${rb}</ul>` : ''}
+                    </div>`;
+                }).join('');
             return { 
                 title: node.querySelector('.sec-title-input').value,
                 order: parseInt(node.querySelector('.sec-order').value),
@@ -188,7 +207,7 @@
                 .content > div { page-break-inside: avoid; break-inside: avoid; }
                 .title-block h1 { font-size: 28pt; text-transform: uppercase; margin: 0; line-height: 1.1; }
                 .title-block h2 { font-size: 14pt; opacity: 0.9; font-weight: 300; margin-top: 3px; }
-                .contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 8pt; margin-top: 15px; }
+                .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 8pt; margin-top: 15px; }
                 .stitle { font-size: 11pt; font-weight: bold; color: #1a3c5e; text-transform: uppercase; border-bottom: 2px solid #1a3c5e; margin: 10px 0 6px 0; padding-bottom: 2px; page-break-after: avoid; break-after: avoid; }
                 #dl-trigger { position: fixed; bottom: 30px; right: 30px; background: #27ae60; color: white; padding: 15px 25px; border-radius: 50px; cursor: pointer; border: none; font-weight: bold; z-index: 9999; }
             </style>
