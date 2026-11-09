@@ -629,7 +629,7 @@
             box-sizing: border-box;
             font-family: sans-serif;
             color: #000;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         .cv-render-box * { box-sizing: border-box; }
 
@@ -1518,7 +1518,7 @@
                 color: #000000;
                 margin: 0;
                 padding: 0;
-                overflow: hidden;
+                overflow-x: hidden;
             }
             .cv-page-container * {
                 box-sizing: border-box;
@@ -1872,8 +1872,6 @@
         });
     }
 
-let lastSwapTarget = null;
-
     // Initialize SortableJS for Main & Side Columns, and Contacts
     function initDragAndDrop() {
         if (typeof Sortable === 'undefined') {
@@ -1888,61 +1886,24 @@ let lastSwapTarget = null;
 
         const sortableSectionConfig = {
             group: 'sections-group',
-            swap: true,
-            swapClass: 'sortable-swap-highlight',
-            animation: 180,
+            animation: 200,
             handle: '.drag-handle',
             draggable: '.section-box',
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
-            onMove: function(evt) {
-                if (evt.related && evt.related.classList && evt.related.classList.contains('section-box') && evt.related !== evt.dragged) {
-                    lastSwapTarget = evt.related;
-                } else {
-                    lastSwapTarget = null;
-                }
-                return true;
-            },
+            emptyInsertThreshold: 30,
+            fallbackOnBody: true,
             onEnd: function(evt) {
                 const fromContainer = evt.from;
                 const toContainer = evt.to;
-                const dragged = evt.item;
 
-                // Determine if dropped on an existing card or on empty space
-                let droppedOnCard = lastSwapTarget;
-                if (evt.originalEvent && evt.originalEvent.clientX != null && evt.originalEvent.clientY != null) {
-                    const elAtPoint = document.elementFromPoint(evt.originalEvent.clientX, evt.originalEvent.clientY);
-                    if (elAtPoint) {
-                        const cardAtPoint = elAtPoint.closest('.section-box');
-                        if (cardAtPoint && cardAtPoint !== dragged) {
-                            droppedOnCard = cardAtPoint;
-                        } else if (elAtPoint.closest('.sections-dropzone') && !cardAtPoint) {
-                            droppedOnCard = null;
-                        }
-                    }
-                }
-
-                if (droppedOnCard && droppedOnCard !== dragged) {
-                    // SWAP: Existing swap across containers
-                    if (fromContainer !== toContainer) {
-                        if (droppedOnCard.parentNode === toContainer && dragged.parentNode === toContainer) {
-                            fromContainer.insertBefore(droppedOnCard, fromContainer.children[evt.oldIndex] || null);
-                        }
-                    }
-                    showToast("Sections swapped!");
+                if (fromContainer !== toContainer) {
+                    const toColName = toContainer.getAttribute('data-col') === 'main' ? 'MAIN' : 'SIDE';
+                    showToast(`Moved to ${toColName} column`);
                 } else {
-                    // EMPTY SPACE: Append to target container without swapping
-                    if (toContainer && (fromContainer !== toContainer || dragged.parentNode !== toContainer)) {
-                        toContainer.appendChild(dragged);
-                        const toColName = toContainer.getAttribute('data-col') === 'main' ? 'MAIN' : 'SIDE';
-                        showToast(`Moved to ${toColName} column`);
-                    } else if (toContainer) {
-                        toContainer.appendChild(dragged);
-                        showToast("Section reordered");
-                    }
+                    showToast("Section order updated");
                 }
-                lastSwapTarget = null;
 
                 updateAllOrders();
                 updateLivePreview();
