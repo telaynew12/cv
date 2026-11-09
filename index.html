@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,12 +36,7 @@
             --preview-scale: 0.62;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
             background: var(--bg);
@@ -58,12 +52,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-
         .app-header h1 {
             font-size: 20px;
             font-weight: 700;
@@ -71,7 +64,6 @@
             align-items: center;
             gap: 10px;
         }
-
         .app-header .header-actions {
             display: flex;
             gap: 10px;
@@ -92,42 +84,24 @@
             transition: all 0.2s ease;
             text-decoration: none;
         }
-
         .btn-green {
             background: var(--green);
             color: white;
             box-shadow: 0 2px 6px rgba(39, 174, 96, 0.35);
         }
-
-        .btn-green:hover {
-            background: var(--green-dark);
-            transform: translateY(-1px);
-        }
-
+        .btn-green:hover { background: var(--green-dark); transform: translateY(-1px); }
         .btn-navy {
             background: white;
             color: var(--navy);
         }
-
-        .btn-navy:hover {
-            background: #f0f4f8;
-        }
-
+        .btn-navy:hover { background: #f0f4f8; }
         .btn-outline {
             background: transparent;
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255,255,255,0.4);
         }
-
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
-        }
-
-        .btn-sm {
-            padding: 5px 10px;
-            font-size: 11px;
-        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
+        .btn-sm { padding: 5px 10px; font-size: 11px; }
 
         /* Legacy Button Styles */
         .btn-add-section {
@@ -146,11 +120,7 @@
             gap: 8px;
             transition: background 0.2s;
         }
-
-        .btn-add-section:hover {
-            background: #2c3e50;
-        }
-
+        .btn-add-section:hover { background: #2c3e50; }
         .generate-btn {
             flex: 1.5;
             padding: 16px;
@@ -168,11 +138,7 @@
             box-shadow: 0 4px 15px rgba(39, 174, 96, 0.35);
             transition: all 0.2s;
         }
-
-        .generate-btn:hover {
-            background: var(--green-dark);
-            transform: translateY(-1px);
-        }
+        .generate-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
 
         /* Main Workspace Layout */
         .app-layout {
@@ -183,16 +149,13 @@
             margin: 0 auto;
             padding: 24px 20px;
         }
-
         @media (max-width: 1280px) {
             .app-layout {
                 grid-template-columns: 1fr;
             }
-
             .preview-pane {
                 display: none;
             }
-
             .preview-pane.active-mobile {
                 display: flex !important;
                 position: fixed;
@@ -213,7 +176,7 @@
             background: var(--card-bg);
             border-radius: 8px;
             border: 1px solid var(--border);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             padding: 22px;
         }
 
@@ -225,7 +188,6 @@
             padding-bottom: 12px;
             margin-bottom: 16px;
         }
-
         .card-header-line h3 {
             font-size: 16px;
             font-weight: 700;
@@ -248,11 +210,7 @@
             color: var(--navy);
             gap: 15px;
         }
-
-        .order-guide-banner strong {
-            color: var(--navy);
-        }
-
+        .order-guide-banner strong { color: var(--navy); }
         .order-guide-banner .guide-tag {
             background: white;
             border: 1px solid #b9d3e8;
@@ -268,11 +226,8 @@
             grid-template-columns: 1.15fr 1fr;
             gap: 18px;
         }
-
         @media (max-width: 900px) {
-            .columns-grid {
-                grid-template-columns: 1fr;
-            }
+            .columns-grid { grid-template-columns: 1fr; }
         }
 
         .column-panel {
@@ -285,12 +240,10 @@
             min-height: 480px;
             transition: border-color 0.2s;
         }
-
         .column-panel.main-panel {
             border-top: 4px solid var(--navy);
             background: #fbfdff;
         }
-
         .column-panel.side-panel {
             border-top: 4px solid var(--green);
             background: #fcfdfd;
@@ -304,7 +257,6 @@
             padding-bottom: 8px;
             border-bottom: 1px solid #eef2f6;
         }
-
         .column-panel-header h4 {
             font-size: 14px;
             font-weight: 700;
@@ -314,14 +266,8 @@
             align-items: center;
             gap: 8px;
         }
-
-        .column-panel.main-panel .column-panel-header h4 {
-            color: var(--navy);
-        }
-
-        .column-panel.side-panel .column-panel-header h4 {
-            color: var(--green);
-        }
+        .column-panel.main-panel .column-panel-header h4 { color: var(--navy); }
+        .column-panel.side-panel .column-panel-header h4 { color: var(--green); }
 
         .badge-count {
             font-size: 11px;
@@ -329,16 +275,8 @@
             border-radius: 12px;
             font-weight: 700;
         }
-
-        .main-panel .badge-count {
-            background: var(--navy-bg);
-            color: var(--navy);
-        }
-
-        .side-panel .badge-count {
-            background: var(--green-bg);
-            color: var(--green);
-        }
+        .main-panel .badge-count { background: var(--navy-bg); color: var(--navy); }
+        .side-panel .badge-count { background: var(--green-bg); color: var(--green); }
 
         .column-hint {
             font-size: 11px;
@@ -352,26 +290,9 @@
             flex-direction: column;
             gap: 14px;
             flex-grow: 1;
-            min-height: 220px;
-            padding: 4px 4px 50px 4px;
+            min-height: 200px;
+            padding: 4px;
             border-radius: 6px;
-        }
-
-        .sections-dropzone:empty {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px dashed #cbd5e0;
-            border-radius: 8px;
-            background: rgba(241, 245, 249, 0.6);
-            min-height: 140px;
-        }
-
-        .sections-dropzone:empty::after {
-            content: "Drag & drop sections here";
-            color: #94a3b8;
-            font-size: 13px;
-            font-weight: 600;
         }
 
         /* Section Box */
@@ -379,19 +300,13 @@
             background: white;
             border: 1px solid #d8e2ec;
             border-radius: 7px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
             transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
         }
-
-        .section-box.is-main {
-            border-left: 5px solid var(--navy);
-        }
-
-        .section-box.is-side {
-            border-left: 5px solid var(--green);
-        }
+        .section-box.is-main { border-left: 5px solid var(--navy); }
+        .section-box.is-side { border-left: 5px solid var(--green); }
 
         .section-header-bar {
             display: flex;
@@ -414,12 +329,10 @@
             border-radius: 4px;
             transition: color 0.15s, background 0.15s;
         }
-
         .drag-handle:hover {
             color: var(--navy);
             background: #edf2f7;
         }
-
         .drag-handle:active {
             cursor: grabbing;
         }
@@ -433,16 +346,8 @@
             letter-spacing: 0.5px;
             white-space: nowrap;
         }
-
-        .badge-main {
-            background: var(--navy);
-            color: white;
-        }
-
-        .badge-side {
-            background: var(--green);
-            color: white;
-        }
+        .badge-main { background: var(--navy); color: white; }
+        .badge-side { background: var(--green); color: white; }
 
         .sec-title-input {
             flex-grow: 1;
@@ -456,24 +361,14 @@
             background: transparent;
             font-family: inherit;
         }
-
-        .sec-title-input:hover {
-            border-color: #cbd5e0;
-            background: #f8fafc;
-        }
-
-        .sec-title-input:focus {
-            border-color: var(--navy);
-            background: white;
-            outline: none;
-        }
+        .sec-title-input:hover { border-color: #cbd5e0; background: #f8fafc; }
+        .sec-title-input:focus { border-color: var(--navy); background: white; outline: none; }
 
         .sec-actions {
             display: flex;
             gap: 5px;
             align-items: center;
         }
-
         .sec-tool-btn {
             background: none;
             border: 1px solid #e2e8f0;
@@ -488,25 +383,14 @@
             font-size: 12px;
             transition: all 0.15s;
         }
-
-        .sec-tool-btn:hover {
-            background: #edf2f7;
-            color: var(--navy);
-            border-color: #cbd5e0;
-        }
-
-        .sec-tool-btn.btn-del:hover {
-            background: #fee2e2;
-            color: var(--red);
-            border-color: #fca5a5;
-        }
+        .sec-tool-btn:hover { background: #edf2f7; color: var(--navy); border-color: #cbd5e0; }
+        .sec-tool-btn.btn-del:hover { background: #fee2e2; color: var(--red); border-color: #fca5a5; }
 
         .section-body {
             padding: 14px;
             background: #ffffff;
             transition: all 0.2s ease;
         }
-
         .section-box.is-collapsed .section-body {
             display: none;
         }
@@ -521,7 +405,6 @@
             border-radius: 6px;
             font-size: 12px;
         }
-
         .sec-meta-row label {
             font-weight: 700;
             color: var(--text-muted);
@@ -529,9 +412,7 @@
             font-size: 10px;
             margin: 0;
         }
-
-        .sec-meta-row select,
-        .sec-meta-row input {
+        .sec-meta-row select, .sec-meta-row input {
             padding: 4px 8px;
             font-size: 12px;
             border: 1px solid #cbd5e0;
@@ -539,7 +420,6 @@
             background: white;
             font-family: inherit;
         }
-
         .sec-meta-row input[type="number"] {
             width: 50px;
             text-align: center;
@@ -561,7 +441,6 @@
             position: relative;
             transition: all 0.15s;
         }
-
         .row-item:hover {
             border-color: #94a3b8;
             background: #f1f5f9;
@@ -573,7 +452,6 @@
             gap: 8px;
             margin-bottom: 8px;
         }
-
         .row-drag-handle {
             cursor: grab;
             color: #94a3b8;
@@ -581,15 +459,8 @@
             font-size: 14px;
             border-radius: 3px;
         }
-
-        .row-drag-handle:hover {
-            color: var(--navy);
-            background: #e2e8f0;
-        }
-
-        .row-drag-handle:active {
-            cursor: grabbing;
-        }
+        .row-drag-handle:hover { color: var(--navy); background: #e2e8f0; }
+        .row-drag-handle:active { cursor: grabbing; }
 
         .row-index-badge {
             font-size: 10px;
@@ -605,7 +476,6 @@
             display: flex;
             gap: 4px;
         }
-
         .btn-remove-row {
             background: none;
             border: none;
@@ -617,32 +487,12 @@
             border-radius: 4px;
             transition: color 0.15s;
         }
-
-        .btn-remove-row:hover {
-            color: var(--red);
-            background: #fee2e2;
-        }
+        .btn-remove-row:hover { color: var(--red); background: #fee2e2; }
 
         /* Form Inputs */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        label {
-            display: block;
-            font-size: 11px;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-            margin-top: 8px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        textarea,
-        select {
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        label { display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 8px; }
+        input[type="text"], input[type="number"], textarea, select {
             width: 100%;
             padding: 8px 10px;
             border: 1px solid #cbd5e0;
@@ -654,20 +504,12 @@
             background: white;
             transition: border-color 0.15s;
         }
-
-        input[type="text"]:focus,
-        textarea:focus,
-        select:focus {
+        input[type="text"]:focus, textarea:focus, select:focus {
             border-color: var(--navy);
             outline: none;
             box-shadow: 0 0 0 2px rgba(26, 60, 94, 0.1);
         }
-
-        textarea {
-            resize: vertical;
-            min-height: 52px;
-            line-height: 1.35;
-        }
+        textarea { resize: vertical; min-height: 52px; line-height: 1.35; }
 
         .btn-add-row {
             background: #f1f5f9;
@@ -685,11 +527,7 @@
             justify-content: center;
             gap: 6px;
         }
-
-        .btn-add-row:hover {
-            background: #e2e8f0;
-            border-color: var(--navy);
-        }
+        .btn-add-row:hover { background: #e2e8f0; border-color: var(--navy); }
 
         .btn-add-section-col {
             background: white;
@@ -707,24 +545,10 @@
             gap: 8px;
             transition: all 0.2s;
         }
-
-        .main-panel .btn-add-section-col {
-            color: var(--navy);
-        }
-
-        .main-panel .btn-add-section-col:hover {
-            border-color: var(--navy);
-            background: var(--navy-bg);
-        }
-
-        .side-panel .btn-add-section-col {
-            color: var(--green);
-        }
-
-        .side-panel .btn-add-section-col:hover {
-            border-color: var(--green);
-            background: var(--green-bg);
-        }
+        .main-panel .btn-add-section-col { color: var(--navy); }
+        .main-panel .btn-add-section-col:hover { border-color: var(--navy); background: var(--navy-bg); }
+        .side-panel .btn-add-section-col { color: var(--green); }
+        .side-panel .btn-add-section-col:hover { border-color: var(--green); background: var(--green-bg); }
 
         /* Sortable Drag Styles */
         .sortable-ghost {
@@ -732,11 +556,9 @@
             background: #e2e8f0 !important;
             border: 2px dashed var(--navy) !important;
         }
-
         .sortable-chosen {
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
         }
-
         .sortable-drag {
             cursor: grabbing !important;
         }
@@ -750,10 +572,9 @@
             flex-direction: column;
             background: #1e293b;
             border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             overflow: hidden;
         }
-
         .preview-toolbar {
             background: #0f172a;
             color: white;
@@ -765,13 +586,11 @@
             font-weight: 600;
             border-bottom: 1px solid #334155;
         }
-
         .preview-toolbar-title {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
         .preview-zoom-btn {
             background: #334155;
             color: #e2e8f0;
@@ -782,15 +601,8 @@
             font-size: 11px;
             font-weight: 600;
         }
-
-        .preview-zoom-btn:hover {
-            background: #475569;
-        }
-
-        .preview-zoom-btn.active {
-            background: var(--green);
-            color: white;
-        }
+        .preview-zoom-btn:hover { background: #475569; }
+        .preview-zoom-btn.active { background: var(--green); color: white; }
 
         .preview-viewport {
             flex-grow: 1;
@@ -804,7 +616,7 @@
         .preview-page-wrapper {
             transform-origin: top center;
             transform: scale(var(--preview-scale));
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
             margin-bottom: 20px;
         }
 
@@ -819,10 +631,7 @@
             color: #000;
             overflow: hidden;
         }
-
-        .cv-render-box * {
-            box-sizing: border-box;
-        }
+        .cv-render-box * { box-sizing: border-box; }
 
         .cv-render-box .header {
             position: absolute;
@@ -837,7 +646,6 @@
             z-index: 10;
             box-sizing: border-box;
         }
-
         .cv-render-box .title-block h1 {
             font-size: 28pt;
             text-transform: uppercase;
@@ -847,7 +655,6 @@
             font-family: sans-serif;
             font-weight: bold;
         }
-
         .cv-render-box .title-block h2 {
             font-size: 14pt;
             opacity: 0.9;
@@ -856,7 +663,6 @@
             color: white;
             font-family: sans-serif;
         }
-
         .cv-render-box .contact-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -865,7 +671,6 @@
             margin-top: 15px;
             color: white;
         }
-
         .cv-render-box .contact-grid span {
             display: inline-flex;
             align-items: flex-start;
@@ -873,12 +678,10 @@
             word-break: break-all;
             line-height: 1.25;
         }
-
         .cv-render-box .contact-grid span i {
             margin-top: 1px;
             flex-shrink: 0;
         }
-
         .cv-render-box .content {
             padding-top: 180px;
             padding-left: 50px;
@@ -892,7 +695,6 @@
             min-height: calc(297mm - 180px);
             box-sizing: border-box;
         }
-
         .cv-render-box .stitle {
             font-size: 11pt;
             font-weight: bold;
@@ -905,13 +707,11 @@
             break-after: avoid;
             font-family: sans-serif;
         }
-
         .cv-render-box .entry-item {
             margin-bottom: 6px;
             page-break-inside: avoid;
             break-inside: avoid;
         }
-
         .cv-render-box .entry-title-row {
             display: flex;
             justify-content: space-between;
@@ -919,14 +719,12 @@
             font-size: 9pt;
             font-weight: bold;
         }
-
         .cv-render-box .entry-sub {
             font-weight: bold;
             font-size: 8pt;
             color: #555;
             margin-top: 1px;
         }
-
         .cv-render-box ul {
             margin: 1px 0 0 15px;
             padding: 0;
@@ -947,7 +745,7 @@
             border-radius: 30px;
             font-size: 13px;
             font-weight: 600;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -955,7 +753,6 @@
             opacity: 0;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-
         #toast.show {
             transform: translateX(-50%) translateY(0);
             opacity: 1;
@@ -973,402 +770,367 @@
 
         /* Print Stylesheet for native Ctrl+P vector printing */
         @media print {
-            @page {
-                size: A4;
-                margin: 0;
-            }
-
-            body {
-                margin: 0;
-                padding: 0;
-                background: white;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
-            .app-header,
-            .editor-container,
-            .order-guide-banner,
-            .preview-toolbar,
-            #toast,
-            .header-actions {
-                display: none !important;
-            }
-
-            .app-layout {
-                display: block !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                max-width: none !important;
-            }
-
-            .preview-pane {
-                position: static !important;
-                height: auto !important;
-                background: white !important;
-                box-shadow: none !important;
-                border-radius: 0 !important;
-            }
-
-            .preview-viewport {
-                padding: 0 !important;
-                background: white !important;
-                overflow: visible !important;
-                display: block !important;
-            }
-
-            .preview-page-wrapper {
-                transform: none !important;
-                box-shadow: none !important;
-                margin: 0 !important;
-            }
-
-            #cv-document {
-                width: 210mm !important;
-                height: 297mm !important;
-                box-shadow: none !important;
-            }
+            @page { size: A4; margin: 0; }
+            body { margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .app-header, .editor-container, .order-guide-banner, .preview-toolbar, #toast, .header-actions { display: none !important; }
+            .app-layout { display: block !important; padding: 0 !important; margin: 0 !important; max-width: none !important; }
+            .preview-pane { position: static !important; height: auto !important; background: white !important; box-shadow: none !important; border-radius: 0 !important; }
+            .preview-viewport { padding: 0 !important; background: white !important; overflow: visible !important; display: block !important; }
+            .preview-page-wrapper { transform: none !important; box-shadow: none !important; margin: 0 !important; }
+            #cv-document { width: 210mm !important; height: 297mm !important; box-shadow: none !important; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- Header Bar -->
-    <header class="app-header">
-        <h1><i class="fas fa-file-invoice"></i> Infinite CV Content Manager</h1>
-        <div class="header-actions">
-            <button type="button" class="btn btn-outline" id="btn-toggle-mobile" onclick="toggleMobilePreview()">
-                <i class="fas fa-eye"></i> <span id="mobile-toggle-text">Preview</span>
+<!-- Header Bar -->
+<header class="app-header">
+    <h1><i class="fas fa-file-invoice"></i> Infinite CV Content Manager</h1>
+    <div class="header-actions">
+        <button type="button" class="btn btn-outline" id="btn-toggle-mobile" onclick="toggleMobilePreview()">
+            <i class="fas fa-eye"></i> <span id="mobile-toggle-text">Preview</span>
+        </button>
+        <button type="button" class="btn btn-outline" onclick="toggleCollapseAll()">
+            <i class="fas fa-compress-arrows-alt"></i> <span id="collapse-toggle-text">Collapse Cards</span>
+        </button>
+        <button type="button" class="btn btn-navy" onclick="generateCV()">
+            <i class="fas fa-external-link-alt"></i> Open PDF View
+        </button>
+        <button type="button" class="btn btn-green" id="btn-download-top" onclick="downloadCVPdf()">
+            <i class="fas fa-cloud-arrow-down"></i> Download PDF
+        </button>
+    </div>
+</header>
+
+<!-- Main Workspace -->
+<div class="app-layout">
+    
+    <!-- Left Workspace: Form & Drag-and-Drop Columns -->
+    <div class="editor-container">
+
+        <!-- Explanation Guide -->
+        <div class="order-guide-banner">
+            <div>
+                <i class="fas fa-right-left" style="margin-right: 6px;"></i>
+                <strong>Drag & Drop to Swap:</strong> Dragging a section onto another section swaps them!
+                For example: drag <strong>Main 1</strong> onto <strong>Side 2</strong> and <strong>Side 2 is placed on Main 1</strong>.
+            </div>
+            <div style="font-size:11px; color:#555; white-space:nowrap;">
+                <i class="fas fa-check-circle" style="color:var(--green)"></i> Auto-syncs to HTML & PDF
+            </div>
+        </div>
+
+        <!-- Personal Header Info Card -->
+        <div class="editor-card">
+            <div class="card-header-line">
+                <h3><i class="fas fa-id-card"></i> Main Header (Contact Info)</h3>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <label>Full Name</label>
+                    <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview()">
+                </div>
+                <div>
+                    <label>Job Title</label>
+                    <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()">
+                </div>
+            </div>
+            
+            <label style="margin-top: 14px;">Contacts (Drag to reorder)</label>
+            <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fas fa-phone" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fas fa-envelope" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fab fa-linkedin" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fas fa-globe" placeholder="Icon (e.g. fas fa-globe)" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline" style="background:#eef3f8;color:var(--navy);border-color:#cbd5e0;margin-top:10px;" onclick="addContactField()">
+                <i class="fas fa-plus"></i> Add Contact Field
             </button>
-            <button type="button" class="btn btn-outline" onclick="toggleCollapseAll()">
-                <i class="fas fa-compress-arrows-alt"></i> <span id="collapse-toggle-text">Collapse Cards</span>
+        </div>
+
+        <!-- 2-Column Section Drag & Drop Grid -->
+        <div class="columns-grid">
+
+            <!-- MAIN COLUMN (Left - 1.7fr on CV) -->
+            <div class="column-panel main-panel" id="main-column-panel">
+                <div class="column-panel-header">
+                    <h4><i class="fas fa-align-left"></i> Main Column (Left - 1.7x)</h4>
+                    <span class="badge-count" id="main-count">2 Sections</span>
+                </div>
+                <div class="column-hint">
+                    Sections here appear on the <strong>top left</strong> (Main 1) and flow downwards (Main 2, Main 3). Drag sections up, down, or across to the Side column.
+                </div>
+
+                <!-- Main Dropzone -->
+                <div id="main-sections-container" class="sections-dropzone" data-col="main"></div>
+
+                <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'main', title:'NEW MAIN SECTION'})">
+                    <i class="fas fa-plus-circle"></i> Add Section to Main Column
+                </button>
+            </div>
+
+            <!-- SIDE COLUMN (Right - 1.0fr on CV) -->
+            <div class="column-panel side-panel" id="side-column-panel">
+                <div class="column-panel-header">
+                    <h4><i class="fas fa-align-right"></i> Side Column (Right - 1.0x)</h4>
+                    <span class="badge-count" id="side-count">4 Sections</span>
+                </div>
+                <div class="column-hint">
+                    Sections here appear on the <strong>top right</strong> (Side 1) and flow downwards (Side 2, Side 3). Drag sections up, down, or across to the Main column.
+                </div>
+
+                <!-- Side Dropzone -->
+                <div id="side-sections-container" class="sections-dropzone" data-col="side"></div>
+
+                <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'side', title:'NEW SIDE SECTION'})">
+                    <i class="fas fa-plus-circle"></i> Add Section to Side Column
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Bottom Action Buttons -->
+        <div style="display:flex; gap:15px; margin: 10px 0 30px 0;">
+            <button type="button" class="btn-add-section" onclick="addNewSection({col:'main', title:'NEW SECTION'})">
+                <i class="fas fa-plus"></i> + ADD NEW SECTION
             </button>
-            <button type="button" class="btn btn-navy" onclick="generateCV()">
-                <i class="fas fa-external-link-alt"></i> Open PDF View
-            </button>
-            <button type="button" class="btn btn-green" id="btn-download-top" onclick="downloadCVPdf()">
+            <button type="button" class="generate-btn" id="btn-download-bottom" onclick="downloadCVPdf()">
                 <i class="fas fa-cloud-arrow-down"></i> Download PDF
             </button>
-        </div>
-    </header>
-
-    <!-- Main Workspace -->
-    <div class="app-layout">
-
-        <!-- Left Workspace: Form & Drag-and-Drop Columns -->
-        <div class="editor-container">
-
-            <!-- Explanation Guide -->
-            <div class="order-guide-banner">
-                <div>
-                    <i class="fas fa-right-left" style="margin-right: 6px;"></i>
-                    <strong>Drag & Drop to Swap:</strong> Dragging a section onto another section swaps them!
-                    For example: drag <strong>Main 1</strong> onto <strong>Side 2</strong> and <strong>Side 2 is placed
-                        on Main 1</strong>.
-                </div>
-                <div style="font-size:11px; color:#555; white-space:nowrap;">
-                    <i class="fas fa-check-circle" style="color:var(--green)"></i> Auto-syncs to HTML & PDF
-                </div>
-            </div>
-
-            <!-- Personal Header Info Card -->
-            <div class="editor-card">
-                <div class="card-header-line">
-                    <h3><i class="fas fa-id-card"></i> Main Header (Contact Info)</h3>
-                </div>
-                <div class="grid-2">
-                    <div>
-                        <label>Full Name</label>
-                        <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview()">
-                    </div>
-                    <div>
-                        <label>Job Title</label>
-                        <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()">
-                    </div>
-                </div>
-
-                <label style="margin-top: 14px;">Contacts (Drag to reorder)</label>
-                <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
-                    <div class="row-item" style="padding:8px 10px;">
-                        <div style="display:flex;gap:10px;align-items:center;">
-                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i
-                                    class="fas fa-grip-vertical"></i></span>
-                            <input type="text" class="c-icon" value="fas fa-phone" style="width:140px;"
-                                oninput="updateLivePreview()">
-                            <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;"
-                                oninput="updateLivePreview()">
-                            <button type="button" class="btn-remove-row"
-                                onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
-                        </div>
-                    </div>
-                    <div class="row-item" style="padding:8px 10px;">
-                        <div style="display:flex;gap:10px;align-items:center;">
-                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i
-                                    class="fas fa-grip-vertical"></i></span>
-                            <input type="text" class="c-icon" value="fas fa-envelope" style="width:140px;"
-                                oninput="updateLivePreview()">
-                            <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;"
-                                oninput="updateLivePreview()">
-                            <button type="button" class="btn-remove-row"
-                                onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
-                        </div>
-                    </div>
-                    <div class="row-item" style="padding:8px 10px;">
-                        <div style="display:flex;gap:10px;align-items:center;">
-                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i
-                                    class="fas fa-grip-vertical"></i></span>
-                            <input type="text" class="c-icon" value="fab fa-linkedin" style="width:140px;"
-                                oninput="updateLivePreview()">
-                            <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a"
-                                style="flex-grow:1;" oninput="updateLivePreview()">
-                            <button type="button" class="btn-remove-row"
-                                onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
-                        </div>
-                    </div>
-                    <div class="row-item" style="padding:8px 10px;">
-                        <div style="display:flex;gap:10px;align-items:center;">
-                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i
-                                    class="fas fa-grip-vertical"></i></span>
-                            <input type="text" class="c-icon" value="fas fa-globe"
-                                placeholder="Icon (e.g. fas fa-globe)" style="width:140px;"
-                                oninput="updateLivePreview()">
-                            <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;"
-                                oninput="updateLivePreview()">
-                            <button type="button" class="btn-remove-row"
-                                onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
-                        </div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-sm btn-outline"
-                    style="background:#eef3f8;color:var(--navy);border-color:#cbd5e0;margin-top:10px;"
-                    onclick="addContactField()">
-                    <i class="fas fa-plus"></i> Add Contact Field
-                </button>
-            </div>
-
-            <!-- 2-Column Section Drag & Drop Grid -->
-            <div class="columns-grid">
-
-                <!-- MAIN COLUMN (Left - 1.7fr on CV) -->
-                <div class="column-panel main-panel" id="main-column-panel">
-                    <div class="column-panel-header">
-                        <h4><i class="fas fa-align-left"></i> Main Column (Left - 1.7x)</h4>
-                        <span class="badge-count" id="main-count">2 Sections</span>
-                    </div>
-                    <div class="column-hint">
-                        Sections here appear on the <strong>top left</strong> (Main 1) and flow downwards (Main 2, Main
-                        3). Drag sections up, down, or across to the Side column.
-                    </div>
-
-                    <!-- Main Dropzone -->
-                    <div id="main-sections-container" class="sections-dropzone" data-col="main"></div>
-
-                    <button type="button" class="btn-add-section-col"
-                        onclick="addNewSection({col:'main', title:'NEW MAIN SECTION'})">
-                        <i class="fas fa-plus-circle"></i> Add Section to Main Column
-                    </button>
-                </div>
-
-                <!-- SIDE COLUMN (Right - 1.0fr on CV) -->
-                <div class="column-panel side-panel" id="side-column-panel">
-                    <div class="column-panel-header">
-                        <h4><i class="fas fa-align-right"></i> Side Column (Right - 1.0x)</h4>
-                        <span class="badge-count" id="side-count">4 Sections</span>
-                    </div>
-                    <div class="column-hint">
-                        Sections here appear on the <strong>top right</strong> (Side 1) and flow downwards (Side 2, Side
-                        3). Drag sections up, down, or across to the Main column.
-                    </div>
-
-                    <!-- Side Dropzone -->
-                    <div id="side-sections-container" class="sections-dropzone" data-col="side"></div>
-
-                    <button type="button" class="btn-add-section-col"
-                        onclick="addNewSection({col:'side', title:'NEW SIDE SECTION'})">
-                        <i class="fas fa-plus-circle"></i> Add Section to Side Column
-                    </button>
-                </div>
-
-            </div>
-
-            <!-- Bottom Action Buttons -->
-            <div style="display:flex; gap:15px; margin: 10px 0 30px 0;">
-                <button type="button" class="btn-add-section"
-                    onclick="addNewSection({col:'main', title:'NEW SECTION'})">
-                    <i class="fas fa-plus"></i> + ADD NEW SECTION
-                </button>
-                <button type="button" class="generate-btn" id="btn-download-bottom" onclick="downloadCVPdf()">
-                    <i class="fas fa-cloud-arrow-down"></i> Download PDF
-                </button>
-            </div>
-
-        </div>
-
-        <!-- Right Workspace: Sticky Live Preview Pane -->
-        <div class="preview-pane" id="preview-pane-container">
-            <div class="preview-toolbar">
-                <div class="preview-toolbar-title">
-                    <i class="fas fa-eye" style="color:var(--green)"></i>
-                    <span>Live CV Preview (A4 Page)</span>
-                </div>
-                <div style="display:flex;gap:6px;align-items:center;">
-                    <button type="button" class="preview-zoom-btn" onclick="setZoom(0.5)">50%</button>
-                    <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit"
-                        onclick="setZoom(0.62)">Fit</button>
-                    <button type="button" class="preview-zoom-btn" onclick="setZoom(0.8)">80%</button>
-                    <button type="button" class="preview-zoom-btn" onclick="setZoom(1.0)">100%</button>
-                </div>
-            </div>
-
-            <div class="preview-viewport" id="preview-viewport">
-                <div class="preview-page-wrapper" id="preview-wrapper">
-                    <!-- Rendered CV Document for Live Preview & Export -->
-                    <div id="cv-document" class="cv-render-box">
-                        <div class="header">
-                            <div class="title-block">
-                                <h1 id="preview-name">TELAYNEW AMBACHEW</h1>
-                                <h2 id="preview-title">AI and Data Engineer</h2>
-                            </div>
-                            <div class="contact-grid" id="preview-contacts"></div>
-                        </div>
-                        <div class="content">
-                            <div id="preview-main-content"></div>
-                            <div id="preview-side-content"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
 
-    <!-- Toast element -->
-    <div id="toast"><i class="fas fa-check-circle" style="color:var(--green)"></i> <span id="toast-text">Order
-            updated</span></div>
+    <!-- Right Workspace: Sticky Live Preview Pane -->
+    <div class="preview-pane" id="preview-pane-container">
+        <div class="preview-toolbar">
+            <div class="preview-toolbar-title">
+                <i class="fas fa-eye" style="color:var(--green)"></i>
+                <span>Live CV Preview (A4 Page)</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <button type="button" class="preview-zoom-btn" onclick="setZoom(0.5)">50%</button>
+                <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit" onclick="setZoom(0.62)">Fit</button>
+                <button type="button" class="preview-zoom-btn" onclick="setZoom(0.8)">80%</button>
+                <button type="button" class="preview-zoom-btn" onclick="setZoom(1.0)">100%</button>
+            </div>
+        </div>
 
-    <script>
-    //        tial data from the CV
-                ii                 [
+        <div class="preview-viewport" id="preview-viewport">
+            <div class="preview-page-wrapper" id="preview-wrapper">
+                <!-- Rendered CV Document for Live Preview & Export -->
+                <div id="cv-document" class="cv-render-box">
+                    <div class="header">
+                        <div class="title-block">
+                            <h1 id="preview-name">TELAYNEW AMBACHEW</h1>
+                            <h2 id="preview-title">AI and Data Engineer</h2>
+                        </div>
+                        <div class="contact-grid" id="preview-contacts"></div>
+                    </div>
+                    <div class="content">
+                        <div id="preview-main-content"></div>
+                        <div id="preview-side-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Toast element -->
+<div id="toast"><i class="fas fa-check-circle" style="color:var(--green)"></i> <span id="toast-text">Order updated</span></div>
+
+<script>
+    // Initial data from the CV
+    const initialSections = [
         { 
-                       EXPERIENCE",
-                col: "mai"                   order:                     t                           { 
-                    til                        er", 
-                    dae                        26", 
-                    sub: "IE NetworkS                        ba", 
-                    bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nDesigned REST APIs, service layers, validation pipelines, and reusable backend architecture.\nBuilt ticket management, SLA tracking, escalation workflows, and CRM automation features.\nDesigned optimized relational database schemas for operational reporting and analytics.\nIntegrated CRM and Service Desk modules through workflow automation.\nStandardized frontend-backend API contracts, improving development efficiency across teams.\nCollaborated with cross-functional teams to deliver production-rea                        re.",
-                        or                                                 { 
-                    til                        er", 
-                    dae                        26", 
-                                    ce", 
-                    bullets: "Built enterprise AI assistants using Azure OpenAI to automate business processes and improve operational efficiency.\nDesigned and implemented Retrieval-Augmented Generation (RAG) systems with embedding pipelines, document chunking, and prompt engineering.\nDeveloped scalable backend services and REST APIs using FastAPI.\nIntegrated AI services with multiple internal and external REST APIs.\nDeployed and maintained production AI applications on Microsoft Azure.\nBuilt intelligent request-routing systems for AI, API, and hybrid workflows.\nImproved AI system performance by optimizing retrieval quality, latency, an                        ty.",
-                        or                                                 { 
-                    titl:                        er", 
-                                       25", 
-                                    ce", 
-                    bullets: "Designed and developed end-to-end web applications using React, Next.js, TypeScript, Express.js, and NestJS.\nBuilt scalable backend services, REST APIs, and secure authentication systems.\nDesigned PostgreSQL databases and optimized data models for business applications.\nDeveloped AI-powered features including document processing and workflow automation.\nIntegrated third-party APIs for authentication and external business services.\nDeployed applications to Microsoft Azure using modern cloud deployment practices.\nApplied clean architecture and modular design principles to build maintaina                        ms.",
-                        o                                }                              },
+            title: "EXPERIENCE", 
+            col: "main", 
+            order: 1, 
+            items: [
+                { 
+                    title: "Software Developer", 
+                    date: "Apr 2026 - Aug 2026", 
+                    sub: "IE Network Solutions | Addis Ababa", 
+                    bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nDesigned REST APIs, service layers, validation pipelines, and reusable backend architecture.\nBuilt ticket management, SLA tracking, escalation workflows, and CRM automation features.\nDesigned optimized relational database schemas for operational reporting and analytics.\nIntegrated CRM and Service Desk modules through workflow automation.\nStandardized frontend-backend API contracts, improving development efficiency across teams.\nCollaborated with cross-functional teams to deliver production-ready enterprise software.",
+                    order: 1
+                },
+                { 
+                    title: "AI & Data Engineer", 
+                    date: "Jul 2025 - Apr 2026", 
+                    sub: "Freelance", 
+                    bullets: "Built enterprise AI assistants using Azure OpenAI to automate business processes and improve operational efficiency.\nDesigned and implemented Retrieval-Augmented Generation (RAG) systems with embedding pipelines, document chunking, and prompt engineering.\nDeveloped scalable backend services and REST APIs using FastAPI.\nIntegrated AI services with multiple internal and external REST APIs.\nDeployed and maintained production AI applications on Microsoft Azure.\nBuilt intelligent request-routing systems for AI, API, and hybrid workflows.\nImproved AI system performance by optimizing retrieval quality, latency, and response reliability.",
+                    order: 2
+                },
+                { 
+                    title: "Full Stack Developer", 
+                    date: "2024 - 2025", 
+                    sub: "Freelance", 
+                    bullets: "Designed and developed end-to-end web applications using React, Next.js, TypeScript, Express.js, and NestJS.\nBuilt scalable backend services, REST APIs, and secure authentication systems.\nDesigned PostgreSQL databases and optimized data models for business applications.\nDeveloped AI-powered features including document processing and workflow automation.\nIntegrated third-party APIs for authentication and external business services.\nDeployed applications to Microsoft Azure using modern cloud deployment practices.\nApplied clean architecture and modular design principles to build maintainable production systems.",
+                    order: 3
+                }
+            ]
+        },
         { 
-                    : "SUMMARY",
-                col: "sid"                   order:                     t                           { 
-                              "", 
-                             "", 
-                            "", 
-                    bullets: "AI Software Engineer with hands-on experience designing, building, and deploying production-grade backend systems and AI-powered applications. Experienced in FastAPI, NestJS, React, TypeScript, Python, Azure, and Large Language Models (LLMs). Specialized in Retrieval-Augmented Generation (RAG), Azure OpenAI, REST APIs, workflow automation, and cloud deployment. Passionate about building scalable software that solves real business problems through reliable engineering and                         ns.",
-                        o                               }
-                              },
+            title: "SUMMARY", 
+            col: "side", 
+            order: 1, 
+            items: [
+                { 
+                    title: "", 
+                    date: "", 
+                    sub: "", 
+                    bullets: "AI Software Engineer with hands-on experience designing, building, and deploying production-grade backend systems and AI-powered applications. Experienced in FastAPI, NestJS, React, TypeScript, Python, Azure, and Large Language Models (LLMs). Specialized in Retrieval-Augmented Generation (RAG), Azure OpenAI, REST APIs, workflow automation, and cloud deployment. Passionate about building scalable software that solves real business problems through reliable engineering and practical AI solutions.",
+                    order: 1
+                }
+            ] 
+        },
         { 
-                         Y PROJECTS",
-                col: "sid"                   order:                     t                           { 
-                    title: "Enterr                        sk", 
-                             "", 
-                    su:                        ns", 
-                    bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nImplemented ticket management, SLA tracking, workflow automation, and reporting features.\nDesigned scalable REST APIs and optimized relat                        as.",
-                        or                                                 { 
-                    title: "AI Enterprise Asi                        m)", 
-                             "", 
-                    su:                        on", 
-                    bullets: "Built LLM-powered assistant for automation and decision support.\nIntegrated multiple APIs with intelligent routing.\nEnabled task automation and busine                        on.",
-                        or                                                 { 
-                    title: F                        rm", 
-                             "", 
-                                    ce", 
-                    bullets: "Developed a full-stack AI-powered recipe recommendation platform.\nBuilt frontend using React/Next.js and backend with Node.js.\nIntegrated AI recommendations based on available ingredient                        es.",
-                        o                                }                              },
+            title: "KEY PROJECTS", 
+            col: "side", 
+            order: 2, 
+            items: [
+                { 
+                    title: "Enterprise CRM & Service Desk", 
+                    date: "", 
+                    sub: "IE Network Solutions", 
+                    bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nImplemented ticket management, SLA tracking, workflow automation, and reporting features.\nDesigned scalable REST APIs and optimized relational database schemas.",
+                    order: 1
+                },
+                { 
+                    title: "AI Enterprise Assistant (Copilot System)", 
+                    date: "", 
+                    sub: "IE Networks Solution", 
+                    bullets: "Built LLM-powered assistant for automation and decision support.\nIntegrated multiple APIs with intelligent routing.\nEnabled task automation and business insights generation.",
+                    order: 2
+                },
+                { 
+                    title: "Food Recipe AI Platform", 
+                    date: "", 
+                    sub: "Freelance", 
+                    bullets: "Developed a full-stack AI-powered recipe recommendation platform.\nBuilt frontend using React/Next.js and backend with Node.js.\nIntegrated AI recommendations based on available ingredients and user preferences.",
+                    order: 3
+                }
+            ]
+        },
         { 
-                      "EDUCATION",
-                col: "sid"                   order:                     t                           { 
-                    title: B                        ce", 
-                                       24", 
-                    su:                        ar", 
-                    bullets:                         rs.",
-                        o                               }
-                              },
+            title: "EDUCATION", 
+            col: "side", 
+            order: 3, 
+            items: [
+                { 
+                    title: "BSc in Computer Science", 
+                    date: "2021 - 2024", 
+                    sub: "University of Gondar", 
+                    bullets: "Graduated with Honors.",
+                    order: 1
+                }
+            ] 
+        },
         { 
-                          TIFICATION",
-                col: "mai"                   order:                     items: [
-                { title: "DP 100 - Azure Data Science", date: "", sub: "Microsoft",                    der: 1 },
-                { title: "Data Scientist", date: "", sub: "Datacamp",                    der: 2 },
-                { title: "AI 102 Design AI solution", date: "", sub: "Microsoft"                ",            3 }                              },
+            title: "CERTIFICATION", 
+            col: "main", 
+            order: 2, 
+            items: [
+                { title: "DP 100 - Azure Data Science", date: "", sub: "Microsoft", bullets: "", order: 1 },
+                { title: "Data Scientist", date: "", sub: "Datacamp", bullets: "", order: 2 },
+                { title: "AI 102 Design AI solution", date: "", sub: "Microsoft", bullets: "", order: 3 }
+            ]
+        },
         { 
-                   e: "SKILLS",
-                col: "sid"                   order:                     t                           { 
-                              "", 
-                             "", 
-                            "", 
-                    bullets: "Python, TypeScript, JavaScript, FastAPI, NestJS, React, Next.js, Azure, Azure OpenAI, RAG, LangChain, REST APIs, Postgre                        nux",
-                        o                               }                     ] 
+            title: "SKILLS", 
+            col: "side", 
+            order: 4, 
+            items: [
+                { 
+                    title: "", 
+                    date: "", 
+                    sub: "", 
+                    bullets: "Python, TypeScript, JavaScript, FastAPI, NestJS, React, Next.js, Azure, Azure OpenAI, RAG, LangChain, REST APIs, PostgreSQL, Docker, Git, Linux",
+                    order: 1
+                }
+            ] 
         }
     ];
 
-    l        llCollapsed = false;
+    let allCollapsed = false;
 
-        // Toast notification
-                 showToast(msg) {
-        const toast = document            entById('toast');
-        document.getElementById('toas            .innerText = msg;
-        toa            List.add('show');
-        cl            ut(toast._timer);
-        toast._timer = setTimeout(() => toast.classLi        emo        show'), 2000);
-         
+    // Toast notification
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-text').innerText = msg;
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), 2000);
+    }
 
     // Zoom control
-              on setZoom(val) {
-        document.documentElement.style.setProperty            iew-scale', val);
-        document.querySelectorAll('.preview-zoom-btn').forEach(b => b.cla            emove('active'));
-        if (window.event && window.event.target && window.event.target.classList.contai                zoom-btn')) {
-            window.event.target            st        ('a        e');
+    function setZoom(val) {
+        document.documentElement.style.setProperty('--preview-scale', val);
+        document.querySelectorAll('.preview-zoom-btn').forEach(b => b.classList.remove('active'));
+        if (window.event && window.event.target && window.event.target.classList.contains('preview-zoom-btn')) {
+            window.event.target.classList.add('active');
         }
     }
 
-    // Toggle Preview         obile/smaller screens
-    functio            MobilePreview() {
-        const pane = document.getElementById('            pane-container');
-        pane.classList            'active-mobile');
-        const text = document.getElementBy            le-toggle-text');
-        text.innerText = pane.classList.contains('active-mobile         'C        ' : 'Preview';
+    // Toggle Preview on mobile/smaller screens
+    function toggleMobilePreview() {
+        const pane = document.getElementById('preview-pane-container');
+        pane.classList.toggle('active-mobile');
+        const text = document.getElementById('mobile-toggle-text');
+        text.innerText = pane.classList.contains('active-mobile') ? 'Close' : 'Preview';
     }
-         // Add Contact Field
-    function addContactField(icon = "            ink", val = "") {
-        const div = docum            teElement('div');
-        di            ame = 'row-item';
-        div.st            ing = '8px 10px';
+
+    // Add Contact Field
+    function addContactField(icon = "fas fa-link", val = "") {
+        const div = document.createElement('div');
+        div.className = 'row-item';
+        div.style.padding = '8px 10px';
         div.innerHTML = `
             <div style="display:flex;gap:10px;align-items:center;">
                 <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
                 <input type="text" class="c-icon" value="${icon}" style="width:140px;" oninput="updateLivePreview()">
                 <input type="text" class="c-val" value="${val}" style="flex-grow:1;" oninput="updateLivePreview()">
                 <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
-                </div>
+            </div>
         `;
-        document.getElementById('contact            appendChild(div);
-            up        LivePreview();
+        document.getElementById('contact-list').appendChild(div);
+        updateLivePreview();
     }
 
-    // Add         Item inside a Section
-    function ad dRow(c ontainerI d, data  = {title:'',  date:'',  s ub:''            s:'', order:1}) {
-        const div = docum            teElement('div');
-        di            ame = 'row-item';
+    // Add Row Item inside a Section
+    function addRow(containerId, data = {title:'', date:'', sub:'', bullets:'', order:1}) {
+        const div = document.createElement('div');
+        div.className = 'row-item';
         div.innerHTML = `
             <div class="row-item-header">
                 <span class="row-drag-handle" title="Drag row to reorder"><i class="fas fa-grip-vertical"></i></span>
@@ -1392,52 +1154,52 @@
             <label>Subtitle / Company / Location</label>
             <input type="text" class="r-sub" value="${data.sub || ''}" placeholder="e.g. Company | City" oninput="updateLivePreview()">
             <label>Bullets / Description (One line per bullet, or paragraph)</label>
-            <textarea class="r-bullets" rows="2" placeholder="Enter bullet points (one per line)" oninput="updateLivePreview()">${data.bullets ||             tarea>
+            <textarea class="r-bullets" rows="2" placeholder="Enter bullet points (one per line)" oninput="updateLivePreview()">${data.bullets || ''}</textarea>
         `;
-        const container = document.get            yId(containerId);
-        co            appendChild(div);
-        up        Row        rs(container);
+        const container = document.getElementById(containerId);
+        container.appendChild(div);
+        updateRowOrders(container);
     }
 
-        // Update row indices
-    function upd            ders(container) {
-                  ontainer) return;
-        const rows = container.query            All('.row-item');
-        row                ow, idx) => {
-                       um = idx + 1;
-            const badge = row.querySele                ndex-badge');
-            if (badge) bad                 = '#' + num;
-            const input = row.q                ('.r-order');
-            if (            nput        ue         m;
+    // Update row indices
+    function updateRowOrders(container) {
+        if (!container) return;
+        const rows = container.querySelectorAll('.row-item');
+        rows.forEach((row, idx) => {
+            const num = idx + 1;
+            const badge = row.querySelector('.row-index-badge');
+            if (badge) badge.innerText = '#' + num;
+            const input = row.querySelector('.r-order');
+            if (input) input.value = num;
         });
     }
 
-    // Initialize Sortable for r        tems inside a section
-    function initR            le(containerId) {
-        const el = document.get            yId(containerId);
-        if (!el || typeof Sortable            defined') return;
-                 ortable(el, {
-                  imation: 150,
-            ha                drag-handle',
-            ghos                table-ghost',
-                           ction() {
-                               ders(el);
-                               review();
-                showTo                er            ");
-                    }
+    // Initialize Sortable for row items inside a section
+    function initRowSortable(containerId) {
+        const el = document.getElementById(containerId);
+        if (!el || typeof Sortable === 'undefined') return;
+        new Sortable(el, {
+            animation: 150,
+            handle: '.row-drag-handle',
+            ghostClass: 'sortable-ghost',
+            onEnd: function() {
+                updateRowOrders(el);
+                updateLivePreview();
+                showToast("Row order updated");
+            }
         });
     }
 
-    // Add N        ection (Main or Side)
-    funct ion addNewSection(data = {title: "NEW SECTION", col: " main"             1, items: []}) {
-        const id = 'sec_' + Math.random().t            36).substr(2, 9);
-        const col = data.col ===              'side' : 'main';
-        const targetContainer = document.getElementById(col === 'side' ? 'side-sections-container' : 'mi            ainer');
+    // Add New Section (Main or Side)
+    function addNewSection(data = {title: "NEW SECTION", col: "main", order: 1, items: []}) {
+        const id = 'sec_' + Math.random().toString(36).substr(2, 9);
+        const col = data.col === 'side' ? 'side' : 'main';
+        const targetContainer = document.getElementById(col === 'side' ? 'side-sections-container' : 'main-sections-container');
         
-        const div = docum            teElement('div');
-        div.className =            n-box is-${col}`;
-        div.set            e('data-id', id);
-        div.setAtt            data-col', col);
+        const div = document.createElement('div');
+        div.className = `section-box is-${col}`;
+        div.setAttribute('data-id', id);
+        div.setAttribute('data-col', col);
 
         div.innerHTML = `
             <div class="section-header-bar">
@@ -1485,248 +1247,263 @@
                 <button type="button" class="btn-add-row" onclick="addRow('rows_${id}', {order: (document.querySelectorAll('#rows_${id} .row-item').length + 1)}); updateLivePreview();">
                     <i class="fas fa-plus"></i> Add Row Item
                 </button>
-                 /div>
+            </div>
         `;
 
-        targetCon            ppendChild(div);
+        targetContainer.appendChild(div);
 
-                 d rows if present
-        if (data.items &&                length > 0) {
-            data.items                    idx) => {
-                if (!item.ord                     idx + 1;
-                ad                {id}            ;
-                            } else {
-             addRow(`rows_${id}`, {title: "", date: "", sub:  "",            : "            : 1});
+        // Add rows if present
+        if (data.items && data.items.length > 0) {
+            data.items.forEach((item, idx) => {
+                if (!item.order) item.order = idx + 1;
+                addRow(`rows_${id}`, item);
+            });
+        } else {
+            addRow(`rows_${id}`, {title: "", date: "", sub: "", bullets: "", order: 1});
         }
 
-        // Initia            table on the rows
-        initRo            e(`rows_${id}`);
+        // Initialize sortable on the rows
+        initRowSortable(`rows_${id}`);
 
-        /             orders & preview
-             pdateAllOrders();
-            up        LivePreview();
+        // Update orders & preview
+        updateAllOrders();
+        updateLivePreview();
     }
 
-    // Toggle Coll         for a single section
-    function to            apseSection(id) {
-        const sec = document.querySelector(`.sectio            ta-id="${id}"]`);
-            if (!sec) return;
-        sec.classLis            ('is-collapsed');
-        const icon = sec.querySe            .collapse-ic                  if (icon) {
-            icon.className = sec.classList.contains('is-collapsed') ? 'fas fa-angle-right collapse-icon' : 'fas fa-a            n         aps        on';
+    // Toggle Collapse for a single section
+    function toggleCollapseSection(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        sec.classList.toggle('is-collapsed');
+        const icon = sec.querySelector('.collapse-icon');
+        if (icon) {
+            icon.className = sec.classList.contains('is-collapsed') ? 'fas fa-angle-right collapse-icon' : 'fas fa-angle-down collapse-icon';
         }
     }
 
-    // Toggle         apse for All sections
-    funct            leCollapseAll() {
-        allC             = !allCollapsed;
-        document.querySelectorAll('.secti                Each(sec => {
-                          lapsed) {
-                sec.class                    lapsed');
-                const icon = sec.querySe                    e-icon');
-                if (icon) icon.className = 'fas fa-an                llapse-ic                     } else {
-                sec.classLis                    lapsed');
-                const icon = sec.querySe                    e-icon');
-                if (icon) icon.className = 'fas fa-a                ll            n';
-                }
+    // Toggle Collapse for All sections
+    function toggleCollapseAll() {
+        allCollapsed = !allCollapsed;
+        document.querySelectorAll('.section-box').forEach(sec => {
+            if (allCollapsed) {
+                sec.classList.add('is-collapsed');
+                const icon = sec.querySelector('.collapse-icon');
+                if (icon) icon.className = 'fas fa-angle-right collapse-icon';
+            } else {
+                sec.classList.remove('is-collapsed');
+                const icon = sec.querySelector('.collapse-icon');
+                if (icon) icon.className = 'fas fa-angle-down collapse-icon';
+            }
         });
-        document.getElementById('collapse-toggle-text').innerText = allCollapsed ? 'Expand C        ' :        llapse Cards';
+        document.getElementById('collapse-toggle-text').innerText = allCollapsed ? 'Expand Cards' : 'Collapse Cards';
     }
 
-            ove Section Up button
-    fun            veSectionUp(id) {
-        const sec = document.querySelector(`.sectio            ta-id="${id}"]`);
-        if (sec && sec.                entSibling) {
-            sec.parentNode.insertBefore(sec, sec                mentSibling);
-                     eAllOrders();
-                       ivePreview();
-                     oa        Mov        p");
+    // Move Section Up button
+    function moveSectionUp(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (sec && sec.previousElementSibling) {
+            sec.parentNode.insertBefore(sec, sec.previousElementSibling);
+            updateAllOrders();
+            updateLivePreview();
+            showToast("Moved up");
         }
     }
 
-    //        e Section Down button
-    funct            SectionDown(id) {
-        const sec = document.querySelector(`.sectio            ta-id="${id}"]`);
-        if (sec &&                 entSibling) {
-            sec.parentNode.insertBefore(sec.                ibling, sec);
-                     eAllOrders();
-                       ivePreview();
-                       st        ved        n");
+    // Move Section Down button
+    function moveSectionDown(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (sec && sec.nextElementSibling) {
+            sec.parentNode.insertBefore(sec.nextElementSibling, sec);
+            updateAllOrders();
+            updateLivePreview();
+            showToast("Moved down");
         }
     }
 
-    // Swi        Section Column button
-    functi            hSectionCol(id) {
-        const sec = document.querySelector(`.sectio            ta-id="${id}"]`);
-            if (!sec) return;
-        const currentCol = sec.            bute('data-col');
-        const newCol = currentCol ===              'side' : 'main';
-        const targetContainer = document.getElementById(newCol === 'side' ? 'side-sections-container' : 'm            ions-container');
-        targetCo            appendChild(sec);
-             pdateAllOrders();
-               ateLivePreview();
-        showToast(`Moved to ${newCol        ppe        e()} column`);
+    // Switch Section Column button
+    function switchSectionCol(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        const currentCol = sec.getAttribute('data-col');
+        const newCol = currentCol === 'main' ? 'side' : 'main';
+        const targetContainer = document.getElementById(newCol === 'side' ? 'side-sections-container' : 'main-sections-container');
+        targetContainer.appendChild(sec);
+        updateAllOrders();
+        updateLivePreview();
+        showToast(`Moved to ${newCol.toUpperCase()} column`);
     }
 
-    // Manual        umn Change via Select
-    function onManu            nge(id, newCol) {
-        const sec = document.querySelector(`.sectio            ta-id="${id}"]`);
-            if (!sec) return;
-        const targetContainer = document.getElementById(newCol === 'side' ? 'side-sections-container' : 'm            ions-container');
-        targetCo            appendChild(sec);
-             pdateAllOrders();
-            up        LivePreview();
+    // Manual Column Change via Select
+    function onManualColChange(id, newCol) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        const targetContainer = document.getElementById(newCol === 'side' ? 'side-sections-container' : 'main-sections-container');
+        targetContainer.appendChild(sec);
+        updateAllOrders();
+        updateLivePreview();
     }
 
-    // Manu        rder Change via Input
-    function onManualOr            e(id, newOrder) {
-        const sec = document.querySelector(`.sectio            ta-id="${id}"]`);
-            if (!sec) return;
-        const            = sec.parentNode;
-        const targetIdx = Math.max(0,            t(newOrder) - 1);
-        const siblings = Array.from(parent.children).            l => el !== sec);
-        if (target                ngs.length) {
-                       appendChi                     } else {
-            parent.insertBefore(s            in            tIdx]);
+    // Manual Order Change via Input
+    function onManualOrderChange(id, newOrder) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        const parent = sec.parentNode;
+        const targetIdx = Math.max(0, parseInt(newOrder) - 1);
+        const siblings = Array.from(parent.children).filter(el => el !== sec);
+        if (targetIdx >= siblings.length) {
+            parent.appendChild(sec);
+        } else {
+            parent.insertBefore(sec, siblings[targetIdx]);
         }
-             pdateAllOrders();
-            up        LivePreview();
-               // Delete section
-    fun            leteSection(id) {
-        const sec = document.querySelector(`.sectio            ta-id="${id}"]`);
-            if (!sec) return;
-        if (confirm("Are you sure you want to                 section?")) {
-                sec.remove();
-                     eAllOrders();
-                       ivePreview();
-            show            ec         de        d");
+        updateAllOrders();
+        updateLivePreview();
+    }
+
+    // Delete section
+    function deleteSection(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        if (confirm("Are you sure you want to delete this section?")) {
+            sec.remove();
+            updateAllOrders();
+            updateLivePreview();
+            showToast("Section deleted");
         }
     }
 
-    // Update all Section orders, badges, and attri        s across both columns
-    fun            dateAllOrders() {
-        const mainContainer = document.getElementById('m            ions-container');
-        const sideContainer = document.getElementById('si            ons-container');
+    // Update all Section orders, badges, and attributes across both columns
+    function updateAllOrders() {
+        const mainContainer = document.getElementById('main-sections-container');
+        const sideContainer = document.getElementById('side-sections-container');
 
-                  n Column Sections
-        const mainBoxes = mainContainer.querySel            ('.section-box');
-        mainBoxe                ox, idx) => {
-                       um = idx + 1;
-            box.setAttri                ol', 'main');
-            box.className = 'section-box is-main' + (box.classList.contains('is-collapsed')a                
+        // Main Column Sections
+        const mainBoxes = mainContainer.querySelectorAll('.section-box');
+        mainBoxes.forEach((box, idx) => {
+            const num = idx + 1;
+            box.setAttribute('data-col', 'main');
+            box.className = 'section-box is-main' + (box.classList.contains('is-collapsed') ? ' is-collapsed' : '');
             
-            const badge = box.querySele                rder-badge');                    (badge) {
-                badge.className = 'sec                    ge-main';
-                badge.i                Ma                            }
-            const orderInput = box.que                .sec-order');
-            if (orderInput                .value = num;
-            const colSelect = box.q                ('.sec-col');
-            if (colSelect)             t.va            ain';
+            const badge = box.querySelector('.sec-order-badge');
+            if (badge) {
+                badge.className = 'sec-order-badge badge-main';
+                badge.innerText = `Main ${num}`;
+            }
+            const orderInput = box.querySelector('.sec-order');
+            if (orderInput) orderInput.value = num;
+            const colSelect = box.querySelector('.sec-col');
+            if (colSelect) colSelect.value = 'main';
         });
-        document.getElementById('main-count').innerText = `${mainBoxes.length} Section${mainBoxes.le             1 ? '' : 's'}`;
+        document.getElementById('main-count').innerText = `${mainBoxes.length} Section${mainBoxes.length === 1 ? '' : 's'}`;
 
-                  e Column Sections
-        const sideBoxes = sideContainer.querySel            ('.section-box');
-        sideBoxe                ox, idx) => {
-                       um = idx + 1;
-            box.setAttri                ol', 'side');
-            box.className = 'section-box is-side' + (box.classList.contains('is-collapsed')a                
+        // Side Column Sections
+        const sideBoxes = sideContainer.querySelectorAll('.section-box');
+        sideBoxes.forEach((box, idx) => {
+            const num = idx + 1;
+            box.setAttribute('data-col', 'side');
+            box.className = 'section-box is-side' + (box.classList.contains('is-collapsed') ? ' is-collapsed' : '');
             
-            const badge = box.querySele                rder-badge');                    (badge) {
-                badge.className = 'sec                    ge-side';
-                badge.i                Si                            }
-            const orderInput = box.que                .sec-order');
-            if (orderInput                .value = num;
-            const colSelect = box.q                ('.sec-col');
-            if (colSelect)             t.va            ide';
+            const badge = box.querySelector('.sec-order-badge');
+            if (badge) {
+                badge.className = 'sec-order-badge badge-side';
+                badge.innerText = `Side ${num}`;
+            }
+            const orderInput = box.querySelector('.sec-order');
+            if (orderInput) orderInput.value = num;
+            const colSelect = box.querySelector('.sec-col');
+            if (colSelect) colSelect.value = 'side';
         });
-        document.getElementById('side-count').innerText = `${sideBoxes.length} Section${sideBoxes.l        h =         ? '' : 's'}`;
+        document.getElementById('side-count').innerText = `${sideBoxes.length} Section${sideBoxes.length === 1 ? '' : 's'}`;
     }
 
-    // Extract        uctured data from DOM
-             ion getCVData() {
-        const nameEl = document.ge            ById('userName');
-        const jobEl = document.get            yId('userTitle');
-        const name = nameEl ? nameEl.val            LAYNEW AMBACHEW';
-        const job = jobEl ? jobEl.value d            gineer';
+    // Extract structured data from DOM
+    function getCVData() {
+        const nameEl = document.getElementById('userName');
+        const jobEl = document.getElementById('userTitle');
+        const name = nameEl ? nameEl.value : 'TELAYNEW AMBACHEW';
+        const job = jobEl ? jobEl.value : 'AI and Data Engineer';
         
-        const contacts = Array.from(document.querySelectorAll('#contact-lis                )).map(r => {
-            const iconEl = r.                r('.c-icon');
-            const valEl = r                or('.c-va                     return {
-                icon: iconEl ? icon                    fa-link',
-                val:                El.            ''
-                };
+        const contacts = Array.from(document.querySelectorAll('#contact-list .row-item')).map(r => {
+            const iconEl = r.querySelector('.c-icon');
+            const valEl = r.querySelector('.c-val');
+            return {
+                icon: iconEl ? iconEl.value : 'fas fa-link',
+                val: valEl ? valEl.value : ''
+            };
         });
 
-        const sectionNodes = document.querySelectorAll(            n-box[data-id]');
-        const sectionData = Array.from(se                map(node => {
-            const rows = Array.from(node.querySelectorAll('.ro                    w-item'))
-                                 => {
-                    const orderA = a.q                        er');
-                    const orderB = b.q                        er');
-                    const oA = orderA ? parseInt(or                         999;
-                    const oB = orderB ? parseInt(or                         999;
-                               oA                           })
-                             => {
-                    const rtEl = row.q                        le');
-                    const rdEl = row.                        te');
-                    const rsEl = row                        ub');
-                    const rbEl = row.quer                        s');
+        const sectionNodes = document.querySelectorAll('.section-box[data-id]');
+        const sectionData = Array.from(sectionNodes).map(node => {
+            const rows = Array.from(node.querySelectorAll('.rows-container .row-item'))
+                .sort((a, b) => {
+                    const orderA = a.querySelector('.r-order');
+                    const orderB = b.querySelector('.r-order');
+                    const oA = orderA ? parseInt(orderA.value) || 999 : 999;
+                    const oB = orderB ? parseInt(orderB.value) || 999 : 999;
+                    return oA - oB;
+                })
+                .map(row => {
+                    const rtEl = row.querySelector('.r-title');
+                    const rdEl = row.querySelector('.r-date');
+                    const rsEl = row.querySelector('.r-sub');
+                    const rbEl = row.querySelector('.r-bullets');
 
-                    const rt = rtEl                         : '';
-                    const rd = rdEl                         : '';
-                    const rs = rsEl                         : '';
-                    con                            e
-                                       )
-                                                 )
-                        .                            )
-              :                             
-                    const                        | rd;
+                    const rt = rtEl ? rtEl.value.trim() : '';
+                    const rd = rdEl ? rdEl.value.trim() : '';
+                    const rs = rsEl ? rsEl.value.trim() : '';
+                    const rb = rbEl ? rbEl.value
+                        .split('\n')
+                        .filter(b => b.trim())
+                        .map(b => `<li>${b}</li>`)
+                        .join('') : '';
+                    
+                    const hasTitleLine = rt || rd;
                     return `<div class="entry-item" style="margin-bottom:6px;">
                         ${hasTitleLine ? `<div class="entry-title-row" style="display:flex;justify-content:space-between;color:#1a3c5e;font-size:9pt;font-weight:bold;"><strong>${rt}</strong><span>${rd}</span></div>` : ''}
                         ${rs ? `<div class="entry-sub" style="font-weight:bold;font-size:8pt;color:#555;margin-top:1px;">${rs}</div>` : ''}
                         ${rb ? `<ul style="margin:1px 0 0 15px;padding:0;font-size:8pt;line-height:1.2;">${rb}</ul>` : ''}
-                        </div>`;
-                    }).join('');
+                    </div>`;
+                }).join('');
 
-            const titleEl = node.querySele                itle-input');
-            const orderEl = node.que                .sec-order');
-            const colEl = node.qu                '.sec-co'                    return { 
-                title: titleEl ? t                    SECTION',
-                order: orderEl ? parseInt                    || 1 : 1,
-                col: node.getAttribute('data-col') || (colEl                     'main'),
-                                ws
-                };
+            const titleEl = node.querySelector('.sec-title-input');
+            const orderEl = node.querySelector('.sec-order');
+            const colEl = node.querySelector('.sec-col');
+
+            return { 
+                title: titleEl ? titleEl.value : 'SECTION',
+                order: orderEl ? parseInt(orderEl.value) || 1 : 1,
+                col: node.getAttribute('data-col') || (colEl ? colEl.value : 'main'),
+                html: rows
+            };
         });
 
-        // Filter and sort sections: Mai             and Side (Right)
-        const mainSections = sectionData.filter(s => s.col === 'main').sort((a,             order - b.order);
-        const sideSections = sectionData.filter(s => s.col === 'side').sort((a, b            rder - b.order);
+        // Filter and sort sections: Main (Left) and Side (Right)
+        const mainSections = sectionData.filter(s => s.col === 'main').sort((a, b) => a.order - b.order);
+        const sideSections = sectionData.filter(s => s.col === 'side').sort((a, b) => a.order - b.order);
 
-        const mainHtml = mainSections.map(s => `<div class="stitle">${s.title}</            html}`).join('');
-        const sideHtml = sideSections.map(s => `<div class="stitle">${s.title}</d            tml}`).join('');
+        const mainHtml = mainSections.map(s => `<div class="stitle">${s.title}</div>${s.html}`).join('');
+        const sideHtml = sideSections.map(s => `<div class="stitle">${s.title}</div>${s.html}`).join('');
 
-        return { name, job, contac        mai        l, sideHtml };
+        return { name, job, contacts, mainHtml, sideHtml };
     }
 
-    // Update the live        view pane immediately
-    funct            teLivePreview() {
-                    ta = getCVData();
-        const pName = document.getEle            ('preview-name');
-        const pTitle = document.getElem            'preview-title');
-        const pContacts = document.getElement            eview-contacts');
-        const pMain = document.getElementById            w-main-content');
-        const pSide = document.getElementById(            -side-content');
+    // Update the live preview pane immediately
+    function updateLivePreview() {
+        const data = getCVData();
+        const pName = document.getElementById('preview-name');
+        const pTitle = document.getElementById('preview-title');
+        const pContacts = document.getElementById('preview-contacts');
+        const pMain = document.getElementById('preview-main-content');
+        const pSide = document.getElementById('preview-side-content');
 
-        if (pName) pNa            Text = data.name;
-        if (pTitle) pTi            rText = data.job;
-        if (pContacts) pContacts.innerHTML = data.contacts.map(c => `<span>${c.icon ? `<i class="${c.icon}"></i>` : ''} ${            span>`).join('');
-        if (pMain) pMain.i             = data.mainHtml;
-        if (pSide) pSide.i        HTM        eHtml;
+        if (pName) pName.innerText = data.name;
+        if (pTitle) pTitle.innerText = data.job;
+        if (pContacts) pContacts.innerHTML = data.contacts.map(c => `<span>${c.icon ? `<i class="${c.icon}"></i>` : ''} ${c.val}</span>`).join('');
+        if (pMain) pMain.innerHTML = data.mainHtml;
+        if (pSide) pSide.innerHTML = data.sideHtml;
     }
 
-            // Authoritative CV Document HTML & CSS Generator (Used identically by Live Preview, Open PDF V         and Direct Download)
-    function gener            umentHtml(data) {
+            // Authoritative CV Document HTML & CSS Generator (Used identically by Live Preview, Open PDF View, and Direct Download)
+    function generateCVDocumentHtml(data) {
         return `
     <div id="page-container" class="cv-page-container">
         <style>
@@ -1852,58 +1629,79 @@
         <div class="header">
             <div class="title-block">
                 <h1>${data.name}</h1>
-                <h2>${        .jo        h2>
+                <h2>${data.job}</h2>
             </div>
             <div class="contact-grid">
-                ${data.contacts.        c => `<span>${c.icon ? `<i class="${c.icon}"></i>` :             val}</span>`)j                         <d                </div>
-        <divc                t">
-            <div>${data.mainHtml}</d                    <div>${data.sideHtml}</div>
+                ${data.contacts.map(c => `<span>${c.icon ? `<i class="${c.icon}"></i>` : ''} ${c.val}</span>`).join('')}
+            </div>
         </div>
-    </div>;                // Unified Robust PDF Export Engine (Accurately outputs 1 page                2 pages if 2 pages)
-    function execut            rt(t            ment, filename) {
-               st opt = { 
-            margin: [0, 0, 0, 0], 
-                      me: filename, 
-            image: { ty pe: '                ty: 0.98 },
-            html2canv                 4, useCORS: t                    lse, scrollX: 0, scrollY: 0                     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrai                      pagebreak: { mode: ['css', 'legacy'] }
-        };
-                    getPages = 1;
-        const worker = html2pdf(                    targetElement);
+        <div class="content">
+            <div>${data.mainHtml}</div>
+            <div>${data.sideHtml}</div>
+        </div>
+    </div>`;
+    }
 
-        return worker.t                    n(function() {
-            // Anchor container strictly to (0,0                    el fractional margins
+    // Unified Robust PDF Export Engine (Accurately outputs 1 page if 1 page, 2 pages if 2 pages)
+    function executePdfExport(targetElement, filename) {
+        const opt = { 
+            margin: [0, 0, 0, 0], 
+            filename: filename, 
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 4, useCORS: true, logging: false, scrollX: 0, scrollY: 0 }, 
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['css', 'legacy'] }
+        };
+
+        let targetPages = 1;
+        const worker = html2pdf().set(opt).from(targetElement);
+
+        return worker.toContainer().then(function() {
+            // Anchor container strictly to (0,0) without subpixel fractional margins
             if (this.prop.container) {
-                this.prop.container.style.left                              this.prop.conta                     = 'auto';
-                this.prop.conta                        '0px';
+                this.prop.container.style.left = '0px';
+                this.prop.container.style.right = 'auto';
+                this.prop.container.style.margin = '0px';
             }
-                            p.o                              this.prop.overlay.style.left = '0px';
-                           op.overlay.style.top = '0px';
+            if (this.prop.overlay) {
+                this.prop.overlay.style.left = '0px';
+                this.prop.overlay.style.top = '0px';
             }
         }).toCanvas().then(function() {
-                               this.prop.canvas;
+            const canvas = this.prop.canvas;
             if (canvas) {
                 const a4Ratio = 297 / 210;
-                          pageCanvasH = Math.round(canvas.width * a4Ratio);                         Compute exact page count base                                        const rawPages = canv                        asH;
-                const basePages =                        );
-                const over                        ht - (basePages * pageCanvas                         // If content overflows by more than 45 canv                        n pixels), it belongs on a real next page!
-                targetPa                                     if (overflowPx > 45 || basePages ===                              targetPages = basePages                          }
+                const pageCanvasH = Math.round(canvas.width * a4Ratio);
 
-                const targetTot                        ges * pageCanvasH;
+                // Compute exact page count based on content height
+                const rawPages = canvas.height / pageCanvasH;
+                const basePages = Math.floor(rawPages);
+                const overflowPx = canvas.height - (basePages * pageCanvasH);
 
-                /                        r sub-pixel overflow past t                        p it to prevent blank page
-                if (ca                        TotalCanvasH && (canvas.heigh                        sH) <= 45) {
-                                  me                .c            ment('canvas');
-                              ed.width = canvas.width;
-                        trimmed.height = targetTotalCanvasH;
-                    const ctx                 tContext('2d');
+                // If content overflows by more than 45 canvas pixels (~15 screen pixels), it belongs on a real next page!
+                targetPages = basePages;
+                if (overflowPx > 45 || basePages === 0) {
+                    targetPages = basePages + 1;
+                }
+
+                const targetTotalCanvasH = targetPages * pageCanvasH;
+
+                // If canvas has minor sub-pixel overflow past target boundary, clamp it to prevent blank page
+                if (canvas.height > targetTotalCanvasH && (canvas.height - targetTotalCanvasH) <= 45) {
+                    const trimmed = document.createElement('canvas');
+                    trimmed.width = canvas.width;
+                    trimmed.height = targetTotalCanvasH;
+                    const ctx = trimmed.getContext('2d');
                     ctx.drawImage(canvas, 0, 0);
-                                  canvas = trimmed;
-                } else if (canv                ta            lCanvasH) {                             // Pad canvas to full A4 page boundary with crisp white background
-                        const padded = document.createElemen            s');
-                    p            dth = canvas.width;
+                    this.prop.canvas = trimmed;
+                } else if (canvas.height < targetTotalCanvasH) {
+                    // Pad canvas to full A4 page boundary with crisp white background
+                    const padded = document.createElement('canvas');
+                    padded.width = canvas.width;
                     padded.height = targetTotalCanvasH;
-                        const ctx = padded.getContex            
-                    ctx.fillStyle = '#ffffff';                         ctx.fillRect(0, 0, padded.width, padded.height);
+                    const ctx = padded.getContext('2d');
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, padded.width, padded.height);
                     ctx.drawImage(canvas, 0, 0);
                     this.prop.canvas = padded;
                 }
@@ -1975,162 +1773,176 @@
         @media print {
             body { background: white; padding: 0; }
             #dl-trigger { display: none !important; }
-            .cv-page-container { box-shadow: none !im             margin: 0 !important; }
+            .cv-page-container { box-shadow: none !important; margin: 0 !important; }
         }
-                
+    </style>
 </head>
-<bo                ton id="dl-trigger" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download P                on>
-                l}            ript>
-        ${execu            ort.toString()}
+<body>
+    <button id="dl-trigger" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF Now</button>
+    ${docHtml}
+    <script>
+        ${executePdfExport.toString()}
 
-        fun            wnloadPDF() {
-                con        l = document.querySelector('.cv-page-container');
-            const btn = document.getElementBy        dl-trigger');
-            i            btn.style.display = 'none';
+        function downloadPDF() {
+            const el = document.querySelector('.cv-page-container');
+            const btn = document.getElementById('dl-trigger');
+            if (btn) btn.style.display = 'none';
 
-            executePdfExport(el            ename}').then(function() {
-                if (btn) btn.style.disp            lex';
+            executePdfExport(el, '${filename}').then(function() {
+                if (btn) btn.style.display = 'flex';
             }).catch(function(err) {
-                         le.error("PDF generation error:", err);
-                if (btn) b            .display = 'flex';
+                console.error("PDF generation error:", err);
+                if (btn) btn.style.display = 'flex';
             });
         }
 
         window.addEventListener('load', function() {
-            if (${au            ad}) {
+            if (${autoDownload}) {
                 setTimeout(downloadPDF, 400);
             }
         });
     <\/script>
 </body></html>`;
 
-        const win            w.open('', '_blank');                (!win) {
-            alert("Popup blocked! Please allow popups or use the dir                d PDF' button.");
+        const win = window.open('', '_blank');
+        if (!win) {
+            alert("Popup blocked! Please allow popups or use the direct 'Download PDF' button.");
             return;
         }
         win.document.open();
-        win.            .wr            ml);
-        win.docu            se();
+        win.document.write(cvHtml);
+        win.document.close();
     }
 
-    // Direct            d PDF from main page (100% identical styling and page count as Open PDF View)            ction downloadCVPdf() {
-        const to            ocument.getElementById('btn-download-top');
-        const bottomBtn = document.getElementById('btn-download-b            
-        const originalTopText = topBtn ? topBtn.innerH            ;
-        const originalBottomText = bottomBtn ? bot            nnerHTML : '';
+    // Direct Download PDF from main page (100% identical styling and page count as Open PDF View)
+    function downloadCVPdf() {
+        const topBtn = document.getElementById('btn-download-top');
+        const bottomBtn = document.getElementById('btn-download-bottom');
+        const originalTopText = topBtn ? topBtn.innerHTML : '';
+        const originalBottomText = bottomBtn ? bottomBtn.innerHTML : '';
 
-        if (topBtn) { topB            HTML = `<i class="fas fa-spinner fa            /i> Generating PDF...`; topBtn.disab            ue; }
-        if (bottomBtn) { bottomBt            TML = `<i class="fas fa-spinner fa-spin"><            rating PDF...`; bottomBtn.disabled = true; }
+        if (topBtn) { topBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Generating PDF...`; topBtn.disabled = true; }
+        if (bottomBtn) { bottomBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Generating PDF...`; bottomBtn.disabled = true; }
 
-             unction cleanup() {
-            if (topBtn) { topBtn.innerHTM            inalTopText; topBtn.disabled = false; }
-            if (bo             { bottomBtn.innerHTML = originalBottomText;             n.disabled = false; }
+        function cleanup() {
+            if (topBtn) { topBtn.innerHTML = originalTopText; topBtn.disabled = false; }
+            if (bottomBtn) { bottomBtn.innerHTML = originalBottomText; bottomBtn.disabled = false; }
         }
 
         updateLivePreview();
-        c            a = getCVData();
-        const safeName = (data.na me ||                ).replace(/[^a-zA-Z0-9_-]/                     const                 ${safeName}_CV.pdf`;
+        const data = getCVData();
+        const safeName = (data.name || 'CV').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${safeName}_CV.pdf`;
 
-        // Save curre            l position and sc roll to                 nt html2canvas capturing viewport offsets
-                    evScrollX = window.scrollX                ageXOffset                   const prevScrollY = window.scrollY || window.pageYOffset                   window.scrollTo(                        //         Create an unscaled standalon        port container to guarantee 100% fidelity without transform/off        issues
-        const exportCo            = document.createElement('div');
-                      ainer.id = 'direct-pdf-export-container';
-        export                yle.position = 'absolute';
-                       iner.sty             '0                 exportContainer.style.left = '0px';
-        exportContainer.st            h = '210mm';
+        // Save current scroll position and scroll to top to prevent html2canvas capturing viewport offsets
+        const prevScrollX = window.scrollX || window.pageXOffset || 0;
+        const prevScrollY = window.scrollY || window.pageYOffset || 0;
+        window.scrollTo(0, 0);
+
+        // Create an unscaled standalone export container to guarantee 100% fidelity without transform/offset issues
+        const exportContainer = document.createElement('div');
+        exportContainer.id = 'direct-pdf-export-container';
+        exportContainer.style.position = 'absolute';
+        exportContainer.style.top = '0px';
+        exportContainer.style.left = '0px';
+        exportContainer.style.width = '210mm';
         exportContainer.style.zIndex = '9999999';
-                rtContainer.style.background = '#ffffff';
-        exportConta            le.margin = '0';
-        exportC                le.padding = '0';
+        exportContainer.style.background = '#ffffff';
+        exportContainer.style.margin = '0';
+        exportContainer.style.padding = '0';
 
-                      the EXACT sa                HTML used in Open PDF View
-        exp                .innerHTML = gen                entHtml(data);
-        d                .appendChild(exportContaine                 const targetEl = exportContai                ector('.cv-page-container');
+        // Insert the EXACT same document HTML used in Open PDF View
+        exportContainer.innerHTML = generateCVDocumentHtml(data);
+        document.body.appendChild(exportContainer);
 
-                  ePdfExport(targetEl, filenam                tion() {
-             exp                    ove();
+        const targetEl = exportContainer.querySelector('.cv-page-container');
+
+        executePdfExport(targetEl, filename).then(function() {
+            exportContainer.remove();
             window.scrollTo(prevScrollX, prevScrollY);
             cleanup();
-                                ownloaded successfully!");
-                       nc                            conso                rec                rror:", err);
-                              er.remove();
+            showToast("PDF downloaded successfully!");
+        }).catch(function(err) {
+            console.error("Direct html2pdf error:", err);
+            exportContainer.remove();
             window.scrollTo(prevScrollX, prevScrollY);
             cleanup();
-                       less fallback to popup generator with auto-download
+            // Seamless fallback to popup generator with auto-download
             generateCV(true);
-        });                        alize SortableJS for Main & Side                        ts
-    function initDragAndD                        typeof Sortable === 'undef                         console.warn("SortableJS not l.                        Timeout(initDragAndDrop, 300);
+        });
+    }
+
+let lastSwapTarget = null;
+
+    // Initialize SortableJS for Main & Side Columns, and Contacts
+    function initDragAndDrop() {
+        if (typeof Sortable === 'undefined') {
+            console.warn("SortableJS not loaded yet, retrying...");
+            setTimeout(initDragAndDrop, 300);
             return;
         }
 
-        const mai                            tById('main-sections-container');
-        const sideEl = document.getElementById('                        ne                    st                    cument.getElementById('c                            let hovered                    l;
-        let dragSo                    null;
-        let dragSourceInde                               sor            tionConfig = {
-            group: 'sections-g                       animation: 200,
-            handle:            handle',
-            dragg            section-box',
-            g                sortable-ghost',                 chosenClass: 'sortable-chosen',                 dragClass: 'sortable-drag',
-                 mptyInsertThres hold:                     onStart: function(ev                         hoveredTargetCard = null;
-                     ra            onta         =         from;
-                dragSourceIndex = evt.o        dex;
-            },
-                onMove: function(evt) {
-                // Clear any previous swap highl                         document.querySelectorAll('.section-box').forEach(b => b.clas            move('sortable-swap-highlight'));
+        const mainEl = document.getElementById('main-sections-container');
+        const sideEl = document.getElementById('side-sections-container');
+        const contactsEl = document.getElementById('contact-list');
 
-                        etect if hovering directly over an e            section box
-                if (evt.related && evt.related.classList && evt.re                ist.contains('secti                evt.related !== evt.d                                      h            rgetCard = evt.related;
-                    ho            getCard.classList.add('sortable-swap-highlight');
-                } els e {
-                    //            g over empty space in dropzone
-                    hoveredTargetCard =  null;
+        const sortableSectionConfig = {
+            group: 'sections-group',
+            swap: true,
+            swapClass: 'sortable-swap-highlight',
+            animation: 180,
+            handle: '.drag-handle',
+            draggable: '.section-box',
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            dragClass: 'sortable-drag',
+            onMove: function(evt) {
+                if (evt.related && evt.related.classList && evt.related.classList.contains('section-box') && evt.related !== evt.dragged) {
+                    lastSwapTarget = evt.related;
+                } else {
+                    lastSwapTarget = null;
                 }
-                    return true; // Allows Sortable to freely drop into empty space and            
+                return true;
             },
             onEnd: function(evt) {
-                // Cle            wap highlights
-                    document.queryS            ll('.section-box').fo        h(b        b.classList.remove('sortable-swap-highlight'));
-
-                const fro        tainer = evt.from;
-                const             ner = evt.to;
+                const fromContainer = evt.from;
+                const toContainer = evt.to;
                 const dragged = evt.item;
 
-                             so check if         eup o directly on a target card
-                let directCardTarget = hoveredTargetCard;
-                if (evt.originalEvent) {
-                    const clientX = evt.originalEvent.clientX;
-                    const clientY = evt.originalEvent.clientY;
-                    if (clientX != null && clientY != null) {
-                        const elAtPoint = document.elementFromPoint(clientX, clientY);
-                        if (elAtPoint) {
-                            const cardAtPoint = elAtPoint.closest('.section-box');
-                            if (cardAtPoint && cardAtPoint !== dragged) {
-                                directCardTarget = cardAtPoint;
-                            } else if (elAtPoint.closest('.sections-dropzone') && !cardAtPoint) {
-                                // Explicitly dropped on empty space in dropzone
-                                directCardTarget = null;
-                            }
+                // Determine if dropped on an existing card or on empty space
+                let droppedOnCard = lastSwapTarget;
+                if (evt.originalEvent && evt.originalEvent.clientX != null && evt.originalEvent.clientY != null) {
+                    const elAtPoint = document.elementFromPoint(evt.originalEvent.clientX, evt.originalEvent.clientY);
+                    if (elAtPoint) {
+                        const cardAtPoint = elAtPoint.closest('.section-box');
+                        if (cardAtPoint && cardAtPoint !== dragged) {
+                            droppedOnCard = cardAtPoint;
+                        } else if (elAtPoint.closest('.sections-dropzone') && !cardAtPoint) {
+                            droppedOnCard = null;
                         }
                     }
                 }
 
-                // If user dropped directly onto another section card in the opposite column -> SWAP THEM
-                if (directCardTarget && directCardTarget !== dragged && fromContainer !== toContainer) {
-                    const fromChildren = Array.from(fromContainer.children).filter(c => c !== directCardTarget && c !== dragged);
-                    const insertBeforeNode = fromChildren[dragSourceIndex] || null;
-                    fromContainer.insertBefore(directCardTarget, insertBeforeNode);
-                    showToast("Sections swapped between columns!");
-                } else if (fromContainer !== toContainer) {
-                    // Dropped on empty space in the other column -> MOVED TO THAT COLUMN
-                    const targetColName = toContainer.getAttribute('data-col') === 'main' ? 'MAIN' : 'SIDE';
-                    showToast(`Moved to ${targetColName} column`);
+                if (droppedOnCard && droppedOnCard !== dragged) {
+                    // SWAP: Existing swap across containers
+                    if (fromContainer !== toContainer) {
+                        if (droppedOnCard.parentNode === toContainer && dragged.parentNode === toContainer) {
+                            fromContainer.insertBefore(droppedOnCard, fromContainer.children[evt.oldIndex] || null);
+                        }
+                    }
+                    showToast("Sections swapped!");
                 } else {
-                    showToast("Section reordered");
+                    // EMPTY SPACE: Append to target container without swapping
+                    if (toContainer && (fromContainer !== toContainer || dragged.parentNode !== toContainer)) {
+                        toContainer.appendChild(dragged);
+                        const toColName = toContainer.getAttribute('data-col') === 'main' ? 'MAIN' : 'SIDE';
+                        showToast(`Moved to ${toColName} column`);
+                    } else if (toContainer) {
+                        toContainer.appendChild(dragged);
+                        showToast("Section reordered");
+                    }
                 }
-
-                hoveredTargetCard = null;
-                dragSourceContainer = null;
-                dragSourceIndex = -1;
+                lastSwapTarget = null;
 
                 updateAllOrders();
                 updateLivePreview();
@@ -2183,7 +1995,6 @@
     } else {
         initPage();
     }
-    </script>
+</script>
 </body>
-
 </html>
