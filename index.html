@@ -641,7 +641,7 @@
             width: calc(100% + 4px);
             background: #1a3c5e;
             color: white;
-            padding: 35px 50px 30px 50px;
+            padding: 35px 50px 20px 50px;
             margin: 0;
             z-index: 10;
             box-sizing: border-box;
@@ -683,7 +683,7 @@
             flex-shrink: 0;
         }
         .cv-render-box .content {
-            padding-top: 180px;
+            padding-top: 165px;
             padding-left: 50px;
             padding-right: 50px;
             padding-bottom: 30px;
@@ -692,8 +692,11 @@
             gap: 25px;
             position: relative;
             z-index: 1;
-            min-height: calc(297mm - 180px);
+            min-height: calc(297mm - 165px);
             box-sizing: border-box;
+        }
+        .cv-render-box .content > div > .stitle:first-child {
+            margin-top: 0;
         }
         .cv-render-box .stitle {
             font-size: 11pt;
@@ -1534,7 +1537,7 @@
                 width: calc(100% + 4px);
                 background: #1a3c5e;
                 color: white;
-                padding: 35px 50px 30px 50px;
+                padding: 35px 50px 20px 50px;
                 margin: 0;
                 z-index: 10;
                 box-sizing: border-box;
@@ -1576,7 +1579,7 @@
                 flex-shrink: 0;
             }
             .cv-page-container .content {
-                padding-top: 180px;
+                padding-top: 165px;
                 padding-left: 50px;
                 padding-right: 50px;
                 padding-bottom: 20px;
@@ -1585,8 +1588,11 @@
                 gap: 25px;
                 position: relative;
                 z-index: 1;
-                min-height: calc(297mm - 180px);
+                min-height: calc(297mm - 165px);
                 box-sizing: border-box;
+            }
+            .cv-page-container .content > div > .stitle:first-child {
+                margin-top: 0;
             }
             .cv-page-container .stitle {
                 font-size: 11pt;
