@@ -290,9 +290,24 @@
             flex-direction: column;
             gap: 14px;
             flex-grow: 1;
-            min-height: 200px;
-            padding: 4px;
+            min-height: 220px;
+            padding: 4px 4px 50px 4px;
             border-radius: 6px;
+        }
+        .sections-dropzone:empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            background: rgba(241, 245, 249, 0.6);
+            min-height: 140px;
+        }
+        .sections-dropzone:empty::after {
+            content: "Drag & drop sections here";
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
         }
 
         /* Section Box */
@@ -1872,8 +1887,6 @@
         });
     }
 
-let lastSwapTarget = null;
-
     // Initialize SortableJS for Main & Side Columns, and Contacts
     function initDragAndDrop() {
         if (typeof Sortable === 'undefined') {
@@ -1886,39 +1899,85 @@ let lastSwapTarget = null;
         const sideEl = document.getElementById('side-sections-container');
         const contactsEl = document.getElementById('contact-list');
 
+        let hoveredTargetCard = null;
+        let dragSourceContainer = null;
+        let dragSourceIndex = -1;
+
         const sortableSectionConfig = {
             group: 'sections-group',
-            swap: true,
-            swapClass: 'sortable-swap-highlight',
-            animation: 180,
+            animation: 200,
             handle: '.drag-handle',
             draggable: '.section-box',
             ghostClass: 'sortable-ghost',
             chosenClass: 'sortable-chosen',
             dragClass: 'sortable-drag',
+            emptyInsertThreshold: 20,
+            onStart: function(evt) {
+                hoveredTargetCard = null;
+                dragSourceContainer = evt.from;
+                dragSourceIndex = evt.oldIndex;
+            },
             onMove: function(evt) {
-                if (evt.related && evt.related.classList && evt.related.classList.contains('section-box')) {
-                    lastSwapTarget = evt.related;
+                // Clear any previous swap highlight
+                document.querySelectorAll('.section-box').forEach(b => b.classList.remove('sortable-swap-highlight'));
+
+                // Detect if hovering directly over an existing section box
+                if (evt.related && evt.related.classList && evt.related.classList.contains('section-box') && evt.related !== evt.dragged) {
+                    hoveredTargetCard = evt.related;
+                    hoveredTargetCard.classList.add('sortable-swap-highlight');
+                } else {
+                    // Hovering over empty space in dropzone
+                    hoveredTargetCard = null;
                 }
-                return true;
+                return true; // Allows Sortable to freely drop into empty space and reorder
             },
             onEnd: function(evt) {
-                // If Sortable's built-in swap didn't swap elements across containers, perform swap fallback:
-                if (!evt.swapItem && lastSwapTarget && evt.from !== evt.to && lastSwapTarget !== evt.item) {
-                    const fromContainer = evt.from;
-                    const toContainer = evt.to;
-                    const dragged = evt.item;
-                    const target = lastSwapTarget;
-                    
-                    if (target.parentNode === toContainer && dragged.parentNode === toContainer) {
-                        fromContainer.insertBefore(target, fromContainer.children[evt.oldIndex] || null);
+                // Clear all swap highlights
+                document.querySelectorAll('.section-box').forEach(b => b.classList.remove('sortable-swap-highlight'));
+
+                const fromContainer = evt.from;
+                const toContainer = evt.to;
+                const dragged = evt.item;
+
+                // Also check if mouseup occurred directly on a target card
+                let directCardTarget = hoveredTargetCard;
+                if (evt.originalEvent) {
+                    const clientX = evt.originalEvent.clientX;
+                    const clientY = evt.originalEvent.clientY;
+                    if (clientX != null && clientY != null) {
+                        const elAtPoint = document.elementFromPoint(clientX, clientY);
+                        if (elAtPoint) {
+                            const cardAtPoint = elAtPoint.closest('.section-box');
+                            if (cardAtPoint && cardAtPoint !== dragged) {
+                                directCardTarget = cardAtPoint;
+                            } else if (elAtPoint.closest('.sections-dropzone') && !cardAtPoint) {
+                                // Explicitly dropped on empty space in dropzone
+                                directCardTarget = null;
+                            }
+                        }
                     }
                 }
-                lastSwapTarget = null;
+
+                // If user dropped directly onto another section card in the opposite column -> SWAP THEM
+                if (directCardTarget && directCardTarget !== dragged && fromContainer !== toContainer) {
+                    const fromChildren = Array.from(fromContainer.children).filter(c => c !== directCardTarget && c !== dragged);
+                    const insertBeforeNode = fromChildren[dragSourceIndex] || null;
+                    fromContainer.insertBefore(directCardTarget, insertBeforeNode);
+                    showToast("Sections swapped between columns!");
+                } else if (fromContainer !== toContainer) {
+                    // Dropped on empty space in the other column -> MOVED TO THAT COLUMN
+                    const targetColName = toContainer.getAttribute('data-col') === 'main' ? 'MAIN' : 'SIDE';
+                    showToast(`Moved to ${targetColName} column`);
+                } else {
+                    showToast("Section reordered");
+                }
+
+                hoveredTargetCard = null;
+                dragSourceContainer = null;
+                dragSourceIndex = -1;
 
                 updateAllOrders();
                 updateLivePreview();
-                showToast("Sections swapped!");
             }
         };
 
