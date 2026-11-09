@@ -395,6 +395,19 @@
             display: none;
         }
 
+        .editor-card.is-collapsed {
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+        .editor-card.is-collapsed .card-header-line {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .editor-card.is-collapsed .header-card-body {
+            display: none;
+        }
+
         .sec-meta-row {
             display: flex;
             gap: 14px;
@@ -824,59 +837,66 @@
         </div>
 
         <!-- Personal Header Info Card -->
-        <div class="editor-card">
+        <div class="editor-card" id="header-editor-card">
             <div class="card-header-line">
                 <h3><i class="fas fa-id-card"></i> Main Header (Contact Info)</h3>
-            </div>
-            <div class="grid-2">
-                <div>
-                    <label>Full Name</label>
-                    <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview()">
-                </div>
-                <div>
-                    <label>Job Title</label>
-                    <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()">
+                <div class="sec-actions">
+                    <button type="button" class="sec-tool-btn" title="Collapse / Expand" onclick="toggleCollapseHeader()">
+                        <i class="fas fa-angle-down collapse-icon"></i>
+                    </button>
                 </div>
             </div>
-            
-            <label style="margin-top: 14px;">Contacts (Drag to reorder)</label>
-            <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
-                <div class="row-item" style="padding:8px 10px;">
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
-                        <input type="text" class="c-icon" value="fas fa-phone" style="width:140px;" oninput="updateLivePreview()">
-                        <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;" oninput="updateLivePreview()">
-                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+            <div class="header-card-body">
+                <div class="grid-2">
+                    <div>
+                        <label>Full Name</label>
+                        <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview()">
+                    </div>
+                    <div>
+                        <label>Job Title</label>
+                        <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()">
                     </div>
                 </div>
-                <div class="row-item" style="padding:8px 10px;">
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
-                        <input type="text" class="c-icon" value="fas fa-envelope" style="width:140px;" oninput="updateLivePreview()">
-                        <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;" oninput="updateLivePreview()">
-                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                
+                <label style="margin-top: 14px;">Contacts (Drag to reorder)</label>
+                <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+                    <div class="row-item" style="padding:8px 10px;">
+                        <div style="display:flex;gap:10px;align-items:center;">
+                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                            <input type="text" class="c-icon" value="fas fa-phone" style="width:140px;" oninput="updateLivePreview()">
+                            <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;" oninput="updateLivePreview()">
+                            <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                        </div>
+                    </div>
+                    <div class="row-item" style="padding:8px 10px;">
+                        <div style="display:flex;gap:10px;align-items:center;">
+                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                            <input type="text" class="c-icon" value="fas fa-envelope" style="width:140px;" oninput="updateLivePreview()">
+                            <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;" oninput="updateLivePreview()">
+                            <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                        </div>
+                    </div>
+                    <div class="row-item" style="padding:8px 10px;">
+                        <div style="display:flex;gap:10px;align-items:center;">
+                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                            <input type="text" class="c-icon" value="fab fa-linkedin" style="width:140px;" oninput="updateLivePreview()">
+                            <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a" style="flex-grow:1;" oninput="updateLivePreview()">
+                            <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                        </div>
+                    </div>
+                    <div class="row-item" style="padding:8px 10px;">
+                        <div style="display:flex;gap:10px;align-items:center;">
+                            <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                            <input type="text" class="c-icon" value="fas fa-globe" placeholder="Icon (e.g. fas fa-globe)" style="width:140px;" oninput="updateLivePreview()">
+                            <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;" oninput="updateLivePreview()">
+                            <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                        </div>
                     </div>
                 </div>
-                <div class="row-item" style="padding:8px 10px;">
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
-                        <input type="text" class="c-icon" value="fab fa-linkedin" style="width:140px;" oninput="updateLivePreview()">
-                        <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a" style="flex-grow:1;" oninput="updateLivePreview()">
-                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
-                    </div>
-                </div>
-                <div class="row-item" style="padding:8px 10px;">
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
-                        <input type="text" class="c-icon" value="fas fa-globe" placeholder="Icon (e.g. fas fa-globe)" style="width:140px;" oninput="updateLivePreview()">
-                        <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;" oninput="updateLivePreview()">
-                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-sm btn-outline" style="background:#eef3f8;color:var(--navy);border-color:#cbd5e0;margin-top:10px;" onclick="addContactField()">
+                    <i class="fas fa-plus"></i> Add Contact Field
+                </button>
             </div>
-            <button type="button" class="btn btn-sm btn-outline" style="background:#eef3f8;color:var(--navy);border-color:#cbd5e0;margin-top:10px;" onclick="addContactField()">
-                <i class="fas fa-plus"></i> Add Contact Field
-            </button>
         </div>
 
         <!-- 2-Column Section Drag & Drop Grid -->
@@ -1284,7 +1304,18 @@
         }
     }
 
-    // Toggle Collapse for All sections
+    // Toggle Collapse for Main Header
+    function toggleCollapseHeader() {
+        const card = document.getElementById('header-editor-card');
+        if (!card) return;
+        card.classList.toggle('is-collapsed');
+        const icon = card.querySelector('.collapse-icon');
+        if (icon) {
+            icon.className = card.classList.contains('is-collapsed') ? 'fas fa-angle-right collapse-icon' : 'fas fa-angle-down collapse-icon';
+        }
+    }
+
+    // Toggle Collapse for All sections (including header)
     function toggleCollapseAll() {
         allCollapsed = !allCollapsed;
         document.querySelectorAll('.section-box').forEach(sec => {
@@ -1298,6 +1329,21 @@
                 if (icon) icon.className = 'fas fa-angle-down collapse-icon';
             }
         });
+
+        // Also collapse / expand Main Header
+        const headerCard = document.getElementById('header-editor-card');
+        if (headerCard) {
+            if (allCollapsed) {
+                headerCard.classList.add('is-collapsed');
+                const icon = headerCard.querySelector('.collapse-icon');
+                if (icon) icon.className = 'fas fa-angle-right collapse-icon';
+            } else {
+                headerCard.classList.remove('is-collapsed');
+                const icon = headerCard.querySelector('.collapse-icon');
+                if (icon) icon.className = 'fas fa-angle-down collapse-icon';
+            }
+        }
+
         document.getElementById('collapse-toggle-text').innerText = allCollapsed ? 'Expand Cards' : 'Collapse Cards';
     }
 
