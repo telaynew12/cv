@@ -5,251 +5,1968 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master CV Builder - Telaynew Ambachew</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Local libraries with CDN fallback -->
+    <script src="sortable.min.js"></script>
+    <script>
+        if (typeof Sortable === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"><\/script>');
+        }
+    </script>
+    <script src="html2pdf.bundle.min.js"></script>
+    <script>
+        if (typeof html2pdf === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>');
+        }
+    </script>
+
     <style>
-        :root { --navy: #1a3c5e; --green: #27ae60; --bg: #f0f2f5; --red: #e74c3c; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .editor-container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        
-        /* Editor Styling */
-        .section-box { border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 25px; background: #fff; border-top: 5px solid var(--navy); position: relative; }
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .section-header input { border: none; font-size: 18px; font-weight: bold; color: var(--navy); text-transform: uppercase; width: 50%; }
-        
-        .row-item { background: #f9f9f9; padding: 15px; border-radius: 6px; border: 1px dashed #ccc; margin-bottom: 10px; position: relative; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        label { display: block; font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; margin-top: 8px; }
-        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top: 4px; font-family: inherit; }
-        
-        .btn-add { background: var(--navy); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
-        .btn-remove { color: var(--red); cursor: pointer; border: none; background: none; font-size: 18px; font-weight: bold; position: absolute; top: 5px; right: 5px; }
-        
-        .btn-add-section { background: #34495e; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 20px 0; font-weight: bold; }
-        .generate-btn { width: 100%; padding: 20px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 20px; cursor: pointer; font-weight: bold; }
-        
-        .controls-small { display: flex; gap: 8px; align-items: center; font-size: 12px; }
-        .order-input { width: 45px !important; text-align: center; }
+        :root {
+            --navy: #1a3c5e;
+            --navy-light: #2c527c;
+            --navy-bg: #eaf1f8;
+            --green: #27ae60;
+            --green-dark: #219653;
+            --green-bg: #eafaf1;
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --red: #e74c3c;
+            --text: #2d3748;
+            --text-muted: #64748b;
+            --preview-scale: 0.62;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* Top Navigation Header */
+        .app-header {
+            background: var(--navy);
+            color: white;
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .app-header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .app-header .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .btn-green {
+            background: var(--green);
+            color: white;
+            box-shadow: 0 2px 6px rgba(39, 174, 96, 0.35);
+        }
+        .btn-green:hover { background: var(--green-dark); transform: translateY(-1px); }
+        .btn-navy {
+            background: white;
+            color: var(--navy);
+        }
+        .btn-navy:hover { background: #f0f4f8; }
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }
+        .btn-sm { padding: 5px 10px; font-size: 11px; }
+
+        /* Legacy Button Styles */
+        .btn-add-section {
+            background: #34495e;
+            color: white;
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-add-section:hover { background: #2c3e50; }
+        .generate-btn {
+            flex: 1.5;
+            padding: 16px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.35);
+            transition: all 0.2s;
+        }
+        .generate-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+        /* Main Workspace Layout */
+        .app-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 530px;
+            gap: 25px;
+            max-width: 1750px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+        @media (max-width: 1280px) {
+            .app-layout {
+                grid-template-columns: 1fr;
+            }
+            .preview-pane {
+                display: none;
+            }
+            .preview-pane.active-mobile {
+                display: flex !important;
+                position: fixed;
+                inset: 60px 10px 10px 10px;
+                height: auto;
+                z-index: 9999;
+            }
+        }
+
+        /* Editor Section */
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .editor-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 22px;
+        }
+
+        .card-header-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--navy-bg);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .card-header-line h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--navy);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Order Guide Banner */
+        .order-guide-banner {
+            background: linear-gradient(90deg, #eef4fa 0%, #eafbf2 100%);
+            border: 1px solid #cfe0ed;
+            border-radius: 8px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--navy);
+            gap: 15px;
+        }
+        .order-guide-banner strong { color: var(--navy); }
+        .order-guide-banner .guide-tag {
+            background: white;
+            border: 1px solid #b9d3e8;
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* Two-Column Drag & Drop Organizer */
+        .columns-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 18px;
+        }
+        @media (max-width: 900px) {
+            .columns-grid { grid-template-columns: 1fr; }
+        }
+
+        .column-panel {
+            background: #fafbfc;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            min-height: 480px;
+            transition: border-color 0.2s;
+        }
+        .column-panel.main-panel {
+            border-top: 4px solid var(--navy);
+            background: #fbfdff;
+        }
+        .column-panel.side-panel {
+            border-top: 4px solid var(--green);
+            background: #fcfdfd;
+        }
+
+        .column-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eef2f6;
+        }
+        .column-panel-header h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .column-panel.main-panel .column-panel-header h4 { color: var(--navy); }
+        .column-panel.side-panel .column-panel-header h4 { color: var(--green); }
+
+        .badge-count {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        .main-panel .badge-count { background: var(--navy-bg); color: var(--navy); }
+        .side-panel .badge-count { background: var(--green-bg); color: var(--green); }
+
+        .column-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .sections-dropzone {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            flex-grow: 1;
+            min-height: 200px;
+            padding: 4px;
+            border-radius: 6px;
+        }
+
+        /* Section Box */
+        .section-box {
+            background: white;
+            border: 1px solid #d8e2ec;
+            border-radius: 7px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .section-box.is-main { border-left: 5px solid var(--navy); }
+        .section-box.is-side { border-left: 5px solid var(--green); }
+
+        .section-header-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: #ffffff;
+            border-bottom: 1px solid #edf2f7;
+            user-select: none;
+        }
+
+        .drag-handle {
+            cursor: grab;
+            color: #a0aec0;
+            padding: 4px 6px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: color 0.15s, background 0.15s;
+        }
+        .drag-handle:hover {
+            color: var(--navy);
+            background: #edf2f7;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .sec-order-badge {
+            font-size: 11px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .badge-main { background: var(--navy); color: white; }
+        .badge-side { background: var(--green); color: white; }
+
+        .sec-title-input {
+            flex-grow: 1;
+            border: 1px solid transparent;
+            padding: 6px 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            border-radius: 4px;
+            background: transparent;
+            font-family: inherit;
+        }
+        .sec-title-input:hover { border-color: #cbd5e0; background: #f8fafc; }
+        .sec-title-input:focus { border-color: var(--navy); background: white; outline: none; }
+
+        .sec-actions {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .sec-tool-btn {
+            background: none;
+            border: 1px solid #e2e8f0;
+            color: #718096;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.15s;
+        }
+        .sec-tool-btn:hover { background: #edf2f7; color: var(--navy); border-color: #cbd5e0; }
+        .sec-tool-btn.btn-del:hover { background: #fee2e2; color: var(--red); border-color: #fca5a5; }
+
+        .section-body {
+            padding: 14px;
+            background: #ffffff;
+            transition: all 0.2s ease;
+        }
+        .section-box.is-collapsed .section-body {
+            display: none;
+        }
+
+        .sec-meta-row {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: #f8fafc;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        .sec-meta-row label {
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 10px;
+            margin: 0;
+        }
+        .sec-meta-row select, .sec-meta-row input {
+            padding: 4px 8px;
+            font-size: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            background: white;
+            font-family: inherit;
+        }
+        .sec-meta-row input[type="number"] {
+            width: 50px;
+            text-align: center;
+        }
+
+        /* Row Items (Inside Section) */
+        .rows-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .row-item {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e0;
+            border-radius: 6px;
+            padding: 12px;
+            position: relative;
+            transition: all 0.15s;
+        }
+        .row-item:hover {
+            border-color: #94a3b8;
+            background: #f1f5f9;
+        }
+
+        .row-item-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .row-drag-handle {
+            cursor: grab;
+            color: #94a3b8;
+            padding: 2px 6px;
+            font-size: 14px;
+            border-radius: 3px;
+        }
+        .row-drag-handle:hover { color: var(--navy); background: #e2e8f0; }
+        .row-drag-handle:active { cursor: grabbing; }
+
+        .row-index-badge {
+            font-size: 10px;
+            font-weight: 700;
+            background: #e2e8f0;
+            color: #475569;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .row-item-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 4px;
+        }
+        .btn-remove-row {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: color 0.15s;
+        }
+        .btn-remove-row:hover { color: var(--red); background: #fee2e2; }
+
+        /* Form Inputs */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        label { display: block; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 8px; }
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 5px;
+            margin-top: 4px;
+            font-family: inherit;
+            font-size: 12px;
+            color: #1e293b;
+            background: white;
+            transition: border-color 0.15s;
+        }
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: var(--navy);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 60, 94, 0.1);
+        }
+        textarea { resize: vertical; min-height: 52px; line-height: 1.35; }
+
+        .btn-add-row {
+            background: #f1f5f9;
+            color: var(--navy);
+            border: 1px dashed #cbd5e0;
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-add-row:hover { background: #e2e8f0; border-color: var(--navy); }
+
+        .btn-add-section-col {
+            background: white;
+            color: var(--navy);
+            border: 2px dashed #cbd5e0;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .main-panel .btn-add-section-col { color: var(--navy); }
+        .main-panel .btn-add-section-col:hover { border-color: var(--navy); background: var(--navy-bg); }
+        .side-panel .btn-add-section-col { color: var(--green); }
+        .side-panel .btn-add-section-col:hover { border-color: var(--green); background: var(--green-bg); }
+
+        /* Sortable Drag Styles */
+        .sortable-ghost {
+            opacity: 0.35;
+            background: #e2e8f0 !important;
+            border: 2px dashed var(--navy) !important;
+        }
+        .sortable-chosen {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+        }
+        .sortable-drag {
+            cursor: grabbing !important;
+        }
+
+        /* Live Preview Pane */
+        .preview-pane {
+            position: sticky;
+            top: 75px;
+            height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            background: #1e293b;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        .preview-toolbar {
+            background: #0f172a;
+            color: white;
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            border-bottom: 1px solid #334155;
+        }
+        .preview-toolbar-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .preview-zoom-btn {
+            background: #334155;
+            color: #e2e8f0;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .preview-zoom-btn:hover { background: #475569; }
+        .preview-zoom-btn.active { background: var(--green); color: white; }
+
+        .preview-viewport {
+            flex-grow: 1;
+            overflow: auto;
+            padding: 20px 10px 40px 10px;
+            display: flex;
+            justify-content: center;
+            background: #334155;
+        }
+
+        .preview-page-wrapper {
+            transform-origin: top center;
+            transform: scale(var(--preview-scale));
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
+        }
+
+        /* CV Exact A4 Format Styles (matches oldest git-cloned format 100%) */
+        .cv-render-box {
+            width: 210mm;
+            min-height: 297mm;
+            position: relative;
+            background: white;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            color: #000;
+            overflow: hidden;
+        }
+        .cv-render-box * { box-sizing: border-box; }
+
+        .cv-render-box .header {
+            position: absolute;
+            top: 0;
+            left: -2px;
+            right: -2px;
+            width: calc(100% + 4px);
+            background: #1a3c5e;
+            color: white;
+            padding: 35px 50px 30px 50px;
+            margin: 0;
+            z-index: 10;
+            box-sizing: border-box;
+        }
+        .cv-render-box .title-block h1 {
+            font-size: 28pt;
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 1.1;
+            color: white;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+        .cv-render-box .title-block h2 {
+            font-size: 14pt;
+            opacity: 0.9;
+            margin-top: 3px;
+            font-weight: 300;
+            color: white;
+            font-family: sans-serif;
+        }
+        .cv-render-box .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            font-size: 8pt;
+            margin-top: 15px;
+            color: white;
+        }
+        .cv-render-box .contact-grid span {
+            display: inline-flex;
+            align-items: flex-start;
+            gap: 6px;
+            word-break: break-all;
+            line-height: 1.25;
+        }
+        .cv-render-box .contact-grid span i {
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+        .cv-render-box .content {
+            padding-top: 180px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1.7fr 1fr;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+            min-height: calc(297mm - 180px);
+            box-sizing: border-box;
+        }
+        .cv-render-box .stitle {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #1a3c5e;
+            text-transform: uppercase;
+            border-bottom: 2px solid #1a3c5e;
+            margin: 10px 0 6px 0;
+            padding-bottom: 2px;
+            page-break-after: avoid;
+            break-after: avoid;
+            font-family: sans-serif;
+        }
+        .cv-render-box .entry-item {
+            margin-bottom: 6px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .cv-render-box .entry-title-row {
+            display: flex;
+            justify-content: space-between;
+            color: #1a3c5e;
+            font-size: 9pt;
+            font-weight: bold;
+        }
+        .cv-render-box .entry-sub {
+            font-weight: bold;
+            font-size: 8pt;
+            color: #555;
+            margin-top: 1px;
+        }
+        .cv-render-box ul {
+            margin: 1px 0 0 15px;
+            padding: 0;
+            font-size: 8pt;
+            line-height: 1.2;
+            color: #000;
+        }
+
+        /* Toast feedback */
+        #toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Swap highlight style */
+        .sortable-swap-highlight {
+            outline: 3px dashed #27ae60 !important;
+            outline-offset: -3px;
+            background: #eafaf1 !important;
+            box-shadow: 0 0 15px rgba(39, 174, 96, 0.25) !important;
+            transform: scale(0.99);
+            transition: all 0.15s ease;
+        }
+
+        /* Print Stylesheet for native Ctrl+P vector printing */
+        @media print {
+            @page { size: A4; margin: 0; }
+            body { margin: 0; padding: 0; background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .app-header, .editor-container, .order-guide-banner, .preview-toolbar, #toast, .header-actions { display: none !important; }
+            .app-layout { display: block !important; padding: 0 !important; margin: 0 !important; max-width: none !important; }
+            .preview-pane { position: static !important; height: auto !important; background: white !important; box-shadow: none !important; border-radius: 0 !important; }
+            .preview-viewport { padding: 0 !important; background: white !important; overflow: visible !important; display: block !important; }
+            .preview-page-wrapper { transform: none !important; box-shadow: none !important; margin: 0 !important; }
+            #cv-document { width: 210mm !important; height: 297mm !important; box-shadow: none !important; }
+        }
     </style>
 </head>
 <body>
 
-<div class="editor-container">
-    <h1 style="text-align: center; color: var(--navy);">Infinite CV Content Manager</h1>
+<!-- Header Bar -->
+<header class="app-header">
+    <h1><i class="fas fa-file-invoice"></i> Infinite CV Content Manager</h1>
+    <div class="header-actions">
+        <button type="button" class="btn btn-outline" id="btn-toggle-mobile" onclick="toggleMobilePreview()">
+            <i class="fas fa-eye"></i> <span id="mobile-toggle-text">Preview</span>
+        </button>
+        <button type="button" class="btn btn-outline" onclick="toggleCollapseAll()">
+            <i class="fas fa-compress-arrows-alt"></i> <span id="collapse-toggle-text">Collapse Cards</span>
+        </button>
+        <button type="button" class="btn btn-navy" onclick="generateCV()">
+            <i class="fas fa-external-link-alt"></i> Open PDF View
+        </button>
+        <button type="button" class="btn btn-green" id="btn-download-top" onclick="downloadCVPdf()">
+            <i class="fas fa-cloud-arrow-down"></i> Download PDF
+        </button>
+    </div>
+</header>
+
+<!-- Main Workspace -->
+<div class="app-layout">
     
-    <form id="cvForm">
-        <div class="section-box">
-            <div class="section-header"><h3>Main Header (Contact Info)</h3></div>
-            <div class="grid-2">
-                <div><label>Full Name</label><input type="text" id="userName" value="TELAYNEW AMBACHEW"></div>
-                <div><label>Job Title</label><input type="text" id="userTitle" value="AI and Data Engineer"></div>
+    <!-- Left Workspace: Form & Drag-and-Drop Columns -->
+    <div class="editor-container">
+
+        <!-- Explanation Guide -->
+        <div class="order-guide-banner">
+            <div>
+                <i class="fas fa-right-left" style="margin-right: 6px;"></i>
+                <strong>Drag & Drop to Swap:</strong> Dragging a section onto another section swaps them!
+                For example: drag <strong>Main 1</strong> onto <strong>Side 2</strong> and <strong>Side 2 is placed on Main 1</strong>.
             </div>
-            <label>Contacts</label>
-            <div id="contact-list">
-                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-phone"><input type="text" class="c-val" value="+251963391736"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
-                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-envelope"><input type="text" class="c-val" value="telaynew11@gmail.com"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
-                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fab fa-linkedin"><input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
-                <div class="row-item"><div class="grid-2"><input type="text" class="c-icon" value="fas fa-globe"><input type="text" class="c-val" value="https://telaynew.vercel.app"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button></div>
+            <div style="font-size:11px; color:#555; white-space:nowrap;">
+                <i class="fas fa-check-circle" style="color:var(--green)"></i> Auto-syncs to HTML & PDF
             </div>
-            <button type="button" class="btn-add" onclick="addContactField()">+ Add Contact Field</button>
         </div>
 
-        <div id="sections-container">
+        <!-- Personal Header Info Card -->
+        <div class="editor-card">
+            <div class="card-header-line">
+                <h3><i class="fas fa-id-card"></i> Main Header (Contact Info)</h3>
+            </div>
+            <div class="grid-2">
+                <div>
+                    <label>Full Name</label>
+                    <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview()">
+                </div>
+                <div>
+                    <label>Job Title</label>
+                    <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()">
+                </div>
+            </div>
+            
+            <label style="margin-top: 14px;">Contacts (Drag to reorder)</label>
+            <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fas fa-phone" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fas fa-envelope" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fab fa-linkedin" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+                <div class="row-item" style="padding:8px 10px;">
+                    <div style="display:flex;gap:10px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                        <input type="text" class="c-icon" value="fas fa-globe" placeholder="Icon (e.g. fas fa-globe)" style="width:140px;" oninput="updateLivePreview()">
+                        <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline" style="background:#eef3f8;color:var(--navy);border-color:#cbd5e0;margin-top:10px;" onclick="addContactField()">
+                <i class="fas fa-plus"></i> Add Contact Field
+            </button>
+        </div>
+
+        <!-- 2-Column Section Drag & Drop Grid -->
+        <div class="columns-grid">
+
+            <!-- MAIN COLUMN (Left - 1.7fr on CV) -->
+            <div class="column-panel main-panel" id="main-column-panel">
+                <div class="column-panel-header">
+                    <h4><i class="fas fa-align-left"></i> Main Column (Left - 1.7x)</h4>
+                    <span class="badge-count" id="main-count">2 Sections</span>
+                </div>
+                <div class="column-hint">
+                    Sections here appear on the <strong>top left</strong> (Main 1) and flow downwards (Main 2, Main 3). Drag sections up, down, or across to the Side column.
+                </div>
+
+                <!-- Main Dropzone -->
+                <div id="main-sections-container" class="sections-dropzone" data-col="main"></div>
+
+                <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'main', title:'NEW MAIN SECTION'})">
+                    <i class="fas fa-plus-circle"></i> Add Section to Main Column
+                </button>
             </div>
 
-        <button type="button" class="btn-add-section" onclick="addNewSection()">+ ADD NEW SECTION (Projects, Awards, etc.)</button>
-        <button type="button" class="generate-btn" onclick="generateCV()">Download Perfect 1-Page PDF</button>
-    </form>
+            <!-- SIDE COLUMN (Right - 1.0fr on CV) -->
+            <div class="column-panel side-panel" id="side-column-panel">
+                <div class="column-panel-header">
+                    <h4><i class="fas fa-align-right"></i> Side Column (Right - 1.0x)</h4>
+                    <span class="badge-count" id="side-count">4 Sections</span>
+                </div>
+                <div class="column-hint">
+                    Sections here appear on the <strong>top right</strong> (Side 1) and flow downwards (Side 2, Side 3). Drag sections up, down, or across to the Main column.
+                </div>
+
+                <!-- Side Dropzone -->
+                <div id="side-sections-container" class="sections-dropzone" data-col="side"></div>
+
+                <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'side', title:'NEW SIDE SECTION'})">
+                    <i class="fas fa-plus-circle"></i> Add Section to Side Column
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Bottom Action Buttons -->
+        <div style="display:flex; gap:15px; margin: 10px 0 30px 0;">
+            <button type="button" class="btn-add-section" onclick="addNewSection({col:'main', title:'NEW SECTION'})">
+                <i class="fas fa-plus"></i> + ADD NEW SECTION
+            </button>
+            <button type="button" class="generate-btn" id="btn-download-bottom" onclick="downloadCVPdf()">
+                <i class="fas fa-cloud-arrow-down"></i> Download PDF
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Right Workspace: Sticky Live Preview Pane -->
+    <div class="preview-pane" id="preview-pane-container">
+        <div class="preview-toolbar">
+            <div class="preview-toolbar-title">
+                <i class="fas fa-eye" style="color:var(--green)"></i>
+                <span>Live CV Preview (A4 Page)</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <button type="button" class="preview-zoom-btn" onclick="setZoom(0.5)">50%</button>
+                <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit" onclick="setZoom(0.62)">Fit</button>
+                <button type="button" class="preview-zoom-btn" onclick="setZoom(0.8)">80%</button>
+                <button type="button" class="preview-zoom-btn" onclick="setZoom(1.0)">100%</button>
+            </div>
+        </div>
+
+        <div class="preview-viewport" id="preview-viewport">
+            <div class="preview-page-wrapper" id="preview-wrapper">
+                <!-- Rendered CV Document for Live Preview & Export -->
+                <div id="cv-document" class="cv-render-box">
+                    <div class="header">
+                        <div class="title-block">
+                            <h1 id="preview-name">TELAYNEW AMBACHEW</h1>
+                            <h2 id="preview-title">AI and Data Engineer</h2>
+                        </div>
+                        <div class="contact-grid" id="preview-contacts"></div>
+                    </div>
+                    <div class="content">
+                        <div id="preview-main-content"></div>
+                        <div id="preview-side-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+<!-- Toast element -->
+<div id="toast"><i class="fas fa-check-circle" style="color:var(--green)"></i> <span id="toast-text">Order updated</span></div>
+
 <script>
-    // Initial data from your CV
+    // Initial data from the CV
     const initialSections = [
-        { title: "EXPERIENCE", col: "main", order: 1, items: [
-            { title: "Software Developer", date: "Apr 2026 - Aug 2026", sub: "IE Network Solutions | Addis Ababa", bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nDesigned REST APIs, service layers, validation pipelines, and reusable backend architecture.\nBuilt ticket management, SLA tracking, escalation workflows, and CRM automation features.\nDesigned optimized relational database schemas for operational reporting and analytics.\nIntegrated CRM and Service Desk modules through workflow automation.\nStandardized frontend-backend API contracts, improving development efficiency across teams.\nCollaborated with cross-functional teams to deliver production-ready enterprise software." },
-            { title: "AI & Data Engineer", date: "Jul 2025 - Apr 2026", sub: "Freelance", bullets: "Built enterprise AI assistants using Azure OpenAI to automate business processes and improve operational efficiency.\nDesigned and implemented Retrieval-Augmented Generation (RAG) systems with embedding pipelines, document chunking, and prompt engineering.\nDeveloped scalable backend services and REST APIs using FastAPI.\nIntegrated AI services with multiple internal and external REST APIs.\nDeployed and maintained production AI applications on Microsoft Azure.\nBuilt intelligent request-routing systems for AI, API, and hybrid workflows.\nImproved AI system performance by optimizing retrieval quality, latency, and response reliability." },
-            { title: "Full Stack Developer", date: "2024 - 2025", sub: "Freelance", bullets: "Designed and developed end-to-end web applications using React, Next.js, TypeScript, Express.js, and NestJS.\nBuilt scalable backend services, REST APIs, and secure authentication systems.\nDesigned PostgreSQL databases and optimized data models for business applications.\nDeveloped AI-powered features including document processing and workflow automation.\nIntegrated third-party APIs for authentication and external business services.\nDeployed applications to Microsoft Azure using modern cloud deployment practices.\nApplied clean architecture and modular design principles to build maintainable production systems." }
-        ]},
-        { title: "SUMMARY", col: "side", order: 1, items: [{ title: "", date: "", sub: "", bullets: "AI Software Engineer with hands-on experience designing, building, and deploying production-grade backend systems and AI-powered applications. Experienced in FastAPI, NestJS, React, TypeScript, Python, Azure, and Large Language Models (LLMs). Specialized in Retrieval-Augmented Generation (RAG), Azure OpenAI, REST APIs, workflow automation, and cloud deployment. Passionate about building scalable software that solves real business problems through reliable engineering and practical AI solutions." }] },
-        { title: "KEY PROJECTS", col: "side", order: 2, items: [
-            { title: "Enterprise CRM & Service Desk", date: "", sub: "IE Network Solutions", bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nImplemented ticket management, SLA tracking, workflow automation, and reporting features.\nDesigned scalable REST APIs and optimized relational database schemas." },
-            { title: "AI Enterprise Assistant (Copilot System)", date: "", sub: "IE Networks Solution", bullets: "Built LLM-powered assistant for automation and decision support.\nIntegrated multiple APIs with intelligent routing.\nEnabled task automation and business insights generation." },
-            { title: "Food Recipe AI Platform", date: "", sub: "Freelance", bullets: "Developed a full-stack AI-powered recipe recommendation platform.\nBuilt frontend using React/Next.js and backend with Node.js.\nIntegrated AI recommendations based on available ingredients and user preferences." }
-        ]},
-        { title: "EDUCATION", col: "side", order: 3, items: [{ title: "BSc in Computer Science", date: "2021 - 2024", sub: "University of Gondar", bullets: "Graduated with Honors." }] },
-        { title: "CERTIFICATION", col: "main", order: 3, items: [
-            { title: "DP 100 - Azure Data Science", date: "", sub: "Microsoft", bullets: "" },
-            { title: "Data Scientist", date: "", sub: "Datacamp", bullets: "" },
-            { title: "AI 102 Design AI Solution", date: "", sub: "Microsoft", bullets: "" }
-        ]},
-        { title: "SKILLS", col: "side", order: 4, items: [{ title: "", date: "", sub: "", bullets: "Python, TypeScript, JavaScript, FastAPI, NestJS, React, Next.js, Azure, Azure OpenAI, RAG, LangChain, REST APIs, PostgreSQL, Docker, Git, Linux" }] }
+        { 
+            title: "EXPERIENCE", 
+            col: "main", 
+            order: 1, 
+            items: [
+                { 
+                    title: "Software Developer", 
+                    date: "Apr 2026 - Aug 2026", 
+                    sub: "IE Network Solutions | Addis Ababa", 
+                    bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nDesigned REST APIs, service layers, validation pipelines, and reusable backend architecture.\nBuilt ticket management, SLA tracking, escalation workflows, and CRM automation features.\nDesigned optimized relational database schemas for operational reporting and analytics.\nIntegrated CRM and Service Desk modules through workflow automation.\nStandardized frontend-backend API contracts, improving development efficiency across teams.\nCollaborated with cross-functional teams to deliver production-ready enterprise software.",
+                    order: 1
+                },
+                { 
+                    title: "AI & Data Engineer", 
+                    date: "Jul 2025 - Apr 2026", 
+                    sub: "Freelance", 
+                    bullets: "Built enterprise AI assistants using Azure OpenAI to automate business processes and improve operational efficiency.\nDesigned and implemented Retrieval-Augmented Generation (RAG) systems with embedding pipelines, document chunking, and prompt engineering.\nDeveloped scalable backend services and REST APIs using FastAPI.\nIntegrated AI services with multiple internal and external REST APIs.\nDeployed and maintained production AI applications on Microsoft Azure.\nBuilt intelligent request-routing systems for AI, API, and hybrid workflows.\nImproved AI system performance by optimizing retrieval quality, latency, and response reliability.",
+                    order: 2
+                },
+                { 
+                    title: "Full Stack Developer", 
+                    date: "2024 - 2025", 
+                    sub: "Freelance", 
+                    bullets: "Designed and developed end-to-end web applications using React, Next.js, TypeScript, Express.js, and NestJS.\nBuilt scalable backend services, REST APIs, and secure authentication systems.\nDesigned PostgreSQL databases and optimized data models for business applications.\nDeveloped AI-powered features including document processing and workflow automation.\nIntegrated third-party APIs for authentication and external business services.\nDeployed applications to Microsoft Azure using modern cloud deployment practices.\nApplied clean architecture and modular design principles to build maintainable production systems.",
+                    order: 3
+                }
+            ]
+        },
+        { 
+            title: "SUMMARY", 
+            col: "side", 
+            order: 1, 
+            items: [
+                { 
+                    title: "", 
+                    date: "", 
+                    sub: "", 
+                    bullets: "AI Software Engineer with hands-on experience designing, building, and deploying production-grade backend systems and AI-powered applications. Experienced in FastAPI, NestJS, React, TypeScript, Python, Azure, and Large Language Models (LLMs). Specialized in Retrieval-Augmented Generation (RAG), Azure OpenAI, REST APIs, workflow automation, and cloud deployment. Passionate about building scalable software that solves real business problems through reliable engineering and practical AI solutions.",
+                    order: 1
+                }
+            ] 
+        },
+        { 
+            title: "KEY PROJECTS", 
+            col: "side", 
+            order: 2, 
+            items: [
+                { 
+                    title: "Enterprise CRM & Service Desk", 
+                    date: "", 
+                    sub: "IE Network Solutions", 
+                    bullets: "Developed CRM and Service Desk backend modules using NestJS and PostgreSQL.\nImplemented ticket management, SLA tracking, workflow automation, and reporting features.\nDesigned scalable REST APIs and optimized relational database schemas.",
+                    order: 1
+                },
+                { 
+                    title: "AI Enterprise Assistant (Copilot System)", 
+                    date: "", 
+                    sub: "IE Networks Solution", 
+                    bullets: "Built LLM-powered assistant for automation and decision support.\nIntegrated multiple APIs with intelligent routing.\nEnabled task automation and business insights generation.",
+                    order: 2
+                },
+                { 
+                    title: "Food Recipe AI Platform", 
+                    date: "", 
+                    sub: "Freelance", 
+                    bullets: "Developed a full-stack AI-powered recipe recommendation platform.\nBuilt frontend using React/Next.js and backend with Node.js.\nIntegrated AI recommendations based on available ingredients and user preferences.",
+                    order: 3
+                }
+            ]
+        },
+        { 
+            title: "EDUCATION", 
+            col: "side", 
+            order: 3, 
+            items: [
+                { 
+                    title: "BSc in Computer Science", 
+                    date: "2021 - 2024", 
+                    sub: "University of Gondar", 
+                    bullets: "Graduated with Honors.",
+                    order: 1
+                }
+            ] 
+        },
+        { 
+            title: "CERTIFICATION", 
+            col: "main", 
+            order: 2, 
+            items: [
+                { title: "DP 100 - Azure Data Science", date: "", sub: "Microsoft", bullets: "", order: 1 },
+                { title: "Data Scientist", date: "", sub: "Datacamp", bullets: "", order: 2 },
+                { title: "AI 102 Design AI solution", date: "", sub: "Microsoft", bullets: "", order: 3 }
+            ]
+        },
+        { 
+            title: "SKILLS", 
+            col: "side", 
+            order: 4, 
+            items: [
+                { 
+                    title: "", 
+                    date: "", 
+                    sub: "", 
+                    bullets: "Python, TypeScript, JavaScript, FastAPI, NestJS, React, Next.js, Azure, Azure OpenAI, RAG, LangChain, REST APIs, PostgreSQL, Docker, Git, Linux",
+                    order: 1
+                }
+            ] 
+        }
     ];
 
+    let allCollapsed = false;
+
+    // Toast notification
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-text').innerText = msg;
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // Zoom control
+    function setZoom(val) {
+        document.documentElement.style.setProperty('--preview-scale', val);
+        document.querySelectorAll('.preview-zoom-btn').forEach(b => b.classList.remove('active'));
+        if (window.event && window.event.target && window.event.target.classList.contains('preview-zoom-btn')) {
+            window.event.target.classList.add('active');
+        }
+    }
+
+    // Toggle Preview on mobile/smaller screens
+    function toggleMobilePreview() {
+        const pane = document.getElementById('preview-pane-container');
+        pane.classList.toggle('active-mobile');
+        const text = document.getElementById('mobile-toggle-text');
+        text.innerText = pane.classList.contains('active-mobile') ? 'Close' : 'Preview';
+    }
+
+    // Add Contact Field
     function addContactField(icon = "fas fa-link", val = "") {
         const div = document.createElement('div');
         div.className = 'row-item';
-        div.innerHTML = `<div class="grid-2"><input type="text" class="c-icon" value="${icon}"><input type="text" class="c-val" value="${val}"></div><button type="button" class="btn-remove" onclick="this.parentElement.remove()">×</button>`;
+        div.style.padding = '8px 10px';
+        div.innerHTML = `
+            <div style="display:flex;gap:10px;align-items:center;">
+                <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                <input type="text" class="c-icon" value="${icon}" style="width:140px;" oninput="updateLivePreview()">
+                <input type="text" class="c-val" value="${val}" style="flex-grow:1;" oninput="updateLivePreview()">
+                <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+            </div>
+        `;
         document.getElementById('contact-list').appendChild(div);
+        updateLivePreview();
     }
 
+    // Add Row Item inside a Section
     function addRow(containerId, data = {title:'', date:'', sub:'', bullets:'', order:1}) {
         const div = document.createElement('div');
         div.className = 'row-item';
         div.innerHTML = `
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
-                <span style="font-size:10px;font-weight:bold;color:#888;">Order:</span>
-                <input type="number" class="r-order" value="${data.order || 1}" style="width:50px;text-align:center;padding:4px;border:1px solid #ccc;border-radius:4px;">
-                <button type="button" class="btn-remove" style="position:static;margin-left:auto;" onclick="this.closest('.row-item').remove()">×</button>
-            </div>
-            <div class="grid-2"><input type="text" class="r-title" value="${data.title}" placeholder="Title"><input type="text" class="r-date" value="${data.date}" placeholder="Date"></div>
-            <input type="text" class="r-sub" value="${data.sub}" placeholder="Subtitle/Company">
-            <textarea class="r-bullets" rows="2" placeholder="Bullets">${data.bullets}</textarea>
-        `;
-        document.getElementById(containerId).appendChild(div);
-    }
-
-    function addNewSection(data = {title: "New Section", col: "main", order: 5, items: []}) {
-        const id = 'sec_' + Math.random().toString(36).substr(2, 9);
-        const div = document.createElement('div');
-        div.className = 'section-box';
-        div.setAttribute('data-id', id);
-        div.innerHTML = `
-            <div class="section-header">
-                <input type="text" class="sec-title-input" value="${data.title}">
-                <div class="controls-small">
-                    Order: <input type="number" class="sec-order" value="${data.order}">
-                    Col: <select class="sec-col">
-                        <option value="main" ${data.col==='main'?'selected':''}>Main</option>
-                        <option value="side" ${data.col==='side'?'selected':''}>Side</option>
-                    </select>
-                    <button type="button" class="btn-remove" style="position:static" onclick="this.closest('.section-box').remove()">×</button>
+            <div class="row-item-header">
+                <span class="row-drag-handle" title="Drag row to reorder"><i class="fas fa-grip-vertical"></i></span>
+                <span class="row-index-badge">#${data.order || 1}</span>
+                <span style="font-size:11px;font-weight:bold;color:#475569;" class="row-preview-title">${data.title || 'Entry Item'}</span>
+                <div class="row-item-actions">
+                    <input type="hidden" class="r-order" value="${data.order || 1}">
+                    <button type="button" class="btn-remove-row" title="Delete Row" onclick="const p = this.closest('.rows-container'); this.closest('.row-item').remove(); updateRowOrders(p); updateLivePreview();">×</button>
                 </div>
             </div>
-            <div id="rows_${id}"></div>
-            <button type="button" class="btn-add" onclick="addRow('rows_${id}', {order: (document.querySelectorAll('#rows_${id} .row-item').length + 1)})">+ Add Row</button>
+            <div class="grid-2">
+                <div>
+                    <label>Title / Role</label>
+                    <input type="text" class="r-title" value="${data.title || ''}" placeholder="e.g. Software Developer" oninput="this.closest('.row-item').querySelector('.row-preview-title').innerText = this.value || 'Entry Item'; updateLivePreview();">
+                </div>
+                <div>
+                    <label>Date Range</label>
+                    <input type="text" class="r-date" value="${data.date || ''}" placeholder="e.g. Apr 2026 - Aug 2026" oninput="updateLivePreview()">
+                </div>
+            </div>
+            <label>Subtitle / Company / Location</label>
+            <input type="text" class="r-sub" value="${data.sub || ''}" placeholder="e.g. Company | City" oninput="updateLivePreview()">
+            <label>Bullets / Description (One line per bullet, or paragraph)</label>
+            <textarea class="r-bullets" rows="2" placeholder="Enter bullet points (one per line)" oninput="updateLivePreview()">${data.bullets || ''}</textarea>
         `;
-        document.getElementById('sections-container').appendChild(div);
-        if(data.items.length > 0) {
+        const container = document.getElementById(containerId);
+        container.appendChild(div);
+        updateRowOrders(container);
+    }
+
+    // Update row indices
+    function updateRowOrders(container) {
+        if (!container) return;
+        const rows = container.querySelectorAll('.row-item');
+        rows.forEach((row, idx) => {
+            const num = idx + 1;
+            const badge = row.querySelector('.row-index-badge');
+            if (badge) badge.innerText = '#' + num;
+            const input = row.querySelector('.r-order');
+            if (input) input.value = num;
+        });
+    }
+
+    // Initialize Sortable for row items inside a section
+    function initRowSortable(containerId) {
+        const el = document.getElementById(containerId);
+        if (!el || typeof Sortable === 'undefined') return;
+        new Sortable(el, {
+            animation: 150,
+            handle: '.row-drag-handle',
+            ghostClass: 'sortable-ghost',
+            onEnd: function() {
+                updateRowOrders(el);
+                updateLivePreview();
+                showToast("Row order updated");
+            }
+        });
+    }
+
+    // Add New Section (Main or Side)
+    function addNewSection(data = {title: "NEW SECTION", col: "main", order: 1, items: []}) {
+        const id = 'sec_' + Math.random().toString(36).substr(2, 9);
+        const col = data.col === 'side' ? 'side' : 'main';
+        const targetContainer = document.getElementById(col === 'side' ? 'side-sections-container' : 'main-sections-container');
+        
+        const div = document.createElement('div');
+        div.className = `section-box is-${col}`;
+        div.setAttribute('data-id', id);
+        div.setAttribute('data-col', col);
+
+        div.innerHTML = `
+            <div class="section-header-bar">
+                <span class="drag-handle" title="Drag to reorder section or move between columns">
+                    <i class="fas fa-grip-vertical"></i>
+                </span>
+                <span class="sec-order-badge badge-${col}">${col === 'main' ? 'Main' : 'Side'} ${data.order || 1}</span>
+                <input type="text" class="sec-title-input" value="${data.title}" oninput="updateLivePreview()" title="Click to rename section">
+                <div class="sec-actions">
+                    <button type="button" class="sec-tool-btn" title="Move Up" onclick="moveSectionUp('${id}')">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                    <button type="button" class="sec-tool-btn" title="Move Down" onclick="moveSectionDown('${id}')">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <button type="button" class="sec-tool-btn" title="Switch Column (Main ⇄ Side)" onclick="switchSectionCol('${id}')">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                    <button type="button" class="sec-tool-btn" title="Collapse / Expand" onclick="toggleCollapseSection('${id}')">
+                        <i class="fas fa-angle-down collapse-icon"></i>
+                    </button>
+                    <button type="button" class="sec-tool-btn btn-del" title="Delete Section" onclick="deleteSection('${id}')">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="section-body">
+                <div class="sec-meta-row">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <label>Order:</label>
+                        <input type="number" class="sec-order" value="${data.order || 1}" min="1" onchange="onManualOrderChange('${id}', this.value)">
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <label>Column:</label>
+                        <select class="sec-col" onchange="onManualColChange('${id}', this.value)">
+                            <option value="main" ${col === 'main' ? 'selected' : ''}>Main (Left Column)</option>
+                            <option value="side" ${col === 'side' ? 'selected' : ''}>Side (Right Column)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="rows_${id}" class="rows-container"></div>
+
+                <button type="button" class="btn-add-row" onclick="addRow('rows_${id}', {order: (document.querySelectorAll('#rows_${id} .row-item').length + 1)}); updateLivePreview();">
+                    <i class="fas fa-plus"></i> Add Row Item
+                </button>
+            </div>
+        `;
+
+        targetContainer.appendChild(div);
+
+        // Add rows if present
+        if (data.items && data.items.length > 0) {
             data.items.forEach((item, idx) => {
-                if(!item.order) item.order = idx + 1;
-                addRow(`rows_${id}`, item)
+                if (!item.order) item.order = idx + 1;
+                addRow(`rows_${id}`, item);
             });
         } else {
-            addRow(`rows_${id}`);
+            addRow(`rows_${id}`, {title: "", date: "", sub: "", bullets: "", order: 1});
+        }
+
+        // Initialize sortable on the rows
+        initRowSortable(`rows_${id}`);
+
+        // Update orders & preview
+        updateAllOrders();
+        updateLivePreview();
+    }
+
+    // Toggle Collapse for a single section
+    function toggleCollapseSection(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        sec.classList.toggle('is-collapsed');
+        const icon = sec.querySelector('.collapse-icon');
+        if (icon) {
+            icon.className = sec.classList.contains('is-collapsed') ? 'fas fa-angle-right collapse-icon' : 'fas fa-angle-down collapse-icon';
         }
     }
 
-    // Load initial data
-    initialSections.forEach(s => addNewSection(s));
+    // Toggle Collapse for All sections
+    function toggleCollapseAll() {
+        allCollapsed = !allCollapsed;
+        document.querySelectorAll('.section-box').forEach(sec => {
+            if (allCollapsed) {
+                sec.classList.add('is-collapsed');
+                const icon = sec.querySelector('.collapse-icon');
+                if (icon) icon.className = 'fas fa-angle-right collapse-icon';
+            } else {
+                sec.classList.remove('is-collapsed');
+                const icon = sec.querySelector('.collapse-icon');
+                if (icon) icon.className = 'fas fa-angle-down collapse-icon';
+            }
+        });
+        document.getElementById('collapse-toggle-text').innerText = allCollapsed ? 'Expand Cards' : 'Collapse Cards';
+    }
 
-    function generateCV() {
-        const name = document.getElementById('userName').value;
-        const job = document.getElementById('userTitle').value;
-        const contacts = Array.from(document.querySelectorAll('#contact-list .row-item')).map(r => ({
-            icon: r.querySelector('.c-icon').value,
-            val: r.querySelector('.c-val').value
-        }));
+    // Move Section Up button
+    function moveSectionUp(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (sec && sec.previousElementSibling) {
+            sec.parentNode.insertBefore(sec, sec.previousElementSibling);
+            updateAllOrders();
+            updateLivePreview();
+            showToast("Moved up");
+        }
+    }
+
+    // Move Section Down button
+    function moveSectionDown(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (sec && sec.nextElementSibling) {
+            sec.parentNode.insertBefore(sec.nextElementSibling, sec);
+            updateAllOrders();
+            updateLivePreview();
+            showToast("Moved down");
+        }
+    }
+
+    // Switch Section Column button
+    function switchSectionCol(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        const currentCol = sec.getAttribute('data-col');
+        const newCol = currentCol === 'main' ? 'side' : 'main';
+        const targetContainer = document.getElementById(newCol === 'side' ? 'side-sections-container' : 'main-sections-container');
+        targetContainer.appendChild(sec);
+        updateAllOrders();
+        updateLivePreview();
+        showToast(`Moved to ${newCol.toUpperCase()} column`);
+    }
+
+    // Manual Column Change via Select
+    function onManualColChange(id, newCol) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        const targetContainer = document.getElementById(newCol === 'side' ? 'side-sections-container' : 'main-sections-container');
+        targetContainer.appendChild(sec);
+        updateAllOrders();
+        updateLivePreview();
+    }
+
+    // Manual Order Change via Input
+    function onManualOrderChange(id, newOrder) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        const parent = sec.parentNode;
+        const targetIdx = Math.max(0, parseInt(newOrder) - 1);
+        const siblings = Array.from(parent.children).filter(el => el !== sec);
+        if (targetIdx >= siblings.length) {
+            parent.appendChild(sec);
+        } else {
+            parent.insertBefore(sec, siblings[targetIdx]);
+        }
+        updateAllOrders();
+        updateLivePreview();
+    }
+
+    // Delete section
+    function deleteSection(id) {
+        const sec = document.querySelector(`.section-box[data-id="${id}"]`);
+        if (!sec) return;
+        if (confirm("Are you sure you want to delete this section?")) {
+            sec.remove();
+            updateAllOrders();
+            updateLivePreview();
+            showToast("Section deleted");
+        }
+    }
+
+    // Update all Section orders, badges, and attributes across both columns
+    function updateAllOrders() {
+        const mainContainer = document.getElementById('main-sections-container');
+        const sideContainer = document.getElementById('side-sections-container');
+
+        // Main Column Sections
+        const mainBoxes = mainContainer.querySelectorAll('.section-box');
+        mainBoxes.forEach((box, idx) => {
+            const num = idx + 1;
+            box.setAttribute('data-col', 'main');
+            box.className = 'section-box is-main' + (box.classList.contains('is-collapsed') ? ' is-collapsed' : '');
+            
+            const badge = box.querySelector('.sec-order-badge');
+            if (badge) {
+                badge.className = 'sec-order-badge badge-main';
+                badge.innerText = `Main ${num}`;
+            }
+            const orderInput = box.querySelector('.sec-order');
+            if (orderInput) orderInput.value = num;
+            const colSelect = box.querySelector('.sec-col');
+            if (colSelect) colSelect.value = 'main';
+        });
+        document.getElementById('main-count').innerText = `${mainBoxes.length} Section${mainBoxes.length === 1 ? '' : 's'}`;
+
+        // Side Column Sections
+        const sideBoxes = sideContainer.querySelectorAll('.section-box');
+        sideBoxes.forEach((box, idx) => {
+            const num = idx + 1;
+            box.setAttribute('data-col', 'side');
+            box.className = 'section-box is-side' + (box.classList.contains('is-collapsed') ? ' is-collapsed' : '');
+            
+            const badge = box.querySelector('.sec-order-badge');
+            if (badge) {
+                badge.className = 'sec-order-badge badge-side';
+                badge.innerText = `Side ${num}`;
+            }
+            const orderInput = box.querySelector('.sec-order');
+            if (orderInput) orderInput.value = num;
+            const colSelect = box.querySelector('.sec-col');
+            if (colSelect) colSelect.value = 'side';
+        });
+        document.getElementById('side-count').innerText = `${sideBoxes.length} Section${sideBoxes.length === 1 ? '' : 's'}`;
+    }
+
+    // Extract structured data from DOM
+    function getCVData() {
+        const nameEl = document.getElementById('userName');
+        const jobEl = document.getElementById('userTitle');
+        const name = nameEl ? nameEl.value : 'TELAYNEW AMBACHEW';
+        const job = jobEl ? jobEl.value : 'AI and Data Engineer';
+        
+        const contacts = Array.from(document.querySelectorAll('#contact-list .row-item')).map(r => {
+            const iconEl = r.querySelector('.c-icon');
+            const valEl = r.querySelector('.c-val');
+            return {
+                icon: iconEl ? iconEl.value : 'fas fa-link',
+                val: valEl ? valEl.value : ''
+            };
+        });
 
         const sectionNodes = document.querySelectorAll('.section-box[data-id]');
         const sectionData = Array.from(sectionNodes).map(node => {
-            const rows = Array.from(node.querySelectorAll('.row-item'))
+            const rows = Array.from(node.querySelectorAll('.rows-container .row-item'))
                 .sort((a, b) => {
-                    const oA = parseInt(a.querySelector('.r-order').value) || 999;
-                    const oB = parseInt(b.querySelector('.r-order').value) || 999;
+                    const orderA = a.querySelector('.r-order');
+                    const orderB = b.querySelector('.r-order');
+                    const oA = orderA ? parseInt(orderA.value) || 999 : 999;
+                    const oB = orderB ? parseInt(orderB.value) || 999 : 999;
                     return oA - oB;
                 })
                 .map(row => {
-                    const rt = row.querySelector('.r-title').value;
-                    const rd = row.querySelector('.r-date').value;
-                    const rs = row.querySelector('.r-sub').value;
-                    const rb = row.querySelector('.r-bullets').value.split('\n').filter(b=>b.trim()).map(b=>`<li>${b}</li>`).join('');
-                    return `<div style="margin-bottom:6px;">
-                        <div style="display:flex;justify-content:space-between;color:#1a3c5e;font-size:9pt;"><strong>${rt}</strong><span>${rd}</span></div>
-                        ${rs?`<div style="font-weight:bold;font-size:8pt;color:#555;margin-top:1px;">${rs}</div>`:''}
-                        ${rb?`<ul style="margin:1px 0 0 15px;padding:0;font-size:8pt;line-height:1.2;">${rb}</ul>` : ''}
+                    const rtEl = row.querySelector('.r-title');
+                    const rdEl = row.querySelector('.r-date');
+                    const rsEl = row.querySelector('.r-sub');
+                    const rbEl = row.querySelector('.r-bullets');
+
+                    const rt = rtEl ? rtEl.value.trim() : '';
+                    const rd = rdEl ? rdEl.value.trim() : '';
+                    const rs = rsEl ? rsEl.value.trim() : '';
+                    const rb = rbEl ? rbEl.value
+                        .split('\n')
+                        .filter(b => b.trim())
+                        .map(b => `<li>${b}</li>`)
+                        .join('') : '';
+                    
+                    const hasTitleLine = rt || rd;
+                    return `<div class="entry-item" style="margin-bottom:6px;">
+                        ${hasTitleLine ? `<div class="entry-title-row" style="display:flex;justify-content:space-between;color:#1a3c5e;font-size:9pt;font-weight:bold;"><strong>${rt}</strong><span>${rd}</span></div>` : ''}
+                        ${rs ? `<div class="entry-sub" style="font-weight:bold;font-size:8pt;color:#555;margin-top:1px;">${rs}</div>` : ''}
+                        ${rb ? `<ul style="margin:1px 0 0 15px;padding:0;font-size:8pt;line-height:1.2;">${rb}</ul>` : ''}
                     </div>`;
                 }).join('');
+
+            const titleEl = node.querySelector('.sec-title-input');
+            const orderEl = node.querySelector('.sec-order');
+            const colEl = node.querySelector('.sec-col');
+
             return { 
-                title: node.querySelector('.sec-title-input').value,
-                order: parseInt(node.querySelector('.sec-order').value),
-                col: node.querySelector('.sec-col').value,
+                title: titleEl ? titleEl.value : 'SECTION',
+                order: orderEl ? parseInt(orderEl.value) || 1 : 1,
+                col: node.getAttribute('data-col') || (colEl ? colEl.value : 'main'),
                 html: rows
             };
         });
 
-        const mainHtml = sectionData.filter(s=>s.col==='main').sort((a,b)=>a.order-b.order).map(s=>`<div class="stitle">${s.title}</div>${s.html}`).join('');
-        const sideHtml = sectionData.filter(s=>s.col==='side').sort((a,b)=>a.order-b.order).map(s=>`<div class="stitle">${s.title}</div>${s.html}`).join('');
+        // Filter and sort sections: Main (Left) and Side (Right)
+        const mainSections = sectionData.filter(s => s.col === 'main').sort((a, b) => a.order - b.order);
+        const sideSections = sectionData.filter(s => s.col === 'side').sort((a, b) => a.order - b.order);
 
-        const cvHtml = `
-        <html><head>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>
-            <style>
-                /* CRITICAL FIX: Global Reset to remove all white space */
-                * { margin: 0; padding: 0; box-sizing: border-box; }
-                @page { size: A4; margin: 0; }
-                body { margin: 0; padding: 0; width: 210mm; height: 297mm; background: white; font-family: sans-serif; overflow: hidden; }
-                
-                #page-container { width: 210mm; height: 297mm; position: relative; background: white; overflow: hidden; }
-                
-                /* FIXED HEADER: Absolute positioning to touch the left, top, and right edges exactly */
-                .header { 
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 210mm; 
-                    background: #1a3c5e; 
-                    color: white; 
-                    padding: 35px 50px 30px 50px; 
-                    margin: 0;
-                    z-index: 0;
-                }
-                
-                .content { padding-top: 180px; padding-left: 50px; padding-right: 50px; padding-bottom: 20px; display: grid; grid-template-columns: 1.7fr 1fr; gap: 25px; position: relative; z-index: 1; max-height: calc(297mm - 180px); overflow: hidden; }
-                .content > div { page-break-inside: avoid; break-inside: avoid; }
-                .title-block h1 { font-size: 28pt; text-transform: uppercase; margin: 0; line-height: 1.1; }
-                .title-block h2 { font-size: 14pt; opacity: 0.9; font-weight: 300; margin-top: 3px; }
-                .contact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; font-size: 8pt; margin-top: 15px; }
-                .stitle { font-size: 11pt; font-weight: bold; color: #1a3c5e; text-transform: uppercase; border-bottom: 2px solid #1a3c5e; margin: 10px 0 6px 0; padding-bottom: 2px; page-break-after: avoid; break-after: avoid; }
-                #dl-trigger { position: fixed; bottom: 30px; right: 30px; background: #27ae60; color: white; padding: 15px 25px; border-radius: 50px; cursor: pointer; border: none; font-weight: bold; z-index: 9999; }
-            </style>
-        </head>
-        <body>
-            <button id="dl-trigger" onclick="downloadPDF()">Download PDF Now</button>
-            <div id="page-container">
-                <div class="header">
-                    <div class="title-block">
-                        <h1>${name}</h1>
-                        <h2>${job}</h2>
-                    </div>
-                    <div class="contact-grid">
-                        ${contacts.map(c=>`<span><i class="${c.icon}"></i> ${c.val}</span>`).join('')}
-                    </div>
-                </div>
-                <div class="content">
-                    <div>${mainHtml}</div>
-                    <div>${sideHtml}</div>
-                </div>
+        const mainHtml = mainSections.map(s => `<div class="stitle">${s.title}</div>${s.html}`).join('');
+        const sideHtml = sideSections.map(s => `<div class="stitle">${s.title}</div>${s.html}`).join('');
+
+        return { name, job, contacts, mainHtml, sideHtml };
+    }
+
+    // Update the live preview pane immediately
+    function updateLivePreview() {
+        const data = getCVData();
+        const pName = document.getElementById('preview-name');
+        const pTitle = document.getElementById('preview-title');
+        const pContacts = document.getElementById('preview-contacts');
+        const pMain = document.getElementById('preview-main-content');
+        const pSide = document.getElementById('preview-side-content');
+
+        if (pName) pName.innerText = data.name;
+        if (pTitle) pTitle.innerText = data.job;
+        if (pContacts) pContacts.innerHTML = data.contacts.map(c => `<span>${c.icon ? `<i class="${c.icon}"></i>` : ''} ${c.val}</span>`).join('');
+        if (pMain) pMain.innerHTML = data.mainHtml;
+        if (pSide) pSide.innerHTML = data.sideHtml;
+    }
+
+            // Authoritative CV Document HTML & CSS Generator (Used identically by Live Preview, Open PDF View, and Direct Download)
+    function generateCVDocumentHtml(data) {
+        return `
+    <div id="page-container" class="cv-page-container">
+        <style>
+            #page-container,
+            .cv-page-container {
+                width: 210mm;
+                min-height: 297mm;
+                position: relative;
+                background: #ffffff;
+                box-sizing: border-box;
+                font-family: sans-serif;
+                color: #000000;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            .cv-page-container * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            #page-container .header,
+            .cv-page-container .header {
+                position: absolute;
+                top: 0;
+                left: -2px;
+                right: -2px;
+                width: calc(100% + 4px);
+                background: #1a3c5e;
+                color: white;
+                padding: 35px 50px 30px 50px;
+                margin: 0;
+                z-index: 10;
+                box-sizing: border-box;
+            }
+            .cv-page-container .title-block h1 {
+                font-size: 28pt;
+                text-transform: uppercase;
+                margin: 0;
+                line-height: 1.1;
+                font-weight: bold;
+                color: white;
+                font-family: sans-serif;
+            }
+            .cv-page-container .title-block h2 {
+                font-size: 14pt;
+                opacity: 0.9;
+                font-weight: 300;
+                margin-top: 3px;
+                color: white;
+                font-family: sans-serif;
+            }
+            .cv-page-container .contact-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                font-size: 8pt;
+                margin-top: 15px;
+                color: white;
+            }
+            .cv-page-container .contact-grid span {
+                display: inline-flex;
+                align-items: flex-start;
+                gap: 6px;
+                word-break: break-all;
+                line-height: 1.25;
+            }
+            .cv-page-container .contact-grid span i {
+                margin-top: 1px;
+                flex-shrink: 0;
+            }
+            .cv-page-container .content {
+                padding-top: 180px;
+                padding-left: 50px;
+                padding-right: 50px;
+                padding-bottom: 20px;
+                display: grid;
+                grid-template-columns: 1.7fr 1fr;
+                gap: 25px;
+                position: relative;
+                z-index: 1;
+                min-height: calc(297mm - 180px);
+                box-sizing: border-box;
+            }
+            .cv-page-container .stitle {
+                font-size: 11pt;
+                font-weight: bold;
+                color: #1a3c5e;
+                text-transform: uppercase;
+                border-bottom: 2px solid #1a3c5e;
+                margin: 10px 0 6px 0;
+                padding-bottom: 2px;
+                page-break-after: avoid;
+                break-after: avoid;
+                font-family: sans-serif;
+            }
+            .cv-page-container .entry-item {
+                margin-bottom: 6px;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .cv-page-container .entry-title-row {
+                display: flex;
+                justify-content: space-between;
+                color: #1a3c5e;
+                font-size: 9pt;
+                font-weight: bold;
+            }
+            .cv-page-container .entry-sub {
+                font-weight: bold;
+                font-size: 8pt;
+                color: #555;
+                margin-top: 1px;
+            }
+            .cv-page-container ul {
+                margin: 1px 0 0 15px;
+                padding: 0;
+                font-size: 8pt;
+                line-height: 1.2;
+                color: #000;
+            }
+        </style>
+        <div class="header">
+            <div class="title-block">
+                <h1>${data.name}</h1>
+                <h2>${data.job}</h2>
             </div>
-            <script>
-                function downloadPDF() {
-                    const el = document.getElementById('page-container');
-                    const btn = document.getElementById('dl-trigger');
-                    btn.style.display = 'none';
-                    // Use a 0 margin array to ensure the engine doesn't inject white space
-                    const opt = { 
-                        margin: [0, 0, 0, 0], 
-                        filename: 'Telaynew_Ambachew_CV (78).pdf', 
-                        html2canvas: { scale: 4, useCORS: true }, 
-                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-                    };
-                    html2pdf().set(opt).from(el).save().then(() => btn.style.display = 'block');
+            <div class="contact-grid">
+                ${data.contacts.map(c => `<span>${c.icon ? `<i class="${c.icon}"></i>` : ''} ${c.val}</span>`).join('')}
+            </div>
+        </div>
+        <div class="content">
+            <div>${data.mainHtml}</div>
+            <div>${data.sideHtml}</div>
+        </div>
+    </div>`;
+    }
+
+    // Unified Robust PDF Export Engine (Accurately outputs 1 page if 1 page, 2 pages if 2 pages)
+    function executePdfExport(targetElement, filename) {
+        const opt = { 
+            margin: [0, 0, 0, 0], 
+            filename: filename, 
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 4, useCORS: true, logging: false, scrollX: 0, scrollY: 0 }, 
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['css', 'legacy'] }
+        };
+
+        let targetPages = 1;
+        const worker = html2pdf().set(opt).from(targetElement);
+
+        return worker.toContainer().then(function() {
+            // Anchor container strictly to (0,0) without subpixel fractional margins
+            if (this.prop.container) {
+                this.prop.container.style.left = '0px';
+                this.prop.container.style.right = 'auto';
+                this.prop.container.style.margin = '0px';
+            }
+            if (this.prop.overlay) {
+                this.prop.overlay.style.left = '0px';
+                this.prop.overlay.style.top = '0px';
+            }
+        }).toCanvas().then(function() {
+            const canvas = this.prop.canvas;
+            if (canvas) {
+                const a4Ratio = 297 / 210;
+                const pageCanvasH = Math.round(canvas.width * a4Ratio);
+
+                // Compute exact page count based on content height
+                const rawPages = canvas.height / pageCanvasH;
+                const basePages = Math.floor(rawPages);
+                const overflowPx = canvas.height - (basePages * pageCanvasH);
+
+                // If content overflows by more than 45 canvas pixels (~15 screen pixels), it belongs on a real next page!
+                targetPages = basePages;
+                if (overflowPx > 45 || basePages === 0) {
+                    targetPages = basePages + 1;
                 }
-            <\/script>
-        </body></html>`;
+
+                const targetTotalCanvasH = targetPages * pageCanvasH;
+
+                // If canvas has minor sub-pixel overflow past target boundary, clamp it to prevent blank page
+                if (canvas.height > targetTotalCanvasH && (canvas.height - targetTotalCanvasH) <= 45) {
+                    const trimmed = document.createElement('canvas');
+                    trimmed.width = canvas.width;
+                    trimmed.height = targetTotalCanvasH;
+                    const ctx = trimmed.getContext('2d');
+                    ctx.drawImage(canvas, 0, 0);
+                    this.prop.canvas = trimmed;
+                } else if (canvas.height < targetTotalCanvasH) {
+                    // Pad canvas to full A4 page boundary with crisp white background
+                    const padded = document.createElement('canvas');
+                    padded.width = canvas.width;
+                    padded.height = targetTotalCanvasH;
+                    const ctx = padded.getContext('2d');
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, padded.width, padded.height);
+                    ctx.drawImage(canvas, 0, 0);
+                    this.prop.canvas = padded;
+                }
+            }
+        }).toPdf().then(function() {
+            const pdf = this.prop.pdf;
+            // Prune any extraneous blank pages beyond the actual content page count
+            while (pdf && pdf.internal && pdf.internal.getNumberOfPages() > targetPages) {
+                pdf.deletePage(pdf.internal.getNumberOfPages());
+            }
+        }).save();
+    }
+
+    // Open Dedicated PDF View (Displays full document and supports 1 or multiple pages)
+    function generateCV(autoDownload = false) {
+        const data = getCVData();
+        const safeName = (data.name || 'CV').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${safeName}_CV.pdf`;
+        const docHtml = generateCVDocumentHtml(data);
+
+        const cvHtml = `<!DOCTYPE html>
+<html><head>
+    <meta charset="UTF-8">
+    <title>${data.name} - CV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="html2pdf.bundle.min.js"><\/script>
+    <script>
+        if (typeof html2pdf === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\\/script>');
+        }
+    <\/script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @page { size: A4; margin: 0; }
+        body { 
+            margin: 0; 
+            padding: 0; 
+            width: 210mm; 
+            background: white; 
+            font-family: sans-serif; 
+        }
+        #page-container, .cv-page-container {
+            margin: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            width: 210mm !important;
+            overflow: hidden !important;
+        }
+        #dl-trigger { 
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            background: #27ae60; 
+            color: white; 
+            padding: 15px 25px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            border: none; 
+            font-weight: bold; 
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 15px;
+            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #dl-trigger:hover { background: #219653; }
+        @media print {
+            body { background: white; padding: 0; }
+            #dl-trigger { display: none !important; }
+            .cv-page-container { box-shadow: none !important; margin: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+    <button id="dl-trigger" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF Now</button>
+    ${docHtml}
+    <script>
+        ${executePdfExport.toString()}
+
+        function downloadPDF() {
+            const el = document.querySelector('.cv-page-container');
+            const btn = document.getElementById('dl-trigger');
+            if (btn) btn.style.display = 'none';
+
+            executePdfExport(el, '${filename}').then(function() {
+                if (btn) btn.style.display = 'flex';
+            }).catch(function(err) {
+                console.error("PDF generation error:", err);
+                if (btn) btn.style.display = 'flex';
+            });
+        }
+
+        window.addEventListener('load', function() {
+            if (${autoDownload}) {
+                setTimeout(downloadPDF, 400);
+            }
+        });
+    <\/script>
+</body></html>`;
 
         const win = window.open('', '_blank');
+        if (!win) {
+            alert("Popup blocked! Please allow popups or use the direct 'Download PDF' button.");
+            return;
+        }
+        win.document.open();
         win.document.write(cvHtml);
         win.document.close();
+    }
+
+    // Direct Download PDF from main page (100% identical styling and page count as Open PDF View)
+    function downloadCVPdf() {
+        const topBtn = document.getElementById('btn-download-top');
+        const bottomBtn = document.getElementById('btn-download-bottom');
+        const originalTopText = topBtn ? topBtn.innerHTML : '';
+        const originalBottomText = bottomBtn ? bottomBtn.innerHTML : '';
+
+        if (topBtn) { topBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Generating PDF...`; topBtn.disabled = true; }
+        if (bottomBtn) { bottomBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Generating PDF...`; bottomBtn.disabled = true; }
+
+        function cleanup() {
+            if (topBtn) { topBtn.innerHTML = originalTopText; topBtn.disabled = false; }
+            if (bottomBtn) { bottomBtn.innerHTML = originalBottomText; bottomBtn.disabled = false; }
+        }
+
+        updateLivePreview();
+        const data = getCVData();
+        const safeName = (data.name || 'CV').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${safeName}_CV.pdf`;
+
+        // Save current scroll position and scroll to top to prevent html2canvas capturing viewport offsets
+        const prevScrollX = window.scrollX || window.pageXOffset || 0;
+        const prevScrollY = window.scrollY || window.pageYOffset || 0;
+        window.scrollTo(0, 0);
+
+        // Create an unscaled standalone export container to guarantee 100% fidelity without transform/offset issues
+        const exportContainer = document.createElement('div');
+        exportContainer.id = 'direct-pdf-export-container';
+        exportContainer.style.position = 'absolute';
+        exportContainer.style.top = '0px';
+        exportContainer.style.left = '0px';
+        exportContainer.style.width = '210mm';
+        exportContainer.style.zIndex = '9999999';
+        exportContainer.style.background = '#ffffff';
+        exportContainer.style.margin = '0';
+        exportContainer.style.padding = '0';
+
+        // Insert the EXACT same document HTML used in Open PDF View
+        exportContainer.innerHTML = generateCVDocumentHtml(data);
+        document.body.appendChild(exportContainer);
+
+        const targetEl = exportContainer.querySelector('.cv-page-container');
+
+        executePdfExport(targetEl, filename).then(function() {
+            exportContainer.remove();
+            window.scrollTo(prevScrollX, prevScrollY);
+            cleanup();
+            showToast("PDF downloaded successfully!");
+        }).catch(function(err) {
+            console.error("Direct html2pdf error:", err);
+            exportContainer.remove();
+            window.scrollTo(prevScrollX, prevScrollY);
+            cleanup();
+            // Seamless fallback to popup generator with auto-download
+            generateCV(true);
+        });
+    }
+
+let lastSwapTarget = null;
+
+    // Initialize SortableJS for Main & Side Columns, and Contacts
+    function initDragAndDrop() {
+        if (typeof Sortable === 'undefined') {
+            console.warn("SortableJS not loaded yet, retrying...");
+            setTimeout(initDragAndDrop, 300);
+            return;
+        }
+
+        const mainEl = document.getElementById('main-sections-container');
+        const sideEl = document.getElementById('side-sections-container');
+        const contactsEl = document.getElementById('contact-list');
+
+        const sortableSectionConfig = {
+            group: 'sections-group',
+            swap: true,
+            swapClass: 'sortable-swap-highlight',
+            animation: 180,
+            handle: '.drag-handle',
+            draggable: '.section-box',
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            dragClass: 'sortable-drag',
+            onMove: function(evt) {
+                if (evt.related && evt.related.classList && evt.related.classList.contains('section-box')) {
+                    lastSwapTarget = evt.related;
+                }
+                return true;
+            },
+            onEnd: function(evt) {
+                // If Sortable's built-in swap didn't swap elements across containers, perform swap fallback:
+                if (!evt.swapItem && lastSwapTarget && evt.from !== evt.to && lastSwapTarget !== evt.item) {
+                    const fromContainer = evt.from;
+                    const toContainer = evt.to;
+                    const dragged = evt.item;
+                    const target = lastSwapTarget;
+                    
+                    if (target.parentNode === toContainer && dragged.parentNode === toContainer) {
+                        fromContainer.insertBefore(target, fromContainer.children[evt.oldIndex] || null);
+                    }
+                }
+                lastSwapTarget = null;
+
+                updateAllOrders();
+                updateLivePreview();
+                showToast("Sections swapped!");
+            }
+        };
+
+        new Sortable(mainEl, sortableSectionConfig);
+        new Sortable(sideEl, sortableSectionConfig);
+
+        // Drag and drop contacts
+        new Sortable(contactsEl, {
+            animation: 150,
+            handle: '.contact-drag-handle',
+            ghostClass: 'sortable-ghost',
+            onEnd: function() {
+                updateLivePreview();
+                showToast("Contact order updated");
+            }
+        });
+    }
+
+    // Initialize the page with initial sections
+    function initPage() {
+        const mainContainer = document.getElementById('main-sections-container');
+        const sideContainer = document.getElementById('side-sections-container');
+        if (!mainContainer || !sideContainer) return;
+
+        // Prevent duplicate initialization
+        if (mainContainer.children.length > 0 || sideContainer.children.length > 0) {
+            updateAllOrders();
+            updateLivePreview();
+            return;
+        }
+
+        // Group sections by column and sort by order
+        const mainSecs = initialSections.filter(s => s.col === 'main').sort((a,b) => a.order - b.order);
+        const sideSecs = initialSections.filter(s => s.col === 'side').sort((a,b) => a.order - b.order);
+
+        mainSecs.forEach((s, idx) => { s.order = idx + 1; addNewSection(s); });
+        sideSecs.forEach((s, idx) => { s.order = idx + 1; addNewSection(s); });
+
+        initDragAndDrop();
+        updateAllOrders();
+        updateLivePreview();
+    }
+
+    // Run initialization immediately if DOM is ready, or on DOMContentLoaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPage);
+    } else {
+        initPage();
     }
 </script>
 </body>

@@ -1,0 +1,9 @@
+# Environment variables and secrets
+.env
+.env.*
+*.env
+
+# Temporary and scratch directories
+scratch/
+.cursor-mini/
+.freebuff/
