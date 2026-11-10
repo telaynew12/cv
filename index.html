@@ -26,6 +26,1706 @@
 
     <style>
 /* ═══════════════════════════════════════════════════════════════════════════
+   CV STUDIO - EXACT SAAS DESIGN (MATCHING UPLOADED SCREENSHOTS)
+   Left: Slim Rail (56px) + Collapsible Sub-Sidebar (200px)
+   Top: Crisp White Bar (64px)
+   Center: Floating White Cards on #F8F9FA Canvas
+   Right: Floating A4 Live Document Preview with Top-Right Capsule Zoom
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* Rail & Sidebar */
+    --rail-bg: #091122;
+    --sub-sidebar-bg: #0b1426;
+    --rail-hover: #16243d;
+    --rail-active: #1e293b;
+
+    --blue-primary: #2563EB;
+    --blue-hover: #1d4ed8;
+    --blue-tint: #EFF6FF;
+
+    --green-primary: #10B981;
+    --green-tint: #ECFDF5;
+
+    --canvas-bg: #F8F9FA;
+    --card-bg: #FFFFFF;
+    --input-bg: #F3F4F6;
+
+    --text-primary: #111827;
+    --text-secondary: #374151;
+    --text-muted: #6B7280;
+    --text-light: #9CA3AF;
+
+    --border-light: #E5E7EB;
+    --border-subtle: #F1F5F9;
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    --header-height: 64px;
+    --rail-width: 56px;
+    --sub-sidebar-width: 200px;
+    --preview-scale: 0.62;
+
+    /* Legacy compatibility */
+    --navy: #173B5E;
+    --green: #10B981;
+    --red: #EF4444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--canvas-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. EXPANDABLE / COLLAPSIBLE SIDEBAR SYSTEM
+   ═══════════════════════════════════════════════════════════════════════════ */
+.sidebar-system {
+    display: flex;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+}
+
+/* Slim Dark Rail (56px) */
+.app-rail {
+    width: var(--rail-width);
+    background: var(--rail-bg);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    flex-shrink: 0;
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.rail-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+}
+
+.rail-logo {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #2563EB 0%, #1d4ed8 100%);
+    color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    transition: transform 0.15s;
+}
+
+.rail-logo:hover {
+    transform: scale(1.05);
+}
+
+.rail-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.rail-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.rail-btn:hover {
+    background: var(--rail-hover);
+    color: #ffffff;
+}
+
+.rail-btn.active {
+    background: var(--rail-active);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.rail-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.rail-user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+.rail-user-avatar:hover {
+    color: #ffffff;
+}
+
+/* Floating expand trigger button when collapsed (matches image 2) */
+.rail-expand-trigger {
+    display: none;
+    position: absolute;
+    right: -13px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    color: #4b5563;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    z-index: 1001;
+    transition: all 0.18s;
+}
+
+.rail-expand-trigger:hover {
+    background: var(--blue-primary);
+    color: #ffffff;
+    border-color: var(--blue-primary);
+    transform: translateY(-50%) scale(1.08);
+}
+
+/* Collapsible Sub-Sidebar (200px, matches image 1) */
+.sub-sidebar {
+    width: var(--sub-sidebar-width);
+    background: var(--sub-sidebar-bg);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.sub-sidebar-header {
+    height: var(--header-height);
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sub-sidebar-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.2px;
+}
+
+.sub-sidebar-collapse-btn {
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.15s;
+}
+
+.sub-sidebar-collapse-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.sub-sidebar-content {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sub-nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sub-nav-heading {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #64748b;
+    padding: 0 8px 4px 8px;
+}
+
+.sub-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+}
+
+.sub-nav-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+.sub-nav-item.active {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.sub-nav-item i {
+    width: 14px;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+.sub-nav-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--blue-primary);
+    background: rgba(37, 99, 235, 0.18);
+    padding: 1px 7px;
+    border-radius: var(--radius-full);
+}
+
+.sub-nav-add-btn {
+    width: 100%;
+    margin-top: 6px;
+    padding: 7px 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+}
+
+.sub-nav-add-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.sub-nav-specs {
+    margin-top: 8px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+}
+
+.sub-nav-specs i {
+    font-size: 16px;
+    color: #64748b;
+}
+
+/* Collapsed Sidebar State */
+.sidebar-system.collapsed .sub-sidebar {
+    width: 0;
+    opacity: 0;
+    border-right: none;
+    pointer-events: none;
+}
+
+.sidebar-system.collapsed .rail-expand-trigger {
+    display: flex;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. MAIN APPLICATION CONTAINER (Right of Sidebar)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 100vh;
+    background: var(--canvas-bg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. TOP NAVIGATION (AIRY, MODERN, WHITE #FFFFFF - 64px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-header {
+    height: var(--header-height);
+    background: #FFFFFF;
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.doc-name-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doc-title-input {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    border: none;
+    background: transparent;
+    padding: 4px 6px;
+    border-radius: 6px;
+    outline: none;
+    cursor: text;
+    transition: background 0.15s;
+    font-family: inherit;
+    width: 230px;
+}
+
+.doc-title-input:hover {
+    background: #F3F4F6;
+}
+
+.doc-title-input:focus {
+    background: #FFFFFF;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.doc-edit-icon {
+    font-size: 13px;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.save-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 3px 10px;
+    background: #F3F4F6;
+    border-radius: var(--radius-full);
+}
+
+.save-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-primary);
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-template-selector {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 5px 12px;
+}
+
+.header-template-selector i {
+    color: var(--blue-primary);
+    font-size: 13px;
+}
+
+.header-template-selector label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin: 0;
+    text-transform: none;
+}
+
+.header-template-selector select {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 12.5px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-light-bordered {
+    background: #FFFFFF;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+}
+
+.btn-light-bordered:hover {
+    background: #F9FAFB;
+    color: var(--text-primary);
+    border-color: #D1D5DB;
+}
+
+.btn-download-primary {
+    background: var(--blue-primary);
+    color: #FFFFFF;
+    border: none;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.btn-download-primary:hover {
+    background: var(--blue-hover);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+    transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. TWO-PANEL WORKSPACE (Center Editor + Right Preview)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 440px;
+    gap: 24px;
+    padding: 24px 28px 48px 28px;
+    width: 100%;
+    margin: 0;
+    background: var(--canvas-bg);
+}
+
+@media (max-width: 1100px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+    .preview-pane {
+        display: none !important;
+    }
+    .preview-pane.active-mobile {
+        display: flex !important;
+        position: fixed;
+        inset: 64px 8px 8px 8px;
+        height: auto;
+        z-index: 9999;
+        border-radius: var(--radius-lg);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. CENTER EDITOR CANVAS (Light Gray #F8F9FA, Ample Whitespace)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.editor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Main Header Card */
+.editor-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    padding: 24px;
+}
+
+.card-header-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.card-header-line h3 {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-header-line h3 i {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.editor-card.is-collapsed .header-card-body {
+    display: none;
+}
+
+/* Two Columns Section Grid */
+.columns-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+@media (max-width: 860px) {
+    .columns-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.column-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sections-dropzone {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 200px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. BORDERLESS FLOATING SECTION CARDS (Matches Screenshot Cards)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.section-box {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+    position: relative;
+    padding: 18px 20px 14px 20px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Card Micro-Header: MAIN COLUMN on left, 11px on right */
+.sec-card-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.section-header-bar {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+    user-select: none;
+}
+
+.sec-title-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 2px 4px;
+    outline: none;
+    border-radius: 4px;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+
+.sec-title-input:hover {
+    background: #F9FAFB;
+}
+
+.sec-title-input:focus {
+    background: #FFFFFF;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.drag-handle {
+    cursor: grab;
+    color: #9CA3AF;
+    opacity: 0.4;
+    font-size: 13px;
+    transition: opacity 0.15s, color 0.15s;
+}
+
+.drag-handle:hover {
+    opacity: 1;
+    color: var(--text-primary);
+}
+
+.sec-order-badge {
+    display: none; /* Subsumed by micro-header for ultra-clean look */
+}
+
+.sec-actions {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.sec-tool-btn {
+    background: transparent;
+    border: none;
+    color: #9CA3AF;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: all 0.15s;
+}
+
+.sec-tool-btn:hover {
+    background: #F3F4F6;
+    color: var(--text-primary);
+}
+
+.sec-tool-btn.btn-del:hover {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.section-body {
+    transition: all 0.2s ease;
+}
+
+.section-box.is-collapsed .section-body {
+    display: none;
+}
+
+.sec-meta-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 4px 8px;
+    background: #F9FAFB;
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+}
+
+.sec-meta-row label {
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 9.5px;
+    margin: 0;
+}
+
+.sec-meta-row select,
+.sec-meta-row input {
+    padding: 2px 6px;
+    font-size: 11px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    background: white;
+    font-family: inherit;
+    margin: 0;
+}
+
+.sec-meta-row input[type="number"] {
+    width: 40px;
+    text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. FORM INPUTS & BULLET BOX (Matches Screenshot)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.rows-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.row-item {
+    background: transparent;
+    padding: 0;
+    position: relative;
+}
+
+.row-item-header {
+    display: none;
+}
+
+.row-bullets-box {
+    background: #F3F4F6;
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    margin-top: 6px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--input-bg);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--text-primary);
+    transition: all 0.15s ease;
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    background: #FFFFFF;
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 52px;
+    line-height: 1.4;
+}
+
+/* Card bottom actions (matches screenshot: + Add Section on left, Delete on right) */
+.sec-card-bottom-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    padding-top: 8px;
+}
+
+.btn-card-add-item {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.btn-card-add-item:hover {
+    background: #F3F4F6;
+    color: var(--blue-primary);
+}
+
+.btn-card-delete {
+    background: transparent;
+    border: none;
+    color: #EF4444;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.btn-card-delete:hover {
+    background: #FEF2F2;
+}
+
+/* Column add button */
+.btn-add-section-col {
+    width: 100%;
+    background: #FFFFFF;
+    color: var(--blue-primary);
+    border: 1px dashed #d1d5db;
+    border-radius: var(--radius-md);
+    padding: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+}
+
+.btn-add-section-col:hover {
+    background: var(--blue-tint);
+    border-color: var(--blue-primary);
+}
+
+/* Contact row items (side-by-side) */
+.contact-row-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.contact-type-badge {
+    background: var(--input-bg);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    width: 110px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. RIGHT LIVE PREVIEW PANEL & FLOATING CAPSULE ZOOM
+   ═══════════════════════════════════════════════════════════════════════════ */
+.preview-pane {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+    height: calc(100vh - var(--header-height) - 48px);
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    overflow: hidden;
+}
+
+.preview-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Floating White Capsule Zoom Controls (Matches screenshot) */
+.preview-capsule-controls {
+    background: #FFFFFF;
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 3px 6px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.preview-zoom-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: 11.5px;
+    font-weight: 600;
+    transition: all 0.15s;
+}
+
+.preview-zoom-btn:hover {
+    background: #F3F4F6;
+    color: var(--text-primary);
+}
+
+.preview-zoom-btn.active {
+    background: var(--blue-primary);
+    color: #FFFFFF;
+}
+
+.preview-viewport {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 0 10px 40px 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.preview-page-wrapper {
+    transform-origin: top center;
+    transform: scale(var(--preview-scale));
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
+    background: white;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. VISUAL TEMPLATE MODAL & TOAST
+   ═══════════════════════════════════════════════════════════════════════════ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-container {
+    background: white;
+    width: 100%;
+    max-width: 860px;
+    max-height: 85vh;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.97);
+    transition: transform 0.2s;
+}
+
+.modal-overlay.active .modal-container {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-light);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.template-card {
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.15s;
+}
+
+.template-card:hover {
+    border-color: var(--blue-primary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+}
+
+.template-card.active {
+    border-color: var(--blue-primary);
+    background: #F8FAFF;
+}
+
+#toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #111827;
+    color: white;
+    padding: 10px 18px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 99999;
+    opacity: 0;
+    transition: all 0.25s;
+}
+
+#toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. EXACT A4 CV FORMAT (100% PRESERVED FOR ACCURATE LIVE PREVIEW & EXPORT)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cv-render-box {
+    width: 210mm;
+    min-height: 297mm;
+    position: relative;
+    background: white;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    color: #000;
+    overflow-x: hidden;
+}
+
+.cv-render-box * {
+    box-sizing: border-box;
+}
+
+.cv-render-box .header {
+    position: absolute;
+    top: 0;
+    left: -2px;
+    right: -2px;
+    width: calc(100% + 4px);
+    background: #1a3c5e;
+    color: white;
+    padding: 35px 50px 20px 50px;
+    margin: 0;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.cv-render-box .title-block h1 {
+    font-size: 28pt;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.1;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.cv-render-box .title-block h2 {
+    font-size: 14pt;
+    opacity: 0.9;
+    margin-top: 3px;
+    font-weight: 300;
+    color: white;
+    font-family: sans-serif;
+}
+
+.cv-render-box .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    font-size: 8pt;
+    margin-top: 15px;
+    color: white;
+}
+
+.cv-render-box .contact-grid span {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 6px;
+    word-break: break-all;
+    line-height: 1.25;
+}
+
+.cv-render-box .contact-grid span i {
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+.cv-render-box .content {
+    padding-top: 165px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 25px;
+    position: relative;
+    z-index: 1;
+    min-height: calc(297mm - 165px);
+    box-sizing: border-box;
+}
+
+.cv-render-box .content>div>.stitle:first-child {
+    margin-top: 0;
+}
+
+.cv-render-box .stitle {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1a3c5e;
+    text-transform: uppercase;
+    border-bottom: 2px solid #1a3c5e;
+    margin: 10px 0 6px 0;
+    padding-bottom: 2px;
+    page-break-after: avoid;
+    break-after: avoid;
+    font-family: sans-serif;
+}
+
+.cv-render-box .entry-item {
+    margin-bottom: 6px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.cv-render-box .entry-title-row {
+    display: flex;
+    justify-content: space-between;
+    color: #1a3c5e;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.cv-render-box .entry-sub {
+    font-weight: bold;
+    font-size: 8pt;
+    color: #555;
+    margin-top: 1px;
+}
+
+.cv-render-box ul {
+    margin: 1px 0 0 15px;
+    padding: 0;
+    font-size: 8pt;
+    line-height: 1.2;
+    color: #000;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. PRINT STYLESHEET (100% PRESERVED FOR VECTOR PRINTING)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .sidebar-system,
+    .app-header,
+    .editor-container,
+    .preview-toolbar,
+    #toast,
+    .modal-overlay,
+    .header-actions {
+        display: none !important;
+    }
+
+    .app-layout {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: none !important;
+    }
+
+    .preview-pane {
+        position: static !important;
+        height: auto !important;
+        background: white !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+
+    .preview-viewport {
+        padding: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+
+    .preview-page-wrapper {
+        transform: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+
+    #cv-document {
+        width: 210mm !important;
+        height: 297mm !important;
+        box-shadow: none !important;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Expandable / Collapsible Sidebar System (Matches Screenshots Exactly) -->
+    <div class="sidebar-system" id="sidebar-wrapper">
+
+        <!-- Far Left Slim Dark Rail (56px) -->
+        <aside class="app-rail">
+            <div class="rail-top">
+                <a href="#" class="rail-logo" title="CV Studio">
+                    <i class="fas fa-file-contract"></i>
+                </a>
+                <div class="rail-nav">
+                    <button type="button" class="rail-btn" title="Dashboard"><i class="fas fa-home"></i></button>
+                    <button type="button" class="rail-btn" title="Layout Settings" onclick="scrollToElement('main-column-panel')"><i class="fas fa-sliders-h"></i></button>
+                    <button type="button" class="rail-btn active" title="Resumes"><i class="fas fa-file-lines"></i></button>
+                    <button type="button" class="rail-btn" title="Certificates"><i class="fas fa-award"></i></button>
+                </div>
+            </div>
+            <div class="rail-bottom">
+                <button type="button" class="rail-btn" title="Notifications"><i class="far fa-bell"></i></button>
+                <div class="rail-user-avatar" title="Account">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <button type="button" class="rail-btn" title="Logout"><i class="fas fa-arrow-right-from-bracket"></i></button>
+            </div>
+
+            <!-- Floating Expand Trigger Button (Visible when sidebar is collapsed) -->
+            <button type="button" class="rail-expand-trigger" id="rail-expand-btn" title="Expand Sidebar" onclick="toggleSidebarExpand()">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </aside>
+
+        <!-- Dark Navy Sub-Sidebar (200px, Collapsible) -->
+        <aside class="sub-sidebar" id="sub-sidebar">
+            <div class="sub-sidebar-header">
+                <span class="sub-sidebar-title">CV Studio</span>
+                <button type="button" class="sub-sidebar-collapse-btn" id="sub-sidebar-collapse-btn" title="Collapse Sidebar" onclick="toggleSidebarExpand()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <div class="sub-sidebar-content">
+                <!-- DOCUMENT Navigation Group -->
+                <div class="sub-nav-group">
+                    <div class="sub-nav-heading">DOCUMENT</div>
+                    <div class="sub-nav-item active" onclick="scrollToElement('header-editor-card')">
+                        <i class="far fa-id-card"></i>
+                        <span>Personal Info</span>
+                    </div>
+                    <div class="sub-nav-item" onclick="scrollToElement('main-column-panel')">
+                        <i class="fas fa-align-left"></i>
+                        <span>Main Column</span>
+                    </div>
+                    <div class="sub-nav-item" onclick="scrollToElement('side-column-panel')">
+                        <i class="fas fa-align-right"></i>
+                        <span>Side Column</span>
+                    </div>
+                    <button type="button" class="sub-nav-add-btn" onclick="addNewSection({col:'main', title:'NEW SECTION'})">
+                        <i class="fas fa-plus"></i> Add Section
+                    </button>
+                </div>
+
+                <!-- DESIGN & LAYOUT Navigation Group -->
+                <div class="sub-nav-group">
+                    <div class="sub-nav-heading">DESIGN & LAYOUT</div>
+                    <div class="sub-nav-item" onclick="openTemplateModal()">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Templates</span>
+                        <span class="sub-nav-badge" id="sidebar-active-template-badge">Default</span>
+                    </div>
+                    <div class="sub-nav-specs">
+                        <i class="far fa-file-alt"></i>
+                        <div>
+                            <div style="font-weight:600;color:#ffffff;">Document Specs</div>
+                            <div style="font-size:11px;color:#94a3b8;">A4, 1-2 Pages</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Main Application Shell -->
+    <div class="app-main-content">
+
+        <!-- Top Navigation Bar (Airy, Modern, White #FFFFFF, 64px) -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="doc-name-group">
+                    <input type="text" id="doc-title-input" class="doc-title-input" value="Telaynew Ambachew - CV" onchange="showToast('Document renamed')">
+                    <i class="fas fa-pencil-alt doc-edit-icon" onclick="document.getElementById('doc-title-input').focus()"></i>
+                </div>
+                <div class="save-status-pill">
+                    <span class="save-dot"></span>
+                    <span>Saved</span>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <div class="header-template-selector">
+                    <i class="fas fa-palette"></i>
+                    <label for="cv-template-select">Template:</label>
+                    <select id="cv-template-select" onchange="onTemplateSelectChange()">
+                        <option value="default">Default</option>
+                        <option value="t1">Design 1 - Dark Left Bar</option>
+                        <option value="t2">Design 2 - Center Header</option>
+                        <option value="t3">Design 3 - Dark Full Header</option>
+                        <option value="t4">Design 4 - Left Photo Card</option>
+                        <option value="t5">Design 5 - Wide Center Header</option>
+                        <option value="t6">Design 6 - City Background</option>
+                        <option value="t7">Design 7 - Teal Modern Executive</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-light-bordered" id="btn-toggle-mobile" onclick="toggleMobilePreview()">
+                    <i class="far fa-eye"></i> <span id="mobile-toggle-text">Preview</span>
+                </button>
+
+                <button type="button" class="btn btn-light-bordered" onclick="toggleCollapseAll()">
+                    <i class="fas fa-compress-arrows-alt"></i> <span id="collapse-toggle-text">Collapse Cards</span>
+                </button>
+            </div>
+
+            <div class="header-actions">
+                <button type="button" class="btn btn-light-bordered" onclick="generateCV()">
+                    <i class="fas fa-arrow-up-right-from-square"></i> Open PDF View
+                </button>
+                <button type="button" class="btn btn-download-primary" id="btn-download-top" onclick="downloadCVPdf()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+            </div>
+        </header>
+
+        <!-- Two-Panel Workspace (Center Editor + Right Preview) -->
+        <div class="app-layout">
+
+            <!-- Center Editor Canvas -->
+            <main class="editor-container">
+
+                <!-- Main Header (Contact Info) Card -->
+                <div class="editor-card" id="header-editor-card">
+                    <div class="card-header-line">
+                        <h3><i class="fas fa-id-card"></i> Main Header (Contact Info)</h3>
+                        <div class="sec-actions">
+                            <button type="button" class="sec-tool-btn" title="Collapse / Expand" onclick="toggleCollapseHeader()">
+                                <i class="fas fa-angle-down collapse-icon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="header-card-body">
+                        <div class="grid-2">
+                            <div>
+                                <label>FULL NAME</label>
+                                <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview(); syncDocName(this.value);" placeholder="e.g. John Doe">
+                            </div>
+                            <div>
+                                <label>JOB TITLE</label>
+                                <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()" placeholder="e.g. Senior Software Engineer">
+                            </div>
+                        </div>
+
+                        <label style="margin-top: 16px;">CONTACTS (DRAG TO REORDER)</label>
+                        <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
+                            <div class="row-item" style="padding:4px 0;">
+                                <div style="display:flex;gap:8px;align-items:center;">
+                                    <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                    <div class="contact-type-badge">
+                                        <i class="fas fa-phone"></i>
+                                        <span>Phone</span>
+                                    </div>
+                                    <input type="hidden" class="c-icon" value="fas fa-phone">
+                                    <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;" oninput="updateLivePreview()">
+                                    <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                </div>
+                            </div>
+                            <div class="row-item" style="padding:4px 0;">
+                                <div style="display:flex;gap:8px;align-items:center;">
+                                    <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                    <div class="contact-type-badge">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>Email</span>
+                                    </div>
+                                    <input type="hidden" class="c-icon" value="fas fa-envelope">
+                                    <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;" oninput="updateLivePreview()">
+                                    <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                </div>
+                            </div>
+                            <div class="row-item" style="padding:4px 0;">
+                                <div style="display:flex;gap:8px;align-items:center;">
+                                    <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                    <div class="contact-type-badge">
+                                        <i class="fab fa-linkedin"></i>
+                                        <span>LinkedIn</span>
+                                    </div>
+                                    <input type="hidden" class="c-icon" value="fab fa-linkedin">
+                                    <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a" style="flex-grow:1;" oninput="updateLivePreview()">
+                                    <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                </div>
+                            </div>
+                            <div class="row-item" style="padding:4px 0;">
+                                <div style="display:flex;gap:8px;align-items:center;">
+                                    <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                    <div class="contact-type-badge">
+                                        <i class="fas fa-globe"></i>
+                                        <span>Website</span>
+                                    </div>
+                                    <input type="hidden" class="c-icon" value="fas fa-globe">
+                                    <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;" oninput="updateLivePreview()">
+                                    <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align:center;margin-top:14px;">
+                            <button type="button" class="btn btn-sm" style="background:#F3F4F6;color:#374151;border:none;font-weight:600;padding:7px 18px;" onclick="addContactField()">
+                                <i class="fas fa-plus"></i> Add Contact Field
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two-Column Section Organizer (Main Column & Side Column) -->
+                <div class="columns-grid">
+
+                    <!-- MAIN COLUMN -->
+                    <div class="column-panel main-panel" id="main-column-panel">
+                        <span id="main-count" style="display:none;">2</span>
+
+                        <!-- Main Dropzone -->
+                        <div id="main-sections-container" class="sections-dropzone" data-col="main"></div>
+
+                        <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'main', title:'NEW MAIN SECTION'})">
+                            <i class="fas fa-plus"></i> Add Section
+                        </button>
+                    </div>
+
+                    <!-- SIDE COLUMN -->
+                    <div class="column-panel side-panel" id="side-column-panel">
+                        <span id="side-count" style="display:none;">4</span>
+
+                        <!-- Side Dropzone -->
+                        <div id="side-sections-container" class="sections-dropzone" data-col="side"></div>
+
+                        <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'side', title:'NEW SIDE SECTION'})">
+                            <i class="fas fa-plus"></i> Add Section
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Hidden Bottom Download button to preserve JS reference -->
+                <button type="button" id="btn-download-bottom" style="display:none;" onclick="downloadCVPdf()"></button>
+
+            </main>
+
+            <!-- Far Right Live Preview Panel with Floating Capsule Zoom -->
+            <aside class="preview-pane" id="preview-pane-container">
+                <div class="preview-toolbar">
+                    <div class="preview-capsule-controls">
+                        <button type="button" class="preview-zoom-btn" onclick="setZoom(0.5)">50%</button>
+                        <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit" onclick="setZoom(0.62)">Fit</button>
+                        <button type="button" class="preview-zoom-btn" onclick="setZoom(0.8)">80%</button>
+                    </div>
+                </div>
+
+                <div class="preview-viewport" id="preview-viewport">
+                    <div class="preview-page-wrapper" id="preview-wrapper">
+                        <!-- Rendered CV Document for Live Preview & Export -->
+                        <div id="cv-document" class="cv-render-box">
+                            <div class="header">
+                                <div class="title-block">
+                                    <h1 id="preview-name">TELAYNEW AMBACHEW</h1>
+                                    <h2 id="preview-title">AI and Data Engineer</h2>
+                                </div>
+                                <div class="contact-grid" id="preview-contacts"></div>
+                            </div>
+                            <div class="content">
+                                <div id="preview-main-content"></div>
+                                <div id="preview-side-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+
+    </div>
+
+    <!-- Visual Template Selector Modal -->
+    <div class="modal-overlay" id="template-modal" onclick="if(event.target === this) closeTemplateModal()">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-layer-group" style="color:var(--blue-primary)"></i> Choose CV Design Template</h3>
+                <button type="button" class="modal-close-btn" onclick="closeTemplateModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="template-cards-grid">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <i class="fas fa-check-circle" style="color:var(--green-primary)"></i>
+        <span id="toast-text">Order updated</span>
+    </div>
+
+
+    <script>
+
+        if (typeof Sortable === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"><\/script>');
+        }
+    </script>
+    <script src="html2pdf.bundle.min.js"></script>
+    <script>
+        if (typeof html2pdf === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>');
+        }
+    </script>
+
+    <style>
+/* ═══════════════════════════════════════════════════════════════════════════
    PREMIUM SAAS UI/UX DESIGN SYSTEM (NOTION / LINEAR AESTHETIC)
    Light Mode | 3-Panel Layout (Left Rail -> Center Editor -> Right Preview)
    Ample Whitespace | Borderless White Cards | Soft Diffuse Shadows
@@ -8478,6 +10178,118 @@ const CV_ASSETS = {
         };
     }
 
+
+    
+
+    // ─── UI Enhancement Helpers (Exact Screenshot Match) ─────────────────────
+    const TEMPLATES_CATALOG = [
+        { id: 'default', name: 'Default', tag: 'Classic', desc: 'Authoritative dark navy header with 1.7x / 1.0x dual column layout.', color: '#1a3c5e' },
+        { id: 't1', name: 'Design 1 - Dark Left Bar', tag: 'Executive', desc: 'Deep navy left sidebar with circular avatar and white main area.', color: '#162b48' },
+        { id: 't2', name: 'Design 2 - Center Header', tag: 'Minimal', desc: 'Centered profile badge and contact row with geometric accents.', color: '#4f46e5' },
+        { id: 't3', name: 'Design 3 - Dark Full Header', tag: 'Corporate', desc: 'Full-width dark header with dual-toned sidebar and main cards.', color: '#1a2736' },
+        { id: 't4', name: 'Design 4 - Left Photo Card', tag: 'Creative', desc: 'Photo card on the left with Addis cityscape architectural baseline.', color: '#2b5797' },
+        { id: 't5', name: 'Design 5 - Wide Center Header', tag: 'Modern', desc: 'Curved clean header with central avatar badge and pill tags.', color: '#2563eb' },
+        { id: 't6', name: 'Design 6 - City Background', tag: 'Panoramic', desc: 'Mountain and city skyline panorama with golden star ratings.', color: '#0d2238' },
+        { id: 't7', name: 'Design 7 - Teal Modern Executive', tag: 'Executive', desc: 'Concentric teal circular arcs, double bars, and skill progress levels.', color: '#00c2cb' }
+    ];
+
+    function toggleSidebarExpand() {
+        const wrapper = document.getElementById('sidebar-wrapper');
+        if (wrapper) {
+            wrapper.classList.toggle('collapsed');
+            const isCol = wrapper.classList.contains('collapsed');
+            try { localStorage.setItem('cv_sidebar_collapsed', isCol ? '1' : '0'); } catch(e){}
+        }
+    }
+
+    // Restore sidebar collapse preference
+    window.addEventListener('DOMContentLoaded', function() {
+        try {
+            if (localStorage.getItem('cv_sidebar_collapsed') === '1') {
+                const wrapper = document.getElementById('sidebar-wrapper');
+                if (wrapper) wrapper.classList.add('collapsed');
+            }
+        } catch(e){}
+    });
+
+    function scrollToElement(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.transition = 'outline 0.2s';
+            el.style.outline = '3px solid #2563eb';
+            setTimeout(() => { el.style.outline = 'none'; }, 1200);
+        }
+    }
+
+    function syncDocName(name) {
+        const docInput = document.getElementById('doc-title-input');
+        if (docInput && name) docInput.value = `${name} - CV`;
+    }
+
+    function onTemplateSelectChange() {
+        const sel = document.getElementById('cv-template-select');
+        const val = sel ? sel.value : 'default';
+        const found = TEMPLATES_CATALOG.find(t => t.id === val);
+        const name = found ? found.name : val;
+        
+        const badge = document.getElementById('sidebar-active-template-badge');
+        if (badge) badge.innerText = name.split(' - ')[0] || 'Default';
+
+        updateLivePreview();
+        renderTemplateCards();
+        showToast(`Template changed to ${name}`);
+    }
+
+    function openTemplateModal() {
+        renderTemplateCards();
+        const m = document.getElementById('template-modal');
+        if (m) m.classList.add('active');
+    }
+
+    function closeTemplateModal() {
+        const m = document.getElementById('template-modal');
+        if (m) m.classList.remove('active');
+    }
+
+    function selectTemplateVisual(tId) {
+        const sel = document.getElementById('cv-template-select');
+        if (sel) {
+            sel.value = tId;
+            onTemplateSelectChange();
+        }
+        closeTemplateModal();
+    }
+
+    function renderTemplateCards() {
+        const grid = document.getElementById('template-cards-grid');
+        if (!grid) return;
+        const cur = document.getElementById('cv-template-select')?.value || 'default';
+
+        grid.innerHTML = TEMPLATES_CATALOG.map(t => {
+            const isActive = t.id === cur;
+            return `
+            <div class="template-card ${isActive ? 'active' : ''}" onclick="selectTemplateVisual('${t.id}')">
+                <div style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:9999px;background:${t.color}15;color:${t.color};display:inline-block;margin-bottom:6px;">
+                    ${t.tag}
+                </div>
+                <div style="height:90px;background:linear-gradient(135deg, ${t.color}20 0%, ${t.color}05 100%);border-top:3px solid ${t.color};border-radius:6px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;">
+                    <div style="width:70%;height:65%;background:white;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,0.08);display:flex;flex-direction:column;padding:5px;gap:3px;">
+                        <div style="height:10px;background:${t.color};border-radius:2px;width:100%;"></div>
+                        <div style="display:flex;gap:3px;flex-grow:1;">
+                            <div style="width:60%;background:#f1f5f9;border-radius:2px;"></div>
+                            <div style="width:40%;background:#e2e8f0;border-radius:2px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:3px;">${t.name}</div>
+                <div style="font-size:11px;color:#6b7280;line-height:1.3;margin-bottom:8px;">${t.desc}</div>
+                <button type="button" class="btn ${isActive ? 'btn-download-primary' : 'btn-light-bordered'}" style="width:100%;font-size:11.5px;padding:5px 8px;">
+                    ${isActive ? 'Selected' : 'Select'}
+                </button>
+            </div>`;
+        }).join('');
+    }
 
     </script>
 </body>
