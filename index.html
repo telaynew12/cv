@@ -1055,12 +1055,13 @@
                 <select id="cv-template-select" onchange="updateLivePreview()"
                     style="background:#1e3a5a;color:white;border:1px solid #4a7fa5;border-radius:4px;padding:3px 6px;font-size:12px;cursor:pointer;outline:none;">
                     <option value="default">Default (Current)</option>
-                    <option value="t1">Design 1 â€“ Dark Left Bar</option>
-                    <option value="t2">Design 2 â€“ Center Header</option>
-                    <option value="t3">Design 3 â€“ Dark Full Header</option>
-                    <option value="t4">Design 4 â€“ Left Photo Card</option>
-                    <option value="t5">Design 5 â€“ Wide Center Header</option>
-                    <option value="t6">Design 6 â€“ City Background</option>
+                    <option value="t1">Design 1 - Dark Left Bar</option>
+                    <option value="t2">Design 2 - Center Header</option>
+                    <option value="t3">Design 3 - Dark Full Header</option>
+                    <option value="t4">Design 4 - Left Photo Card</option>
+                    <option value="t5">Design 5 - Wide Center Header</option>
+                    <option value="t6">Design 6 - City Background</option>
+                    <option value="t7">Design 7 - Teal Modern Executive</option>
                 </select>
             </div>
             <button type="button" class="btn btn-navy" onclick="generateCV()">
@@ -2524,6 +2525,199 @@ const CV_ASSETS = {
         </div>`;
     }
 
+    // ─── TEMPLATE 7: Teal Modern Executive (Sample Match) ────────────────────
+    function generateTemplate7(data) {
+        const mainSecs = data.mainSections || [];
+        const sideSecs = data.sideSections || [];
+
+        // Split name into first and last name
+        const rawName = (data.name || 'TELAYNEW AMBACHEW').trim();
+        const nameParts = rawName.split(/\s+/);
+        const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
+
+        const contactsHtml = (data.contacts || []).map(c => `
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:7.5pt;color:#ffffff;word-break:break-all;line-height:1.25;">
+                <span style="width:20px;height:20px;border-radius:50%;border:1.5px solid #00c2cb;display:inline-flex;align-items:center;justify-content:center;color:#00c2cb;font-size:7pt;flex-shrink:0;">
+                    <i class="${c.icon || 'fas fa-link'}"></i>
+                </span>
+                <span>${c.val}</span>
+            </div>
+        `).join('');
+
+        function renderSidebarSection(sec) {
+            const titleUpper = (sec.title || '').toUpperCase();
+            const isSkills = titleUpper.includes('SKILL') || titleUpper.includes('SOFTWARE') || titleUpper.includes('TECH') || titleUpper.includes('TOOL');
+
+            if (isSkills) {
+                const rawSkills = (sec.items || []).flatMap(it => {
+                    const combined = (it.bullets || []).concat([it.title, it.sub]).filter(Boolean).join(', ');
+                    return combined.split(/[,•\n]+/).map(s => s.trim()).filter(Boolean);
+                });
+                const skills = rawSkills.length ? rawSkills : ['Python', 'TypeScript', 'FastAPI', 'React', 'Azure', 'Docker'];
+
+                return `
+                <div style="margin-bottom:15px;page-break-inside:avoid;break-inside:avoid;">
+                    <div style="font-size:8.5pt;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#ffffff;margin-bottom:8px;border-bottom:1px solid rgba(0,194,203,0.3);padding-bottom:2px;">
+                        ${sec.title}
+                    </div>
+                    <div>
+                        ${skills.map((s, idx) => {
+                            const pcts = [92, 85, 88, 76, 82, 90, 78, 84];
+                            const pct = pcts[idx % pcts.length];
+                            return `
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:7.2pt;color:#e2e8f0;">
+                                <span style="font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:95px;">${s}</span>
+                                <div style="width:48px;height:4px;background:rgba(255,255,255,0.18);border-radius:2px;overflow:hidden;margin-left:8px;flex-shrink:0;">
+                                    <div style="width:${pct}%;height:100%;background:#00c2cb;border-radius:2px;"></div>
+                                </div>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`;
+            }
+
+            // Other sidebar sections (e.g. PERSONAL, LANGUAGES, EDUCATION if dragged to sidebar)
+            const itemsHtml = (sec.items || []).map(it => {
+                const hasHeader = it.title || it.date;
+                const isOneLiner = !hasHeader && !it.sub && it.bullets && it.bullets.length === 1;
+                if (isOneLiner) {
+                    return `<div style="font-size:7.4pt;color:#cbd5e1;line-height:1.35;margin-bottom:5px;">${it.bullets[0]}</div>`;
+                }
+                return `
+                <div style="margin-bottom:8px;page-break-inside:avoid;break-inside:avoid;">
+                    ${hasHeader ? `<div style="display:flex;justify-content:space-between;align-items:baseline;font-size:7.8pt;font-weight:700;color:#ffffff;">
+                        <span>${it.title}</span>
+                        <span style="font-size:6.8pt;color:#00c2cb;margin-left:6px;white-space:nowrap;">${it.date}</span>
+                    </div>` : ''}
+                    ${it.sub ? `<div style="font-size:7.2pt;color:#94a3b8;margin-top:1px;">${it.sub}</div>` : ''}
+                    ${it.bullets && it.bullets.length ? `<ul style="margin:2px 0 0 12px;padding:0;font-size:7.2pt;line-height:1.25;color:#cbd5e1;">
+                        ${it.bullets.map(b => `<li style="margin-bottom:1px;">${b}</li>`).join('')}
+                    </ul>` : ''}
+                </div>`;
+            }).join('');
+
+            return `
+            <div style="margin-bottom:15px;page-break-inside:avoid;break-inside:avoid;">
+                <div style="font-size:8.5pt;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#ffffff;margin-bottom:8px;border-bottom:1px solid rgba(0,194,203,0.3);padding-bottom:2px;">
+                    ${sec.title}
+                </div>
+                <div>${itemsHtml}</div>
+            </div>`;
+        }
+
+        function renderMainSection(sec) {
+            const titleUpper = (sec.title || '').toUpperCase();
+            const isSummaryOrAbout = titleUpper.includes('ABOUT') || titleUpper.includes('SUMMARY') || titleUpper.includes('PROFILE');
+
+            const itemsHtml = (sec.items || []).map(it => {
+                const hasLeftHeader = it.title || it.date;
+                if (!hasLeftHeader || isSummaryOrAbout) {
+                    // Full-width layout (matches ABOUT/SUMMARY in sample)
+                    return `
+                    <div style="margin-bottom:8px;page-break-inside:avoid;break-inside:avoid;">
+                        ${it.sub ? `<div style="font-size:8pt;font-weight:700;color:#0c2340;margin-bottom:2px;">${it.sub}</div>` : ''}
+                        ${it.bullets && it.bullets.length ? `
+                            <div style="font-size:7.6pt;line-height:1.45;color:#334155;text-align:justify;">
+                                ${it.bullets.map(b => `<p style="margin:0 0 4px 0;">${b}</p>`).join('')}
+                            </div>` : ''}
+                    </div>`;
+                }
+
+                // Two-column layout (Left: 30% title/date, Right: 70% sub/bullets)
+                return `
+                <div style="display:flex;gap:14px;margin-bottom:10px;page-break-inside:avoid;break-inside:avoid;">
+                    <div style="width:30%;flex-shrink:0;">
+                        <div style="font-size:8.3pt;font-weight:700;color:#0c2340;line-height:1.2;">${it.title || ''}</div>
+                        <div style="font-size:7.2pt;font-weight:600;color:#64748b;margin-top:2px;">${it.date || ''}</div>
+                    </div>
+                    <div style="flex:1;">
+                        ${it.sub ? `<div style="font-size:8pt;font-weight:700;text-transform:uppercase;color:#0c2340;margin-bottom:2px;">${it.sub}</div>` : ''}
+                        ${it.bullets && it.bullets.length ? `<ul style="margin:0 0 0 13px;padding:0;font-size:7.4pt;line-height:1.32;color:#334155;">
+                            ${it.bullets.map(b => `<li style="margin-bottom:1px;">${b}</li>`).join('')}
+                        </ul>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+
+            return `
+            <div style="margin-bottom:15px;page-break-inside:avoid;break-inside:avoid;">
+                <div style="font-size:9.5pt;font-weight:800;color:#00a8a8;text-transform:uppercase;border-bottom:2px dotted #00c2cb;padding-bottom:3px;margin-bottom:9px;letter-spacing:1px;">
+                    ${sec.title}
+                </div>
+                <div>
+                    ${itemsHtml}
+                </div>
+            </div>`;
+        }
+
+        return `
+        <div class="cv-page-container" style="width:210mm;min-height:297mm;display:flex;background:#ffffff;font-family:sans-serif;color:#1e293b;position:relative;overflow:hidden;box-sizing:border-box;">
+            <!-- Left Deep Navy Sidebar (width 70mm) -->
+            <div style="width:70mm;min-height:297mm;background:#0c2340;color:#ffffff;padding:26px 18px 20px 18px;box-sizing:border-box;display:flex;flex-direction:column;flex-shrink:0;position:relative;">
+                <!-- Decorative concentric circle frame around avatar -->
+                <div style="position:relative;width:88px;height:88px;margin:0 auto 10px auto;display:flex;align-items:center;justify-content:center;">
+                    <!-- Teal corner accents -->
+                    <div style="position:absolute;left:-10px;top:28px;width:10px;height:22px;border-left:2px solid #00c2cb;border-top:2px solid #00c2cb;transform:rotate(-45deg);opacity:0.85;"></div>
+                    <div style="position:absolute;right:-10px;top:28px;width:10px;height:22px;border-right:2px solid #00c2cb;border-top:2px solid #00c2cb;transform:rotate(45deg);opacity:0.85;"></div>
+
+                    <!-- Dashed concentric ring -->
+                    <svg viewBox="0 0 100 100" style="position:absolute;inset:-5px;width:98px;height:98px;pointer-events:none;">
+                        <circle cx="50" cy="50" r="48" fill="none" stroke="#00c2cb" stroke-width="2" stroke-dasharray="24 14 24 14"/>
+                    </svg>
+
+                    <!-- Avatar image circle -->
+                    <div style="width:82px;height:82px;border-radius:50%;border:3.5px solid #00c2cb;overflow:hidden;background:#051424;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,194,203,0.35);">
+                        <img src="${CV_ASSETS.avatar}" style="width:100%;height:100%;object-fit:cover;" alt="Photo" onerror="this.style.display='none'">
+                    </div>
+                </div>
+
+                <!-- Double horizontal teal bars below photo -->
+                <div style="display:flex;justify-content:center;gap:6px;margin-bottom:16px;">
+                    <div style="width:24px;height:3px;background:#00c2cb;border-radius:2px;"></div>
+                    <div style="width:24px;height:3px;background:#00c2cb;border-radius:2px;"></div>
+                </div>
+
+                <!-- CONTACT Header & Items -->
+                <div style="margin-bottom:15px;">
+                    <div style="font-size:8.5pt;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#ffffff;margin-bottom:8px;border-bottom:1px solid rgba(0,194,203,0.3);padding-bottom:2px;">
+                        CONTACT
+                    </div>
+                    <div>
+                        ${contactsHtml}
+                    </div>
+                </div>
+
+                <!-- Dynamic Side Column Sections (SKILLS, SOFTWARE, PERSONAL, LANGUAGES, etc.) -->
+                <div>
+                    ${sideSecs.map(renderSidebarSection).join('')}
+                </div>
+            </div>
+
+            <!-- Right Content Area (width 140mm) -->
+            <div style="flex:1;min-height:297mm;background:#ffffff;padding:28px 24px 20px 24px;box-sizing:border-box;">
+                <!-- Header Name & Title -->
+                <div style="margin-bottom:18px;">
+                    <div style="font-size:20pt;font-weight:900;letter-spacing:1px;color:#0c2340;line-height:1.05;">
+                        ${firstName}
+                    </div>
+                    ${lastName ? `
+                    <div style="font-size:24pt;font-weight:900;letter-spacing:1.5px;color:#00a8a8;line-height:1.05;margin-bottom:4px;">
+                        ${lastName}
+                    </div>` : ''}
+                    <div style="font-size:9pt;font-weight:700;color:#475569;letter-spacing:3px;text-transform:uppercase;margin-top:4px;">
+                        ${data.job}
+                    </div>
+                </div>
+
+                <!-- Dynamic Main Column Sections (ABOUT/SUMMARY, EXPERIENCE, EDUCATION, etc.) -->
+                <div>
+                    ${mainSecs.map(renderMainSection).join('')}
+                </div>
+            </div>
+        </div>`;
+    }
+
     // ─── Template Router ──────────────────────────────────────────────────────
     function getActiveTemplate() {
         const sel = document.getElementById('cv-template-select');
@@ -2538,6 +2732,7 @@ const CV_ASSETS = {
         if (t === 't4') return generateTemplate4(data);
         if (t === 't5') return generateTemplate5(data);
         if (t === 't6') return generateTemplate6(data);
+        if (t === 't7') return generateTemplate7(data);
         return generateCVDocumentHtml(data);
     }
 
