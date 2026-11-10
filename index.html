@@ -1087,6 +1087,480 @@ textarea {
 /* ═══════════════════════════════════════════════════════════════════════════
    9. VISUAL TEMPLATE MODAL & TOAST
    ═══════════════════════════════════════════════════════════════════════════ */
+.btn-wizard-pill {
+    background: var(--blue-primary);
+    color: #ffffff;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.btn-wizard-pill:hover {
+    background: var(--blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+}
+
+/* ─── NEW CV WIZARD & TEMPLATE SELECTOR OVERLAY (IMAGE 18 / NOTION-LINEAR STYLE) ─── */
+.wizard-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease-in-out;
+}
+
+.wizard-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.wizard-dialog {
+    background: #ffffff;
+    width: 100%;
+    max-width: 860px;
+    max-height: 90vh;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.97);
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wizard-overlay.active .wizard-dialog {
+    transform: scale(1);
+}
+
+.wizard-header-tabs {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--border-light);
+    background: #f8fafc;
+    position: relative;
+}
+
+.wizard-tab {
+    flex: 1;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    position: relative;
+    background: #f8fafc;
+    border: none;
+    text-align: left;
+    transition: all 0.15s ease;
+}
+
+.wizard-tab.active {
+    background: #ffffff;
+}
+
+.wizard-tab-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2.5px;
+    background: transparent;
+    transition: background 0.2s ease;
+}
+
+.wizard-tab.active .wizard-tab-indicator {
+    background: var(--blue-primary);
+}
+
+.wizard-step-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.wizard-tab.active .wizard-step-badge {
+    background: var(--blue-primary);
+    color: #ffffff;
+}
+
+.wizard-tab.completed .wizard-step-badge {
+    background: var(--green-primary);
+    color: #ffffff;
+}
+
+.wizard-step-titles {
+    display: flex;
+    flex-direction: column;
+}
+
+.wizard-step-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+}
+
+.wizard-tab.active .wizard-step-label {
+    color: var(--blue-primary);
+}
+
+.wizard-step-heading {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.wizard-close-btn {
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.wizard-close-btn:hover {
+    color: var(--text-primary);
+}
+
+.wizard-body {
+    padding: 24px 28px;
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height: calc(90vh - 145px);
+}
+
+.wizard-step-view {
+    display: none;
+}
+
+.wizard-step-view.active {
+    display: block;
+    animation: wizardViewFade 0.2s ease;
+}
+
+@keyframes wizardViewFade {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Step 1 Two-Column Grid */
+.wizard-step1-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+}
+
+.wizard-form-field {
+    margin-bottom: 16px;
+}
+
+.wizard-field-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wizard-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: #F3F4F6;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: #111827;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.15s ease;
+}
+
+.wizard-input:focus {
+    background: #ffffff;
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.wizard-sections-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.wizard-section-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+}
+
+.wizard-section-checkbox:hover {
+    background: #F3F4F6;
+    border-color: #D1D5DB;
+}
+
+.wizard-section-checkbox input[type="checkbox"] {
+    accent-color: var(--blue-primary);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+/* Step 1 Right Column: Recommended Starting Points */
+.wizard-alert-box {
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.wizard-alert-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1E40AF;
+    margin-bottom: 6px;
+}
+
+.wizard-alert-body {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #1E3A8A;
+}
+
+.wizard-presets-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #4B5563;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.wizard-preset-card {
+    padding: 12px 14px;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    background: #ffffff;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wizard-preset-card:hover {
+    border-color: var(--blue-primary);
+    background: #F8FAFC;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.wizard-preset-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.wizard-preset-info {
+    flex-grow: 1;
+}
+
+.wizard-preset-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.wizard-preset-desc {
+    font-size: 11px;
+    color: #6B7280;
+}
+
+/* Step 2 Template Visual Grid */
+.wizard-template-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+@media (max-width: 768px) {
+    .wizard-template-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .wizard-step1-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.wizard-template-item {
+    border: 2px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    background: #ffffff;
+    transition: all 0.18s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.wizard-template-item:hover {
+    border-color: #93C5FD;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.wizard-template-item.active {
+    border-color: var(--blue-primary);
+    background: #EFF6FF30;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.16);
+}
+
+.wizard-template-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--blue-primary);
+    color: #ffffff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.wizard-template-item.active .wizard-template-check {
+    display: flex;
+}
+
+.wizard-template-thumb {
+    height: 100px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.wizard-template-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.wizard-template-tag {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748B;
+}
+
+/* Wizard Footer */
+.wizard-footer {
+    padding: 16px 28px;
+    background: #F9FAFB;
+    border-top: 1px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-wizard-back {
+    padding: 9px 18px;
+    border: 1px solid #D1D5DB;
+    background: #ffffff;
+    color: #374151;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-wizard-back:hover {
+    background: #F3F4F6;
+    border-color: #9CA3AF;
+}
+
+.btn-wizard-next, .btn-wizard-finish {
+    padding: 9px 22px;
+    background: var(--blue-primary);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    transition: all 0.15s ease;
+}
+
+.btn-wizard-next:hover, .btn-wizard-finish:hover {
+    background: var(--blue-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+}
+
+/* Modal Overlay (Generic) */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -1446,6 +1920,10 @@ textarea {
                 <!-- DOCUMENT Navigation Group -->
                 <div class="sub-nav-group">
                     <div class="sub-nav-heading">DOCUMENT</div>
+                    <div class="sub-nav-item" style="color:var(--blue-primary);font-weight:600;" onclick="openNewCvWizard()">
+                        <i class="fas fa-magic"></i>
+                        <span>New CV Wizard</span>
+                    </div>
                     <div class="sub-nav-item active" onclick="scrollToElement('header-editor-card')">
                         <i class="far fa-id-card"></i>
                         <span>Personal Info</span>
@@ -1498,6 +1976,9 @@ textarea {
                     <span class="save-dot"></span>
                     <span>Saved</span>
                 </div>
+                <button type="button" class="btn-wizard-pill" onclick="openNewCvWizard()" title="Create New CV / Choose Template">
+                    <i class="fas fa-magic"></i> New CV
+                </button>
             </div>
 
             <div class="header-center">
@@ -1701,6 +2182,174 @@ textarea {
             </div>
             <div class="modal-body" id="template-cards-grid">
                 <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- New CV Wizard & Template Selector Modal (Image 18 SaaS Spec) -->
+    <div class="wizard-overlay" id="new-cv-wizard-modal" onclick="if(event.target === this) closeNewCvWizard()">
+        <div class="wizard-dialog">
+            <!-- Header & Dual-Step Indicator -->
+            <div class="wizard-header-tabs">
+                <button type="button" class="wizard-tab active" id="wizard-tab-1" onclick="setWizardStep(1)">
+                    <div class="wizard-step-badge">1</div>
+                    <div class="wizard-step-titles">
+                        <span class="wizard-step-label">Step 1 of 2</span>
+                        <span class="wizard-step-heading">Create New CV</span>
+                    </div>
+                    <div class="wizard-tab-indicator"></div>
+                </button>
+                <button type="button" class="wizard-tab" id="wizard-tab-2" onclick="setWizardStep(2)">
+                    <div class="wizard-step-badge">2</div>
+                    <div class="wizard-step-titles">
+                        <span class="wizard-step-label">Step 2 of 2</span>
+                        <span class="wizard-step-heading">Select Template</span>
+                    </div>
+                    <div class="wizard-tab-indicator"></div>
+                </button>
+                <button type="button" class="wizard-close-btn" onclick="closeNewCvWizard()" title="Close">&times;</button>
+            </div>
+
+            <!-- Wizard Body Views -->
+            <div class="wizard-body">
+                <!-- STEP 1: INITIALIZE YOUR CV -->
+                <div class="wizard-step-view active" id="wizard-step-1">
+                    <div class="wizard-step1-grid">
+                        <!-- Left Column: Form Fields -->
+                        <div>
+                            <div class="wizard-form-field">
+                                <label class="wizard-field-label" for="wizard-doc-name">
+                                    <span>Document Name</span>
+                                    <span style="font-size:11px;color:#9ca3af;font-weight:normal;">Internal reference</span>
+                                </label>
+                                <input type="text" id="wizard-doc-name" class="wizard-input" value="My Executive Resume" placeholder="e.g. My Executive Resume">
+                            </div>
+
+                            <div class="wizard-form-field">
+                                <label class="wizard-field-label" for="wizard-target-role">
+                                    <span>Target Role / Headline</span>
+                                </label>
+                                <input type="text" id="wizard-target-role" class="wizard-input" value="AI and Data Engineer" placeholder="e.g. AI and Data Engineer">
+                            </div>
+
+                            <div class="wizard-form-field">
+                                <label class="wizard-field-label" for="wizard-full-name">
+                                    <span>Candidate Full Name</span>
+                                </label>
+                                <input type="text" id="wizard-full-name" class="wizard-input" value="Telaynew Ambachew" placeholder="e.g. Telaynew Ambachew">
+                            </div>
+
+                            <div class="wizard-form-field">
+                                <label class="wizard-field-label">
+                                    <span>Include Sections</span>
+                                    <span style="font-size:11px;color:#9ca3af;font-weight:normal;">Select all that apply</span>
+                                </label>
+                                <div class="wizard-sections-container">
+                                    <label class="wizard-section-checkbox">
+                                        <input type="checkbox" checked disabled>
+                                        <span>Personal Info</span>
+                                    </label>
+                                    <label class="wizard-section-checkbox">
+                                        <input type="checkbox" checked>
+                                        <span>Experience</span>
+                                    </label>
+                                    <label class="wizard-section-checkbox">
+                                        <input type="checkbox" checked>
+                                        <span>Education</span>
+                                    </label>
+                                    <label class="wizard-section-checkbox">
+                                        <input type="checkbox" checked>
+                                        <span>Skills</span>
+                                    </label>
+                                    <label class="wizard-section-checkbox">
+                                        <input type="checkbox" checked>
+                                        <span>Key Projects</span>
+                                    </label>
+                                    <label class="wizard-section-checkbox">
+                                        <input type="checkbox" checked>
+                                        <span>Certifications</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Recommended Starting Points -->
+                        <div>
+                            <div class="wizard-alert-box">
+                                <div class="wizard-alert-header">
+                                    <i class="fas fa-sparkles"></i>
+                                    <span>Recommended Starting Point</span>
+                                </div>
+                                <div class="wizard-alert-body">
+                                    Based on modern executive resume structures, we recommend beginning with an ATS-optimized dual column layout featuring clear technical milestones and quantified achievements.
+                                </div>
+                            </div>
+
+                            <div class="wizard-presets-title">Quick Presets</div>
+                            
+                            <div class="wizard-preset-card" onclick="applyWizardPreset('executive')">
+                                <div class="wizard-preset-icon" style="background:#eff6ff;color:#2563eb;">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="wizard-preset-info">
+                                    <div class="wizard-preset-title">Executive AI & Data Engineer</div>
+                                    <div class="wizard-preset-desc">Design 1 (Dark Left Bar) with complete technical stack</div>
+                                </div>
+                                <i class="fas fa-chevron-right" style="color:#cbd5e1;font-size:12px;"></i>
+                            </div>
+
+                            <div class="wizard-preset-card" onclick="applyWizardPreset('clean')">
+                                <div class="wizard-preset-icon" style="background:#f1f5f9;color:#475569;">
+                                    <i class="fas fa-layer-group"></i>
+                                </div>
+                                <div class="wizard-preset-info">
+                                    <div class="wizard-preset-title">Minimalist Professional</div>
+                                    <div class="wizard-preset-desc">Standard high-density corporate layout</div>
+                                </div>
+                                <i class="fas fa-chevron-right" style="color:#cbd5e1;font-size:12px;"></i>
+                            </div>
+
+                            <div class="wizard-preset-card" onclick="applyWizardPreset('tech')">
+                                <div class="wizard-preset-icon" style="background:#ecfdf5;color:#059669;">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                                <div class="wizard-preset-info">
+                                    <div class="wizard-preset-title">Tech Lead & Architect</div>
+                                    <div class="wizard-preset-desc">Teal Modern Executive with skill progress indicators</div>
+                                </div>
+                                <i class="fas fa-chevron-right" style="color:#cbd5e1;font-size:12px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: SELECT TEMPLATE -->
+                <div class="wizard-step-view" id="wizard-step-2">
+                    <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
+                        <div>
+                            <div style="font-size:14px;font-weight:700;color:#111827;">Select Base Template Design</div>
+                            <div style="font-size:12px;color:#6b7280;">Choose how your CV will render visually and export to A4 PDF.</div>
+                        </div>
+                    </div>
+                    <div class="wizard-template-grid" id="wizard-template-grid">
+                        <!-- Dynamically populated by renderWizardTemplateGrid() -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wizard Footer -->
+            <div class="wizard-footer">
+                <button type="button" class="btn-wizard-back" id="btn-wizard-back" onclick="setWizardStep(1)">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div style="display:flex;gap:10px;">
+                    <button type="button" class="btn-wizard-next" id="btn-wizard-next" onclick="setWizardStep(2)">
+                        Next: Select Template <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="button" class="btn-wizard-finish" id="btn-wizard-finish" style="display:none;" onclick="completeNewCvWizard()">
+                        Create & Edit CV <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -3597,6 +4246,236 @@ const CV_ASSETS = {
                 </button>
             </div>`;
         }).join('');
+    }
+
+    // ─── NEW CV WIZARD & TEMPLATE SELECTOR OVERLAY (IMAGE 18 SPEC) ─────────────
+    let currentWizardStep = 1;
+    let wizardSelectedTemplate = 't1';
+
+    function openNewCvWizard() {
+        const m = document.getElementById('new-cv-wizard-modal');
+        if (!m) return;
+
+        // Sync with existing values or defaults
+        const curName = document.getElementById('userName')?.value || 'Telaynew Ambachew';
+        const curRole = document.getElementById('userTitle')?.value || 'AI and Data Engineer';
+        const curDoc = document.getElementById('doc-title-input')?.value || `${curName} - CV`;
+        const curTpl = document.getElementById('cv-template-select')?.value || 't1';
+
+        const docNameInput = document.getElementById('wizard-doc-name');
+        if (docNameInput) docNameInput.value = curDoc.replace(/ - CV$/i, '') || 'My Executive Resume';
+
+        const roleInput = document.getElementById('wizard-target-role');
+        if (roleInput) roleInput.value = curRole;
+
+        const nameInput = document.getElementById('wizard-full-name');
+        if (nameInput) nameInput.value = curName;
+
+        wizardSelectedTemplate = curTpl;
+
+        setWizardStep(1);
+        renderWizardTemplateGrid();
+        m.classList.add('active');
+    }
+
+    function closeNewCvWizard() {
+        const m = document.getElementById('new-cv-wizard-modal');
+        if (m) m.classList.remove('active');
+    }
+
+    function setWizardStep(step) {
+        currentWizardStep = step;
+
+        const tab1 = document.getElementById('wizard-tab-1');
+        const tab2 = document.getElementById('wizard-tab-2');
+        const view1 = document.getElementById('wizard-step-1');
+        const view2 = document.getElementById('wizard-step-2');
+        const btnBack = document.getElementById('btn-wizard-back');
+        const btnNext = document.getElementById('btn-wizard-next');
+        const btnFinish = document.getElementById('btn-wizard-finish');
+
+        if (step === 1) {
+            if (tab1) tab1.className = 'wizard-tab active';
+            if (tab2) tab2.className = 'wizard-tab';
+            if (view1) view1.className = 'wizard-step-view active';
+            if (view2) view2.className = 'wizard-step-view';
+            if (btnBack) btnBack.style.visibility = 'hidden';
+            if (btnNext) btnNext.style.display = 'inline-flex';
+            if (btnFinish) btnFinish.style.display = 'none';
+        } else {
+            if (tab1) tab1.className = 'wizard-tab completed';
+            if (tab2) tab2.className = 'wizard-tab active';
+            if (view1) view1.className = 'wizard-step-view';
+            if (view2) view2.className = 'wizard-step-view active';
+            if (btnBack) btnBack.style.visibility = 'visible';
+            if (btnNext) btnNext.style.display = 'none';
+            if (btnFinish) btnFinish.style.display = 'inline-flex';
+            renderWizardTemplateGrid();
+        }
+    }
+
+    function selectWizardTemplate(tId) {
+        wizardSelectedTemplate = tId;
+        renderWizardTemplateGrid();
+    }
+
+    function renderWizardTemplateGrid() {
+        const grid = document.getElementById('wizard-template-grid');
+        if (!grid) return;
+
+        grid.innerHTML = TEMPLATES_CATALOG.map(t => {
+            const isSel = t.id === wizardSelectedTemplate;
+            let miniLayout = '';
+            
+            if (t.id === 't1') {
+                // Design 1: Dark Left Bar with Avatar circle & teal accents
+                miniLayout = `
+                <div style="width:100%;height:100%;display:flex;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
+                    <div style="width:36%;background:#162b48;display:flex;flex-direction:column;align-items:center;padding:6px 3px;gap:4px;">
+                        <div style="width:20px;height:20px;border-radius:50%;border:1.5px solid #00c2cb;background:#334155;"></div>
+                        <div style="width:80%;height:3px;background:#00c2cb;border-radius:1px;"></div>
+                        <div style="width:65%;height:2px;background:#64748b;border-radius:1px;"></div>
+                        <div style="width:75%;height:2px;background:#64748b;border-radius:1px;"></div>
+                    </div>
+                    <div style="width:64%;padding:6px 5px;display:flex;flex-direction:column;gap:3px;">
+                        <div style="width:70%;height:5px;background:#0f172a;border-radius:1px;"></div>
+                        <div style="width:45%;height:3px;background:#00c2cb;border-radius:1px;"></div>
+                        <div style="height:1px;background:#e2e8f0;margin:2px 0;"></div>
+                        <div style="width:90%;height:2.5px;background:#94a3b8;border-radius:1px;"></div>
+                        <div style="width:80%;height:2.5px;background:#cbd5e1;border-radius:1px;"></div>
+                        <div style="width:85%;height:2.5px;background:#cbd5e1;border-radius:1px;"></div>
+                    </div>
+                </div>`;
+            } else if (t.id === 'default') {
+                // Default: Dark header band + 2 columns
+                miniLayout = `
+                <div style="width:100%;height:100%;display:flex;flex-direction:column;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
+                    <div style="height:28%;background:#1a3c5e;padding:4px 6px;display:flex;flex-direction:column;justify-content:center;gap:2px;">
+                        <div style="width:55%;height:4px;background:#ffffff;border-radius:1px;"></div>
+                        <div style="width:35%;height:2px;background:#93c5fd;border-radius:1px;"></div>
+                    </div>
+                    <div style="flex-grow:1;display:flex;padding:5px;gap:5px;">
+                        <div style="width:62%;display:flex;flex-direction:column;gap:2.5px;">
+                            <div style="width:40%;height:3px;background:#1a3c5e;border-radius:1px;"></div>
+                            <div style="width:100%;height:2px;background:#e2e8f0;border-radius:1px;"></div>
+                            <div style="width:85%;height:2px;background:#cbd5e1;border-radius:1px;"></div>
+                        </div>
+                        <div style="width:38%;background:#f8fafc;padding:3px;border-radius:2px;display:flex;flex-direction:column;gap:2px;">
+                            <div style="width:50%;height:3px;background:#64748b;border-radius:1px;"></div>
+                            <div style="width:80%;height:2px;background:#e2e8f0;border-radius:1px;"></div>
+                        </div>
+                    </div>
+                </div>`;
+            } else if (t.id === 't3') {
+                // Design 3: Full dark header
+                miniLayout = `
+                <div style="width:100%;height:100%;display:flex;flex-direction:column;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
+                    <div style="height:32%;background:#1a2736;padding:4px;display:flex;align-items:center;gap:4px;">
+                        <div style="width:16px;height:16px;border-radius:3px;background:#38bdf8;"></div>
+                        <div style="display:flex;flex-direction:column;gap:2px;flex-grow:1;">
+                            <div style="width:60%;height:4px;background:#ffffff;border-radius:1px;"></div>
+                            <div style="width:40%;height:2px;background:#94a3b8;border-radius:1px;"></div>
+                        </div>
+                    </div>
+                    <div style="flex-grow:1;display:flex;padding:5px;gap:4px;">
+                        <div style="width:65%;background:#f8fafc;border-radius:2px;"></div>
+                        <div style="width:35%;background:#e2e8f0;border-radius:2px;"></div>
+                    </div>
+                </div>`;
+            } else {
+                // Modern card preview with theme accent
+                miniLayout = `
+                <div style="width:100%;height:100%;display:flex;flex-direction:column;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
+                    <div style="height:22%;background:${t.color};"></div>
+                    <div style="flex-grow:1;padding:5px;display:flex;gap:4px;">
+                        <div style="width:60%;display:flex;flex-direction:column;gap:2px;">
+                            <div style="width:50%;height:3px;background:${t.color};border-radius:1px;"></div>
+                            <div style="width:90%;height:2px;background:#e2e8f0;border-radius:1px;"></div>
+                            <div style="width:75%;height:2px;background:#cbd5e1;border-radius:1px;"></div>
+                        </div>
+                        <div style="width:40%;background:#f1f5f9;border-radius:2px;"></div>
+                    </div>
+                </div>`;
+            }
+
+            return `
+            <div class="wizard-template-item ${isSel ? 'active' : ''}" onclick="selectWizardTemplate('${t.id}')">
+                <div class="wizard-template-check"><i class="fas fa-check"></i></div>
+                <div class="wizard-template-thumb" style="background:#f8fafc;padding:6px;">
+                    ${miniLayout}
+                </div>
+                <div class="wizard-template-name">${t.name}</div>
+                <div class="wizard-template-tag">${t.tag}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function applyWizardPreset(type) {
+        const docNameInput = document.getElementById('wizard-doc-name');
+        const roleInput = document.getElementById('wizard-target-role');
+        const nameInput = document.getElementById('wizard-full-name');
+
+        if (type === 'executive') {
+            if (docNameInput) docNameInput.value = 'Executive AI Engineer Resume';
+            if (roleInput) roleInput.value = 'AI and Data Engineer';
+            if (nameInput) nameInput.value = 'Telaynew Ambachew';
+            selectWizardTemplate('t1');
+            showToast('Applied Executive AI Engineer preset');
+        } else if (type === 'clean') {
+            if (docNameInput) docNameInput.value = 'Minimalist Professional CV';
+            if (roleInput) roleInput.value = 'Software Developer';
+            if (nameInput) nameInput.value = 'Telaynew Ambachew';
+            selectWizardTemplate('default');
+            showToast('Applied Clean Minimalist preset');
+        } else if (type === 'tech') {
+            if (docNameInput) docNameInput.value = 'Senior Tech Lead Resume';
+            if (roleInput) roleInput.value = 'Principal Backend Architect';
+            selectWizardTemplate('t7');
+            showToast('Applied Modern Tech Lead preset');
+        }
+    }
+
+    function completeNewCvWizard() {
+        const docNameInput = document.getElementById('wizard-doc-name');
+        const roleInput = document.getElementById('wizard-target-role');
+        const nameInput = document.getElementById('wizard-full-name');
+
+        const newDocName = docNameInput?.value.trim() || 'My Executive Resume';
+        const newRole = roleInput?.value.trim() || 'AI and Data Engineer';
+        const newName = nameInput?.value.trim() || 'Telaynew Ambachew';
+
+        // 1. Update Document Title
+        const docTitleInput = document.getElementById('doc-title-input');
+        if (docTitleInput) docTitleInput.value = `${newDocName} - CV`;
+
+        // 2. Update Role and Name
+        const userTitle = document.getElementById('userTitle');
+        if (userTitle) {
+            userTitle.value = newRole;
+            userTitle.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        const userName = document.getElementById('userName');
+        if (userName) {
+            userName.value = newName;
+            userName.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        // 3. Set Active Template
+        const sel = document.getElementById('cv-template-select');
+        if (sel) {
+            sel.value = wizardSelectedTemplate;
+            onTemplateSelectChange();
+        }
+
+        // 4. Close Wizard & Notify
+        closeNewCvWizard();
+        const found = TEMPLATES_CATALOG.find(t => t.id === wizardSelectedTemplate);
+        const tplName = found ? found.name : 'Selected Template';
+        showToast(`✓ New CV initialized with ${tplName}!`);
+
+        // 5. Scroll to editor top
+        scrollToElement('header-editor-card');
     }
 
     </script>
