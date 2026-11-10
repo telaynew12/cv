@@ -4,11 +4,2008 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master CV Builder - Telaynew Ambachew</title>
+    <title>CV Studio - Professional Document Editor</title>
+    <!-- Modern Inter Typography & FontAwesome 6 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Local libraries with CDN fallback -->
     <script src="sortable.min.js"></script>
     <script>
+        if (typeof Sortable === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"><\/script>');
+        }
+    </script>
+    <script src="html2pdf.bundle.min.js"></script>
+    <script>
+        if (typeof html2pdf === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>');
+        }
+    </script>
+
+    <style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   CV STUDIO SAAS DESIGN SYSTEM
+   Theme: Minimalist Professional Document Editor (Notion / Linear / Canva)
+   Primary: #173B5E (Navy) | Accent: #2563EB (Royal Blue) | Success: #10B981
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* Brand & Accent Colors */
+    --navy-900: #0d1e30;
+    --navy-800: #122840;
+    --navy-700: #173B5E; /* Primary Navy */
+    --navy-600: #204c78;
+    --navy-50:  #f0f5fa;
+    --navy-100: #e1ecf6;
+
+    --blue-600: #2563EB; /* Royal Blue Accent */
+    --blue-700: #1d4ed8;
+    --blue-50:  #eff6ff;
+    --blue-100: #dbeafe;
+
+    --green-600: #10B981; /* Subtle Green Success */
+    --green-700: #059669;
+    --green-50:  #ecfdf5;
+    --green-100: #d1fae5;
+
+    --red-500: #ef4444;
+    --red-50:  #fef2f2;
+    --red-100: #fee2e2;
+
+    /* Neutral Surfaces & Grays */
+    --bg-page: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-subtle: #f1f5f9;
+    --bg-hover: #e2e8f0;
+    --bg-canvas: #0f172a;
+
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-subtle: #64748b;
+    --text-light: #94a3b8;
+
+    --border-subtle: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --border-focus: #2563EB;
+
+    /* Elevation Shadows */
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+
+    /* Radii */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 13px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    /* Dimensions */
+    --header-height: 64px;
+    --sidebar-width: 236px;
+    --preview-scale: 0.62;
+
+    /* Legacy compatibility variables */
+    --navy: var(--navy-700);
+    --navy-light: var(--navy-600);
+    --navy-bg: var(--navy-50);
+    --green: var(--green-600);
+    --green-dark: var(--green-700);
+    --green-bg: var(--green-50);
+    --bg: var(--bg-page);
+    --card-bg: var(--bg-surface);
+    --border: var(--border-subtle);
+    --red: var(--red-500);
+    --text: var(--text-main);
+}
+
+/* Base Reset & Typography */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-main);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. TOP NAVIGATION HEADER (64px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-header {
+    height: var(--header-height);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--navy-700);
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: -0.3px;
+    user-select: none;
+}
+
+.brand-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--navy-700) 0%, var(--blue-600) 100%);
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+}
+
+.brand-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--border-subtle);
+}
+
+.doc-name-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s;
+}
+
+.doc-name-group:hover {
+    background: var(--bg-subtle);
+}
+
+.doc-title-input {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-main);
+    border: 1px solid transparent;
+    background: transparent;
+    padding: 4px 6px;
+    border-radius: var(--radius-sm);
+    outline: none;
+    cursor: text;
+    transition: all 0.15s;
+    font-family: inherit;
+    width: 220px;
+}
+
+.doc-title-input:hover {
+    border-color: var(--border-strong);
+    background: white;
+}
+
+.doc-title-input:focus {
+    border-color: var(--blue-600);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.save-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-subtle);
+    padding: 4px 10px;
+    background: var(--bg-subtle);
+    border-radius: var(--radius-full);
+}
+
+.save-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green-600);
+    box-shadow: 0 0 0 2px var(--green-100);
+}
+
+.header-template-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 4px 10px;
+    transition: border-color 0.15s;
+}
+
+.header-template-selector:hover {
+    border-color: var(--border-strong);
+}
+
+.header-template-selector label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-subtle);
+    margin: 0;
+    text-transform: none;
+    white-space: nowrap;
+}
+
+.header-template-selector select {
+    background: white;
+    border: 1px solid var(--border-strong);
+    color: var(--text-main);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    transition: border-color 0.15s;
+}
+
+.header-template-selector select:focus {
+    border-color: var(--blue-600);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Modern SaaS Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-muted);
+    border-color: var(--border-subtle);
+}
+
+.btn-ghost:hover {
+    background: var(--bg-subtle);
+    color: var(--text-main);
+    border-color: var(--border-strong);
+}
+
+.btn-outline {
+    background: white;
+    color: var(--text-muted);
+    border-color: var(--border-strong);
+}
+
+.btn-outline:hover {
+    background: var(--bg-subtle);
+    color: var(--navy-700);
+    border-color: var(--navy-700);
+}
+
+.btn-navy {
+    background: white;
+    color: var(--navy-700);
+    border-color: var(--border-strong);
+}
+
+.btn-navy:hover {
+    background: var(--navy-50);
+    border-color: var(--navy-700);
+    color: var(--navy-700);
+}
+
+.btn-primary {
+    background: var(--navy-700);
+    color: white;
+    box-shadow: 0 1px 3px rgba(23, 59, 94, 0.25);
+}
+
+.btn-primary:hover {
+    background: var(--navy-800);
+    box-shadow: 0 3px 8px rgba(23, 59, 94, 0.3);
+}
+
+.btn-green {
+    background: var(--green-600);
+    color: white;
+    box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3);
+}
+
+.btn-green:hover {
+    background: var(--green-700);
+    box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
+}
+
+.btn-download-hero {
+    background: linear-gradient(135deg, var(--green-600) 0%, #059669 100%);
+    color: white;
+    font-weight: 700;
+    padding: 8px 16px;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.35);
+}
+
+.btn-download-hero:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.45);
+    transform: translateY(-1px);
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 11.5px;
+    border-radius: var(--radius-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. THREE-PANEL APPLICATION WORKSPACE LAYOUT
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-layout {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 480px;
+    min-height: calc(100vh - var(--header-height));
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-page);
+}
+
+/* Responsive Grid Cascades */
+@media (max-width: 1360px) {
+    .app-layout {
+        grid-template-columns: var(--sidebar-width) minmax(0, 1fr) 440px;
+    }
+}
+
+@media (max-width: 1180px) {
+    .app-layout {
+        grid-template-columns: minmax(0, 1fr) 440px;
+    }
+    .app-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+    .preview-pane {
+        display: none !important;
+    }
+    .preview-pane.active-mobile {
+        display: flex !important;
+        position: fixed;
+        inset: 64px 8px 8px 8px;
+        height: auto;
+        z-index: 9999;
+        border-radius: var(--radius-lg);
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. LEFT SIDEBAR NAVIGATION PANEL (236px)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-sidebar {
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    padding: 20px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: var(--header-height);
+    height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+}
+
+.sidebar-section-title {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-light);
+    padding: 0 8px;
+    margin-bottom: 6px;
+}
+
+.sidebar-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    list-style: none;
+}
+
+.sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    text-decoration: none;
+}
+
+.sidebar-nav-item:hover {
+    background: var(--bg-subtle);
+    color: var(--text-main);
+}
+
+.sidebar-nav-item.active {
+    background: var(--navy-50);
+    color: var(--navy-700);
+    font-weight: 600;
+}
+
+.sidebar-nav-item i {
+    width: 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-light);
+    transition: color 0.15s;
+}
+
+.sidebar-nav-item:hover i,
+.sidebar-nav-item.active i {
+    color: var(--navy-700);
+}
+
+.sidebar-nav-badge {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: var(--radius-full);
+    background: var(--bg-subtle);
+    color: var(--text-subtle);
+}
+
+.sidebar-btn-add {
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: var(--navy-50);
+    border: 1px dashed var(--navy-100);
+    color: var(--navy-700);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+}
+
+.sidebar-btn-add:hover {
+    background: var(--navy-100);
+    border-color: var(--navy-700);
+}
+
+.sidebar-quick-template-card {
+    background: linear-gradient(135deg, var(--navy-50) 0%, #edf4fc 100%);
+    border: 1px solid var(--navy-100);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.18s;
+}
+
+.sidebar-quick-template-card:hover {
+    border-color: var(--blue-600);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.sidebar-quick-template-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy-700);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar-quick-template-desc {
+    font-size: 11px;
+    color: var(--text-subtle);
+    margin-top: 3px;
+    line-height: 1.3;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. CENTER EDITOR WORKSPACE
+   ═══════════════════════════════════════════════════════════════════════════ */
+.editor-container {
+    padding: 24px 28px 60px 28px;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Breadcrumb & Meta Bar */
+.editor-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.editor-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-subtle);
+}
+
+.editor-breadcrumbs span.active {
+    font-weight: 600;
+    color: var(--navy-700);
+}
+
+/* Order Guide / Tips Banner */
+.order-guide-banner {
+    background: linear-gradient(135deg, #f8fbfd 0%, #f0fdf4 100%);
+    border: 1px solid #d1fae5;
+    border-left: 4px solid var(--blue-600);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    box-shadow: var(--shadow-xs);
+    gap: 12px;
+}
+
+.order-guide-banner strong {
+    color: var(--navy-700);
+    font-weight: 700;
+}
+
+.order-guide-banner .guide-tag {
+    background: white;
+    border: 1px solid #a7f3d0;
+    padding: 3px 8px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--green-700);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Cards System */
+.editor-card {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.editor-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-strong);
+}
+
+.card-header-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 16px;
+}
+
+.card-header-line h3 {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--navy-700);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-header-line h3 i {
+    color: var(--blue-600);
+    font-size: 14px;
+}
+
+.editor-card.is-collapsed {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.editor-card.is-collapsed .card-header-line {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.editor-card.is-collapsed .header-card-body {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. TWO-COLUMN SECTION MANAGEMENT REDESIGN
+   ═══════════════════════════════════════════════════════════════════════════ */
+.columns-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 18px;
+}
+
+@media (max-width: 900px) {
+    .columns-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.column-panel {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    min-height: 480px;
+    box-shadow: var(--shadow-xs);
+    transition: all 0.2s;
+}
+
+.column-panel.main-panel {
+    border-top: 4px solid var(--navy-700);
+}
+
+.column-panel.side-panel {
+    border-top: 4px solid var(--green-600);
+}
+
+.column-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.column-panel-header h4 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.column-panel.main-panel .column-panel-header h4 {
+    color: var(--navy-700);
+}
+
+.column-panel.side-panel .column-panel-header h4 {
+    color: var(--green-700);
+}
+
+.badge-count {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+}
+
+.main-panel .badge-count {
+    background: var(--navy-50);
+    color: var(--navy-700);
+    border: 1px solid var(--navy-100);
+}
+
+.side-panel .badge-count {
+    background: var(--green-50);
+    color: var(--green-700);
+    border: 1px solid var(--green-100);
+}
+
+.column-hint {
+    font-size: 11px;
+    color: var(--text-subtle);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.sections-dropzone {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-grow: 1;
+    min-height: 200px;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    background: #fafbfc;
+    border: 1px dashed transparent;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.sections-dropzone:hover {
+    border-color: var(--border-strong);
+}
+
+/* Redesigned Section Cards */
+.section-box {
+    background: white;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xs);
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.section-box:hover {
+    box-shadow: var(--shadow-sm);
+    border-color: var(--border-strong);
+}
+
+.section-box.is-main {
+    border-left: 4px solid var(--navy-700);
+}
+
+.section-box.is-side {
+    border-left: 4px solid var(--green-600);
+}
+
+.section-header-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-subtle);
+    user-select: none;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: var(--text-light);
+    padding: 4px 6px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: color 0.15s, background 0.15s;
+}
+
+.drag-handle:hover {
+    color: var(--navy-700);
+    background: var(--bg-subtle);
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.sec-order-badge {
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.badge-main {
+    background: var(--navy-700);
+    color: white;
+}
+
+.badge-side {
+    background: var(--green-600);
+    color: white;
+}
+
+.sec-title-input {
+    flex-grow: 1;
+    border: 1px solid transparent;
+    padding: 5px 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy-700);
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+
+.sec-title-input:hover {
+    border-color: var(--border-strong);
+    background: var(--bg-subtle);
+}
+
+.sec-title-input:focus {
+    border-color: var(--blue-600);
+    background: white;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.sec-actions {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.sec-tool-btn {
+    background: white;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-subtle);
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: all 0.15s;
+}
+
+.sec-tool-btn:hover {
+    background: var(--bg-subtle);
+    color: var(--navy-700);
+    border-color: var(--border-strong);
+}
+
+.sec-tool-btn.btn-del:hover {
+    background: var(--red-50);
+    color: var(--red-500);
+    border-color: var(--red-100);
+}
+
+.section-body {
+    padding: 12px;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.section-box.is-collapsed .section-body {
+    display: none;
+}
+
+.sec-meta-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    background: var(--bg-subtle);
+    border-radius: var(--radius-sm);
+    font-size: 11.5px;
+}
+
+.sec-meta-row label {
+    font-weight: 700;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    font-size: 10px;
+    margin: 0;
+}
+
+.sec-meta-row select,
+.sec-meta-row input {
+    padding: 3px 6px;
+    font-size: 11.5px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: white;
+    font-family: inherit;
+    margin: 0;
+}
+
+.sec-meta-row input[type="number"] {
+    width: 48px;
+    text-align: center;
+}
+
+/* Nested Row Cards */
+.rows-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.row-item {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    position: relative;
+    transition: all 0.15s;
+    box-shadow: var(--shadow-xs);
+}
+
+.row-item:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-sm);
+}
+
+.row-item-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 6px;
+}
+
+.row-drag-handle {
+    cursor: grab;
+    color: var(--text-light);
+    padding: 2px 4px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+.row-drag-handle:hover {
+    color: var(--navy-700);
+    background: var(--bg-subtle);
+}
+
+.row-index-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--bg-subtle);
+    color: var(--text-muted);
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+.row-item-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 4px;
+}
+
+.btn-remove-row {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: var(--radius-sm);
+    transition: color 0.15s, background 0.15s;
+}
+
+.btn-remove-row:hover {
+    color: var(--red-500);
+    background: var(--red-50);
+}
+
+/* Modern Form Controls */
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 7px 9px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    margin-top: 3px;
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--text-main);
+    background: white;
+    transition: all 0.15s;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--blue-600);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 50px;
+    line-height: 1.35;
+}
+
+.btn-add-row {
+    background: var(--bg-subtle);
+    color: var(--navy-700);
+    border: 1px dashed var(--border-strong);
+    width: 100%;
+    padding: 7px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 11.5px;
+    font-weight: 600;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-add-row:hover {
+    background: #e2e8f0;
+    border-color: var(--navy-700);
+}
+
+.btn-add-section-col {
+    background: white;
+    border: 1.5px dashed var(--border-strong);
+    padding: 10px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition: all 0.18s;
+}
+
+.main-panel .btn-add-section-col {
+    color: var(--navy-700);
+}
+
+.main-panel .btn-add-section-col:hover {
+    border-color: var(--navy-700);
+    background: var(--navy-50);
+}
+
+.side-panel .btn-add-section-col {
+    color: var(--green-700);
+}
+
+.side-panel .btn-add-section-col:hover {
+    border-color: var(--green-600);
+    background: var(--green-50);
+}
+
+/* Bottom Action Buttons */
+.btn-add-section {
+    background: white;
+    color: var(--navy-700);
+    border: 1.5px solid var(--border-strong);
+    flex: 1;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    font-size: 13.5px;
+    cursor: pointer;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.18s;
+    box-shadow: var(--shadow-xs);
+}
+
+.btn-add-section:hover {
+    background: var(--navy-50);
+    border-color: var(--navy-700);
+}
+
+.generate-btn {
+    flex: 1.4;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--green-600) 0%, #059669 100%);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14.5px;
+    cursor: pointer;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.generate-btn:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+}
+
+/* Sortable Drag Styles */
+.sortable-ghost {
+    opacity: 0.35;
+    background: #e2e8f0 !important;
+    border: 2px dashed var(--navy-700) !important;
+}
+
+.sortable-chosen {
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.sortable-drag {
+    cursor: grabbing !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. RIGHT LIVE PREVIEW PANE (STICKY A4)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.preview-pane {
+    position: sticky;
+    top: calc(var(--header-height) + 12px);
+    height: calc(100vh - var(--header-height) - 24px);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-canvas);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin: 12px 16px 12px 0;
+    border: 1px solid #1e293b;
+}
+
+.preview-toolbar {
+    background: #090e17;
+    color: white;
+    padding: 9px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #1e293b;
+    user-select: none;
+}
+
+.preview-toolbar-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.preview-live-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green-600);
+    box-shadow: 0 0 8px var(--green-600);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.preview-zoom-btn {
+    background: #1e293b;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.15s;
+}
+
+.preview-zoom-btn:hover {
+    background: #334155;
+    color: white;
+}
+
+.preview-zoom-btn.active {
+    background: var(--blue-600);
+    border-color: var(--blue-600);
+    color: white;
+}
+
+.preview-viewport {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 24px 10px 48px 10px;
+    display: flex;
+    justify-content: center;
+    background: #1e293b;
+}
+
+.preview-page-wrapper {
+    transform-origin: top center;
+    transform: scale(var(--preview-scale));
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    margin-bottom: 24px;
+    border-radius: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. VISUAL TEMPLATE SELECTOR MODAL
+   ═══════════════════════════════════════════════════════════════════════════ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-container {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    max-height: 85vh;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.96) translateY(10px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-container {
+    transform: scale(1) translateY(0);
+}
+
+.modal-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--navy-700);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    line-height: 1;
+    transition: color 0.15s;
+}
+
+.modal-close-btn:hover {
+    color: var(--text-main);
+}
+
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+}
+
+.template-card {
+    border: 2px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.template-card:hover {
+    border-color: var(--blue-600);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.template-card.active {
+    border-color: var(--blue-600);
+    background: var(--blue-50);
+}
+
+.template-card-preview {
+    height: 120px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 12px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.template-card-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--navy-700);
+    margin-bottom: 4px;
+}
+
+.template-card-desc {
+    font-size: 11px;
+    color: var(--text-subtle);
+    line-height: 1.35;
+    flex-grow: 1;
+    margin-bottom: 12px;
+}
+
+.template-card-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. TOAST NOTIFICATION
+   ═══════════════════════════════════════════════════════════════════════════ */
+#toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #0f172a;
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--radius-full);
+    font-size: 12.5px;
+    font-weight: 600;
+    box-shadow: var(--shadow-xl);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 99999;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #334155;
+}
+
+#toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. EXACT A4 CV FORMAT (100% PRESERVED FOR ACCURATE LIVE PREVIEW & EXPORT)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cv-render-box {
+    width: 210mm;
+    min-height: 297mm;
+    position: relative;
+    background: white;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    color: #000;
+    overflow-x: hidden;
+}
+
+.cv-render-box * {
+    box-sizing: border-box;
+}
+
+.cv-render-box .header {
+    position: absolute;
+    top: 0;
+    left: -2px;
+    right: -2px;
+    width: calc(100% + 4px);
+    background: #1a3c5e;
+    color: white;
+    padding: 35px 50px 20px 50px;
+    margin: 0;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.cv-render-box .title-block h1 {
+    font-size: 28pt;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.1;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.cv-render-box .title-block h2 {
+    font-size: 14pt;
+    opacity: 0.9;
+    margin-top: 3px;
+    font-weight: 300;
+    color: white;
+    font-family: sans-serif;
+}
+
+.cv-render-box .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    font-size: 8pt;
+    margin-top: 15px;
+    color: white;
+}
+
+.cv-render-box .contact-grid span {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 6px;
+    word-break: break-all;
+    line-height: 1.25;
+}
+
+.cv-render-box .contact-grid span i {
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+.cv-render-box .content {
+    padding-top: 165px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 25px;
+    position: relative;
+    z-index: 1;
+    min-height: calc(297mm - 165px);
+    box-sizing: border-box;
+}
+
+.cv-render-box .content>div>.stitle:first-child {
+    margin-top: 0;
+}
+
+.cv-render-box .stitle {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1a3c5e;
+    text-transform: uppercase;
+    border-bottom: 2px solid #1a3c5e;
+    margin: 10px 0 6px 0;
+    padding-bottom: 2px;
+    page-break-after: avoid;
+    break-after: avoid;
+    font-family: sans-serif;
+}
+
+.cv-render-box .entry-item {
+    margin-bottom: 6px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.cv-render-box .entry-title-row {
+    display: flex;
+    justify-content: space-between;
+    color: #1a3c5e;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.cv-render-box .entry-sub {
+    font-weight: bold;
+    font-size: 8pt;
+    color: #555;
+    margin-top: 1px;
+}
+
+.cv-render-box ul {
+    margin: 1px 0 0 15px;
+    padding: 0;
+    font-size: 8pt;
+    line-height: 1.2;
+    color: #000;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. PRINT STYLESHEET (100% PRESERVED FOR VECTOR PRINTING)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .app-header,
+    .app-sidebar,
+    .editor-container,
+    .order-guide-banner,
+    .preview-toolbar,
+    #toast,
+    .modal-overlay,
+    .header-actions {
+        display: none !important;
+    }
+
+    .app-layout {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: none !important;
+    }
+
+    .preview-pane {
+        position: static !important;
+        height: auto !important;
+        background: white !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+
+    .preview-viewport {
+        padding: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+
+    .preview-page-wrapper {
+        transform: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+
+    #cv-document {
+        width: 210mm !important;
+        height: 297mm !important;
+        box-shadow: none !important;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation Header (64px) -->
+    <header class="app-header">
+        <div class="header-left">
+            <a href="#" class="brand-badge">
+                <div class="brand-icon"><i class="fas fa-file-contract"></i></div>
+                <span>CV Studio</span>
+            </a>
+            <div class="brand-divider"></div>
+            <div class="doc-name-group" title="Click to rename document">
+                <i class="far fa-file-alt" style="color:var(--blue-600);font-size:13px;"></i>
+                <input type="text" id="doc-title-input" class="doc-title-input" value="Telaynew Ambachew - CV" onchange="showToast('Document renamed')">
+            </div>
+        </div>
+
+        <div class="header-center">
+            <div class="save-status-pill">
+                <span class="save-dot"></span>
+                <span>Saved</span>
+            </div>
+
+            <!-- Modern Template Selector Dropdown & Visual Modal Trigger -->
+            <div class="header-template-selector">
+                <i class="fas fa-palette" style="color:var(--blue-600);font-size:13px;"></i>
+                <label for="cv-template-select">Template:</label>
+                <select id="cv-template-select" onchange="onTemplateSelectChange()">
+                    <option value="default">Default (Current)</option>
+                    <option value="t1">Design 1 - Dark Left Bar</option>
+                    <option value="t2">Design 2 - Center Header</option>
+                    <option value="t3">Design 3 - Dark Full Header</option>
+                    <option value="t4">Design 4 - Left Photo Card</option>
+                    <option value="t5">Design 5 - Wide Center Header</option>
+                    <option value="t6">Design 6 - City Background</option>
+                    <option value="t7">Design 7 - Teal Modern Executive</option>
+                </select>
+                <button type="button" class="btn btn-ghost btn-sm" onclick="openTemplateModal()" title="Browse Templates Visually" style="padding:2px 6px;">
+                    <i class="fas fa-th-large" style="font-size:11px;"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button type="button" class="btn btn-outline" id="btn-toggle-mobile" onclick="toggleMobilePreview()">
+                <i class="fas fa-eye"></i> <span id="mobile-toggle-text">Preview</span>
+            </button>
+            <button type="button" class="btn btn-outline" onclick="toggleCollapseAll()">
+                <i class="fas fa-compress-arrows-alt"></i> <span id="collapse-toggle-text">Collapse Cards</span>
+            </button>
+            <button type="button" class="btn btn-navy" onclick="generateCV()">
+                <i class="fas fa-external-link-alt"></i> Open PDF View
+            </button>
+            <button type="button" class="btn btn-download-hero" id="btn-download-top" onclick="downloadCVPdf()">
+                <i class="fas fa-cloud-arrow-down"></i> Download PDF
+            </button>
+        </div>
+    </header>
+
+    <!-- Three-Panel Application Workspace -->
+    <div class="app-layout">
+
+        <!-- Panel 1: Left Navigation Sidebar (236px) -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div>
+                <div class="sidebar-section-title">Document</div>
+                <ul class="sidebar-nav-list">
+                    <li class="sidebar-nav-item active" onclick="scrollToElement('header-editor-card')">
+                        <i class="far fa-id-card"></i>
+                        <span>Personal Info</span>
+                    </li>
+                    <li class="sidebar-nav-item" onclick="scrollToElement('main-column-panel')">
+                        <i class="fas fa-align-left"></i>
+                        <span>Main Column</span>
+                        <span class="sidebar-nav-badge" id="sidebar-main-badge">2</span>
+                    </li>
+                    <li class="sidebar-nav-item" onclick="scrollToElement('side-column-panel')">
+                        <i class="fas fa-align-right"></i>
+                        <span>Side Column</span>
+                        <span class="sidebar-nav-badge" id="sidebar-side-badge">4</span>
+                    </li>
+                </ul>
+
+                <button type="button" class="sidebar-btn-add" onclick="addNewSection({col:'main', title:'NEW SECTION'})">
+                    <i class="fas fa-plus"></i> Add Section
+                </button>
+            </div>
+
+            <div>
+                <div class="sidebar-section-title">Design & Layout</div>
+                <div class="sidebar-quick-template-card" onclick="openTemplateModal()" title="Click to browse all CV templates">
+                    <div class="sidebar-quick-template-title">
+                        <span><i class="fas fa-layer-group" style="color:var(--blue-600);margin-right:6px;"></i> Templates</span>
+                        <span style="font-size:10px;color:var(--blue-600);font-weight:700;">BROWSE</span>
+                    </div>
+                    <div class="sidebar-quick-template-desc" id="sidebar-active-template-name">
+                        Active: Default (Current)
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;padding:10px;background:var(--bg-subtle);border-radius:var(--radius-md);font-size:11px;color:var(--text-subtle);">
+                    <div style="font-weight:700;color:var(--navy-700);margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+                        <i class="fas fa-print" style="color:var(--navy-700)"></i> Document Specs
+                    </div>
+                    <div>Format: <strong>A4 (210 × 297mm)</strong></div>
+                    <div>Target: <strong>1-2 Pages Auto-fit</strong></div>
+                </div>
+            </div>
+
+            <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--border-subtle);font-size:11px;color:var(--text-light);text-align:center;">
+                CV Studio SaaS Editor v2.5
+            </div>
+        </aside>
+
+        <!-- Panel 2: Center Editor Workspace -->
+        <main class="editor-container">
+
+            <!-- Breadcrumb Navigation -->
+            <div class="editor-top-bar">
+                <div class="editor-breadcrumbs">
+                    <span>Documents</span>
+                    <i class="fas fa-chevron-right" style="font-size:9px;"></i>
+                    <span>Resumes</span>
+                    <i class="fas fa-chevron-right" style="font-size:9px;"></i>
+                    <span class="active" id="breadcrumb-doc-name">Telaynew Ambachew</span>
+                </div>
+            </div>
+
+            <!-- Explanation & Swap Guide Banner -->
+            <div class="order-guide-banner">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-right-left" style="color:var(--blue-600);font-size:14px;"></i>
+                    <div>
+                        <strong>Drag & Drop to Swap:</strong> Dragging a section onto another swaps them. Move sections between <strong>Main</strong> (Left - 1.7x) and <strong>Side</strong> (Right - 1.0x) effortlessly.
+                    </div>
+                </div>
+                <div class="guide-tag">
+                    <i class="fas fa-check-circle"></i> Auto-synced
+                </div>
+            </div>
+
+            <!-- Personal Header Info Card -->
+            <div class="editor-card" id="header-editor-card">
+                <div class="card-header-line">
+                    <h3><i class="fas fa-id-card"></i> Main Header (Contact Info)</h3>
+                    <div class="sec-actions">
+                        <button type="button" class="sec-tool-btn" title="Collapse / Expand" onclick="toggleCollapseHeader()">
+                            <i class="fas fa-angle-down collapse-icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="header-card-body">
+                    <div class="grid-2">
+                        <div>
+                            <label>Full Name</label>
+                            <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview(); syncDocName(this.value);" placeholder="e.g. John Doe">
+                        </div>
+                        <div>
+                            <label>Job Title</label>
+                            <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()" placeholder="e.g. Senior Software Engineer">
+                        </div>
+                    </div>
+
+                    <label style="margin-top: 14px;">Contacts (Drag to reorder)</label>
+                    <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+                        <div class="row-item" style="padding:8px 10px;">
+                            <div style="display:flex;gap:10px;align-items:center;">
+                                <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                <input type="text" class="c-icon" value="fas fa-phone" style="width:140px;" oninput="updateLivePreview()">
+                                <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;" oninput="updateLivePreview()">
+                                <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                            </div>
+                        </div>
+                        <div class="row-item" style="padding:8px 10px;">
+                            <div style="display:flex;gap:10px;align-items:center;">
+                                <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                <input type="text" class="c-icon" value="fas fa-envelope" style="width:140px;" oninput="updateLivePreview()">
+                                <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;" oninput="updateLivePreview()">
+                                <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                            </div>
+                        </div>
+                        <div class="row-item" style="padding:8px 10px;">
+                            <div style="display:flex;gap:10px;align-items:center;">
+                                <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                <input type="text" class="c-icon" value="fab fa-linkedin" style="width:140px;" oninput="updateLivePreview()">
+                                <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a" style="flex-grow:1;" oninput="updateLivePreview()">
+                                <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                            </div>
+                        </div>
+                        <div class="row-item" style="padding:8px 10px;">
+                            <div style="display:flex;gap:10px;align-items:center;">
+                                <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                <input type="text" class="c-icon" value="fas fa-globe" placeholder="Icon (e.g. fas fa-globe)" style="width:140px;" oninput="updateLivePreview()">
+                                <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;" oninput="updateLivePreview()">
+                                <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline" style="background:var(--bg-subtle);color:var(--navy-700);border-color:var(--border-strong);margin-top:10px;" onclick="addContactField()">
+                        <i class="fas fa-plus"></i> Add Contact Field
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2-Column Section Drag & Drop Grid -->
+            <div class="columns-grid">
+
+                <!-- MAIN COLUMN (Left - 1.7fr on CV) -->
+                <div class="column-panel main-panel" id="main-column-panel">
+                    <div class="column-panel-header">
+                        <h4><i class="fas fa-align-left"></i> Main Column (Left - 1.7x)</h4>
+                        <span class="badge-count" id="main-count">2 Sections</span>
+                    </div>
+                    <div class="column-hint">
+                        Sections appear on the <strong>primary wide column</strong> (Left). Ideal for Experience, Projects, and Core Work.
+                    </div>
+
+                    <!-- Main Dropzone -->
+                    <div id="main-sections-container" class="sections-dropzone" data-col="main"></div>
+
+                    <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'main', title:'NEW MAIN SECTION'})">
+                        <i class="fas fa-plus-circle"></i> Add Section to Main Column
+                    </button>
+                </div>
+
+                <!-- SIDE COLUMN (Right - 1.0fr on CV) -->
+                <div class="column-panel side-panel" id="side-column-panel">
+                    <div class="column-panel-header">
+                        <h4><i class="fas fa-align-right"></i> Side Column (Right - 1.0x)</h4>
+                        <span class="badge-count" id="side-count">4 Sections</span>
+                    </div>
+                    <div class="column-hint">
+                        Sections appear on the <strong>secondary sidebar</strong> (Right). Ideal for Summary, Education, and Skills.
+                    </div>
+
+                    <!-- Side Dropzone -->
+                    <div id="side-sections-container" class="sections-dropzone" data-col="side"></div>
+
+                    <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'side', title:'NEW SIDE SECTION'})">
+                        <i class="fas fa-plus-circle"></i> Add Section to Side Column
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Bottom Action Buttons -->
+            <div style="display:flex; gap:14px; margin: 10px 0 20px 0;">
+                <button type="button" class="btn-add-section" onclick="addNewSection({col:'main', title:'NEW SECTION'})">
+                    <i class="fas fa-plus"></i> + ADD NEW SECTION
+                </button>
+                <button type="button" class="generate-btn" id="btn-download-bottom" onclick="downloadCVPdf()">
+                    <i class="fas fa-cloud-arrow-down"></i> Download PDF
+                </button>
+            </div>
+
+        </main>
+
+        <!-- Panel 3: Right Workspace - Sticky Live Preview Pane -->
+        <aside class="preview-pane" id="preview-pane-container">
+            <div class="preview-toolbar">
+                <div class="preview-toolbar-title">
+                    <span class="preview-live-pulse"></span>
+                    <span>Live CV Preview (A4 Page)</span>
+                </div>
+                <div style="display:flex;gap:5px;align-items:center;">
+                    <button type="button" class="preview-zoom-btn" onclick="setZoom(0.5)">50%</button>
+                    <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit" onclick="setZoom(0.62)">Fit</button>
+                    <button type="button" class="preview-zoom-btn" onclick="setZoom(0.8)">80%</button>
+                    <button type="button" class="preview-zoom-btn" onclick="setZoom(1.0)">100%</button>
+                </div>
+            </div>
+
+            <div class="preview-viewport" id="preview-viewport">
+                <div class="preview-page-wrapper" id="preview-wrapper">
+                    <!-- Rendered CV Document for Live Preview & Export -->
+                    <div id="cv-document" class="cv-render-box">
+                        <div class="header">
+                            <div class="title-block">
+                                <h1 id="preview-name">TELAYNEW AMBACHEW</h1>
+                                <h2 id="preview-title">AI and Data Engineer</h2>
+                            </div>
+                            <div class="contact-grid" id="preview-contacts"></div>
+                        </div>
+                        <div class="content">
+                            <div id="preview-main-content"></div>
+                            <div id="preview-side-content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- Visual Template Selector Modal -->
+    <div class="modal-overlay" id="template-modal" onclick="if(event.target === this) closeTemplateModal()">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-layer-group" style="color:var(--blue-600)"></i> Choose CV Design Template</h3>
+                <button type="button" class="modal-close-btn" onclick="closeTemplateModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="template-cards-grid">
+                <!-- Dynamically rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast element -->
+    <div id="toast">
+        <i class="fas fa-check-circle" style="color:var(--green-600)"></i>
+        <span id="toast-text">Order updated</span>
+    </div>
+
+
+    <script>
+
         if (typeof Sortable === 'undefined') {
             document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"><\/script>');
         }
@@ -3050,7 +5047,116 @@ const CV_ASSETS = {
         } else {
             initPage();
         }
+    
+
+    // ─── UI Enhancement Helpers ──────────────────────────────────────────────
+    const TEMPLATES_CATALOG = [
+        { id: 'default', name: 'Default (Current)', tag: 'Classic', desc: 'Authoritative dark navy header with 1.7x / 1.0x dual column layout.', color: '#1a3c5e' },
+        { id: 't1', name: 'Design 1 - Dark Left Bar', tag: 'Executive', desc: 'Deep navy left sidebar with circular avatar and white main area.', color: '#162b48' },
+        { id: 't2', name: 'Design 2 - Center Header', tag: 'Minimal', desc: 'Centered profile badge and contact row with geometric accents.', color: '#4f46e5' },
+        { id: 't3', name: 'Design 3 - Dark Full Header', tag: 'Corporate', desc: 'Full-width dark header with dual-toned sidebar and main cards.', color: '#1a2736' },
+        { id: 't4', name: 'Design 4 - Left Photo Card', tag: 'Creative', desc: 'Photo card on the left with Addis cityscape architectural baseline.', color: '#2b5797' },
+        { id: 't5', name: 'Design 5 - Wide Center Header', tag: 'Modern', desc: 'Curved clean header with central avatar badge and pill tags.', color: '#2563eb' },
+        { id: 't6', name: 'Design 6 - City Background', tag: 'Panoramic', desc: 'Mountain and city skyline panorama with golden star ratings.', color: '#0d2238' },
+        { id: 't7', name: 'Design 7 - Teal Modern Executive', tag: 'Executive', desc: 'Concentric teal circular arcs, double bars, and skill progress levels.', color: '#00c2cb' }
+    ];
+
+    function scrollToElement(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.transition = 'outline 0.2s';
+            el.style.outline = '3px solid #2563eb';
+            setTimeout(() => { el.style.outline = 'none'; }, 1200);
+        }
+    }
+
+    function syncDocName(name) {
+        const docInput = document.getElementById('doc-title-input');
+        const bName = document.getElementById('breadcrumb-doc-name');
+        if (docInput && name) docInput.value = `${name} - CV`;
+        if (bName && name) bName.innerText = name;
+    }
+
+    function onTemplateSelectChange() {
+        const sel = document.getElementById('cv-template-select');
+        const val = sel ? sel.value : 'default';
+        const found = TEMPLATES_CATALOG.find(t => t.id === val);
+        const name = found ? found.name : val;
+        
+        const sideLabel = document.getElementById('sidebar-active-template-name');
+        if (sideLabel) sideLabel.innerText = `Active: ${name}`;
+
+        updateLivePreview();
+        renderTemplateCards();
+        showToast(`Template changed to ${name}`);
+    }
+
+    function openTemplateModal() {
+        renderTemplateCards();
+        const m = document.getElementById('template-modal');
+        if (m) m.classList.add('active');
+    }
+
+    function closeTemplateModal() {
+        const m = document.getElementById('template-modal');
+        if (m) m.classList.remove('active');
+    }
+
+    function selectTemplateVisual(tId) {
+        const sel = document.getElementById('cv-template-select');
+        if (sel) {
+            sel.value = tId;
+            onTemplateSelectChange();
+        }
+        closeTemplateModal();
+    }
+
+    function renderTemplateCards() {
+        const grid = document.getElementById('template-cards-grid');
+        if (!grid) return;
+        const cur = document.getElementById('cv-template-select')?.value || 'default';
+
+        grid.innerHTML = TEMPLATES_CATALOG.map(t => {
+            const isActive = t.id === cur;
+            return `
+            <div class="template-card ${isActive ? 'active' : ''}" onclick="selectTemplateVisual('${t.id}')">
+                <div class="template-card-badge" style="background:${t.color}15;color:${t.color};border:1px solid ${t.color}40;">
+                    ${t.tag}
+                </div>
+                <div class="template-card-preview" style="background:linear-gradient(135deg, ${t.color}20 0%, ${t.color}05 100%);border-top:3px solid ${t.color};align-items:center;justify-content:center;position:relative;">
+                    <div style="width:70%;height:65%;background:white;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,0.1);display:flex;flex-direction:column;padding:6px;gap:4px;overflow:hidden;">
+                        <div style="height:12px;background:${t.color};border-radius:2px;width:100%;"></div>
+                        <div style="display:flex;gap:4px;flex-grow:1;">
+                            <div style="width:60%;background:#f1f5f9;border-radius:2px;"></div>
+                            <div style="width:40%;background:#e2e8f0;border-radius:2px;"></div>
+                        </div>
+                    </div>
+                    ${isActive ? '<div style="position:absolute;top:6px;right:6px;background:var(--blue-600);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;"><i class="fas fa-check"></i></div>' : ''}
+                </div>
+                <div class="template-card-title">${t.name}</div>
+                <div class="template-card-desc">${t.desc}</div>
+                <button type="button" class="btn ${isActive ? 'btn-primary' : 'btn-outline'} btn-sm" style="width:100%;">
+                    ${isActive ? '<i class="fas fa-check-circle"></i> Currently Selected' : 'Use This Template'}
+                </button>
+            </div>`;
+        }).join('');
+    }
+
+    // Wrap updateAllOrders to also update sidebar badge counts
+    const _origUpdateAllOrders = typeof updateAllOrders === 'function' ? updateAllOrders : null;
+    if (_origUpdateAllOrders) {
+        updateAllOrders = function() {
+            _origUpdateAllOrders();
+            const mainBoxes = document.querySelectorAll('#main-sections-container .section-box');
+            const sideBoxes = document.querySelectorAll('#side-sections-container .section-box');
+            const bMain = document.getElementById('sidebar-main-badge');
+            const bSide = document.getElementById('sidebar-side-badge');
+            if (bMain) bMain.innerText = mainBoxes.length;
+            if (bSide) bSide.innerText = sideBoxes.length;
+        };
+    }
+
     </script>
 </body>
-
 </html>
