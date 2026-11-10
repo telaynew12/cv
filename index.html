@@ -809,6 +809,20 @@
         <button type="button" class="btn btn-outline" onclick="toggleCollapseAll()">
             <i class="fas fa-compress-arrows-alt"></i> <span id="collapse-toggle-text">Collapse Cards</span>
         </button>
+        <!-- Template Selector -->
+        <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border-radius:6px;padding:4px 10px;">
+            <i class="fas fa-palette" style="color:#a0d4ff;font-size:13px;"></i>
+            <label for="cv-template-select" style="font-size:11px;color:#cce;font-weight:600;white-space:nowrap;">Template:</label>
+            <select id="cv-template-select" onchange="updateLivePreview()" style="background:#1e3a5a;color:white;border:1px solid #4a7fa5;border-radius:4px;padding:3px 6px;font-size:12px;cursor:pointer;outline:none;">
+                <option value="default">Default (Current)</option>
+                <option value="t1">Design 1 – Dark Left Bar</option>
+                <option value="t2">Design 2 – Center Header</option>
+                <option value="t3">Design 3 – Dark Full Header</option>
+                <option value="t4">Design 4 – Left Photo Card</option>
+                <option value="t5">Design 5 – Wide Center Header</option>
+                <option value="t6">Design 6 – City Background</option>
+            </select>
+        </div>
         <button type="button" class="btn btn-navy" onclick="generateCV()">
             <i class="fas fa-external-link-alt"></i> Open PDF View
         </button>
@@ -1538,17 +1552,40 @@
     // Update the live preview pane immediately
     function updateLivePreview() {
         const data = getCVData();
-        const pName = document.getElementById('preview-name');
-        const pTitle = document.getElementById('preview-title');
-        const pContacts = document.getElementById('preview-contacts');
-        const pMain = document.getElementById('preview-main-content');
-        const pSide = document.getElementById('preview-side-content');
+        const t = getActiveTemplate();
+        const wrapper = document.getElementById('preview-wrapper');
 
-        if (pName) pName.innerText = data.name;
-        if (pTitle) pTitle.innerText = data.job;
-        if (pContacts) pContacts.innerHTML = data.contacts.map(c => `<span>${c.icon ? `<i class="${c.icon}"></i>` : ''} ${c.val}</span>`).join('');
-        if (pMain) pMain.innerHTML = data.mainHtml;
-        if (pSide) pSide.innerHTML = data.sideHtml;
+        if (t === 'default') {
+            // Use original in-place update for the Default template
+            const pName = document.getElementById('preview-name');
+            const pTitle = document.getElementById('preview-title');
+            const pContacts = document.getElementById('preview-contacts');
+            const pMain = document.getElementById('preview-main-content');
+            const pSide = document.getElementById('preview-side-content');
+
+            // Make sure the default DOM is restored if previously swapped
+            if (!pName && wrapper) {
+                wrapper.innerHTML = `<div id="cv-document" class="cv-render-box">
+                    <div class="header"><div class="title-block"><h1 id="preview-name"></h1><h2 id="preview-title"></h2></div><div class="contact-grid" id="preview-contacts"></div></div>
+                    <div class="content"><div id="preview-main-content"></div><div id="preview-side-content"></div></div>
+                </div>`;
+            }
+            const pN = document.getElementById('preview-name');
+            const pT = document.getElementById('preview-title');
+            const pC = document.getElementById('preview-contacts');
+            const pM = document.getElementById('preview-main-content');
+            const pS = document.getElementById('preview-side-content');
+            if (pN) pN.innerText = data.name;
+            if (pT) pT.innerText = data.job;
+            if (pC) pC.innerHTML = data.contacts.map(c => `<span>${c.icon ? `<i class="${c.icon}"></i>` : ''} ${c.val}</span>`).join('');
+            if (pM) pM.innerHTML = data.mainHtml;
+            if (pS) pS.innerHTML = data.sideHtml;
+        } else {
+            // For alternate templates, replace the whole preview wrapper content
+            if (wrapper) {
+                wrapper.innerHTML = generateTemplateHtml(data);
+            }
+        }
     }
 
             // Authoritative CV Document HTML & CSS Generator (Used identically by Live Preview, Open PDF View, and Direct Download)
@@ -1694,6 +1731,281 @@
     </div>`;
     }
 
+    // ─── Template router ──────────────────────────────────────────────────────
+    function getActiveTemplate() {
+        const sel = document.getElementById('cv-template-select');
+        return sel ? sel.value : 'default';
+    }
+
+    function generateTemplateHtml(data) {
+        const t = getActiveTemplate();
+        if (t === 't1') return generateTemplate1(data);
+        if (t === 't2') return generateTemplate2(data);
+        if (t === 't3') return generateTemplate3(data);
+        if (t === 't4') return generateTemplate4(data);
+        if (t === 't5') return generateTemplate5(data);
+        if (t === 't6') return generateTemplate6(data);
+        return generateCVDocumentHtml(data); // default
+    }
+
+    // ─── DESIGN 1: Dark Left Side Bar with photo placeholder ─────────────────
+    function generateTemplate1(data) {
+        const contactsHtml = data.contacts.map(c =>
+            `<div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:7px;font-size:7.5pt;color:#dde;word-break:break-all;line-height:1.3;">
+                ${c.icon ? `<i class="${c.icon}" style="color:#90caf9;min-width:14px;margin-top:1px;"></i>` : ''}
+                <span>${c.val}</span>
+            </div>`
+        ).join('');
+        return `
+        <div class="cv-page-container" style="width:210mm;min-height:297mm;display:flex;flex-direction:row;background:#fff;font-family:sans-serif;color:#222;position:relative;overflow-x:hidden;box-sizing:border-box;">
+            <style>
+                .t1-left{width:62mm;min-height:297mm;background:#1a3c5e;color:white;padding:30px 18px 20px 18px;box-sizing:border-box;flex-shrink:0;}
+                .t1-right{flex:1;padding:30px 24px 20px 24px;box-sizing:border-box;overflow:hidden;}
+                .t1-name{font-size:15pt;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.1;margin-bottom:4px;}
+                .t1-job{font-size:9pt;color:#90caf9;margin-bottom:20px;}
+                .t1-sec{font-size:8.5pt;font-weight:700;text-transform:uppercase;color:#90caf9;border-bottom:1px solid #4a7fa5;padding-bottom:3px;margin:14px 0 7px 0;letter-spacing:.5px;}
+                .t1-tag{display:inline-block;background:#0d2740;color:#90caf9;border-radius:3px;padding:2px 7px;font-size:7pt;margin:2px 2px 2px 0;}
+                .r-stitle{font-size:10pt;font-weight:700;color:#1a3c5e;text-transform:uppercase;border-bottom:2px solid #1a3c5e;padding-bottom:2px;margin:10px 0 6px 0;}
+                .r-etitle{font-size:8.5pt;font-weight:700;color:#1a3c5e;display:flex;justify-content:space-between;}
+                .r-esub{font-size:7.5pt;color:#666;margin:1px 0;}
+                .r-ul{margin:2px 0 0 14px;font-size:7.5pt;line-height:1.3;color:#333;}
+                .r-entry{margin-bottom:7px;page-break-inside:avoid;break-inside:avoid;}
+            </style>
+            <!-- Left Column -->
+            <div class="t1-left">
+                <!-- Photo placeholder -->
+                <div style="width:70px;height:70px;border-radius:50%;background:#0d2740;border:3px solid #4a7fa5;margin:0 auto 16px auto;display:flex;align-items:center;justify-content:center;color:#4a7fa5;font-size:28px;">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="t1-name">${data.name}</div>
+                <div class="t1-job">${data.job}</div>
+                <div class="t1-sec">Contact</div>
+                ${contactsHtml}
+                <div class="t1-sec">Skills</div>
+                <div>${(data.sideHtml.match(/SKILLS[\s\S]*?(?=<div class="stitle"|$)/i)||[''])[0].replace(/<[^>]*>/g,' ').replace(/SKILLS/,'').trim().split(/[,•\n]+/).filter(s=>s.trim()).map(s=>`<span class="t1-tag">${s.trim()}</span>`).join('')||'<span class="t1-tag">See main</span>'}</div>
+                <div class="t1-sec">Languages</div>
+                <div style="font-size:7.5pt;color:#dde;">English &nbsp; Amharic</div>
+            </div>
+            <!-- Right Column -->
+            <div class="t1-right">
+                ${data.mainHtml.replace(/<div class="stitle">/g,'<div class="r-stitle">').replace(/<div class="entry-title-row">/g,'<div class="r-etitle">').replace(/<div class="entry-sub">/g,'<div class="r-esub">').replace(/<ul>/g,'<ul class="r-ul">').replace(/<div class="entry-item">/g,'<div class="r-entry">')}
+                ${data.sideHtml.replace(/<div class="stitle">/g,'<div class="r-stitle">').replace(/<div class="entry-title-row">/g,'<div class="r-etitle">').replace(/<div class="entry-sub">/g,'<div class="r-esub">').replace(/<ul>/g,'<ul class="r-ul">').replace(/<div class="entry-item">/g,'<div class="r-entry">')}
+            </div>
+        </div>`;
+    }
+
+    // ─── DESIGN 2: Center header with photo, two-column body ─────────────────
+    function generateTemplate2(data) {
+        const contactsHtml = data.contacts.map(c =>
+            `<span style="display:inline-flex;align-items:center;gap:5px;font-size:8pt;color:#444;">
+                ${c.icon ? `<i class="${c.icon}" style="color:#1a3c5e;"></i>` : ''} ${c.val}
+            </span>`
+        ).join('');
+        return `
+        <div class="cv-page-container" style="width:210mm;min-height:297mm;background:#fff;font-family:sans-serif;color:#222;box-sizing:border-box;overflow-x:hidden;">
+            <style>
+                .t2-header{background:#1a3c5e;padding:22px 30px 18px 30px;display:flex;align-items:center;gap:20px;}
+                .t2-photo{width:72px;height:72px;border-radius:50%;background:#0d2740;border:3px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:28px;flex-shrink:0;}
+                .t2-name{font-size:20pt;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.1;}
+                .t2-job{font-size:10pt;color:#90caf9;margin-top:4px;}
+                .t2-contacts{padding:10px 30px;background:#f4f7fb;display:flex;flex-wrap:wrap;gap:14px;border-bottom:1px solid #d0dce8;}
+                .t2-body{display:grid;grid-template-columns:1.6fr 1fr;gap:0;padding:0;}
+                .t2-main{padding:16px 20px 16px 30px;border-right:1px solid #d0dce8;}
+                .t2-side{padding:16px 20px 16px 20px;}
+                .t2-stitle{font-size:9.5pt;font-weight:700;color:#1a3c5e;text-transform:uppercase;border-bottom:2px solid #1a3c5e;padding-bottom:2px;margin:10px 0 6px 0;display:flex;align-items:center;gap:6px;}
+                .t2-etitle{font-size:8.5pt;font-weight:700;color:#1a3c5e;display:flex;justify-content:space-between;}
+                .t2-esub{font-size:7.5pt;color:#666;margin:1px 0;}
+                .t2-ul{margin:2px 0 0 14px;font-size:7.5pt;line-height:1.3;color:#333;}
+                .t2-entry{margin-bottom:7px;page-break-inside:avoid;break-inside:avoid;}
+            </style>
+            <div class="t2-header">
+                <div class="t2-photo"><i class="fas fa-user"></i></div>
+                <div>
+                    <div class="t2-name">${data.name}</div>
+                    <div class="t2-job">${data.job}</div>
+                </div>
+            </div>
+            <div class="t2-contacts">${contactsHtml}</div>
+            <div class="t2-body">
+                <div class="t2-main">
+                    ${data.mainHtml.replace(/<div class="stitle">/g,'<div class="t2-stitle"><i class="fas fa-circle" style="font-size:5pt;color:#1a3c5e;"></i>').replace(/<div class="entry-title-row">/g,'<div class="t2-etitle">').replace(/<div class="entry-sub">/g,'<div class="t2-esub">').replace(/<ul>/g,'<ul class="t2-ul">').replace(/<div class="entry-item">/g,'<div class="t2-entry">')}
+                </div>
+                <div class="t2-side">
+                    ${data.sideHtml.replace(/<div class="stitle">/g,'<div class="t2-stitle"><i class="fas fa-circle" style="font-size:5pt;color:#1a3c5e;"></i>').replace(/<div class="entry-title-row">/g,'<div class="t2-etitle">').replace(/<div class="entry-sub">/g,'<div class="t2-esub">').replace(/<ul>/g,'<ul class="t2-ul">').replace(/<div class="entry-item">/g,'<div class="t2-entry">')}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ─── DESIGN 3: Full dark top header, right-side info panel ───────────────
+    function generateTemplate3(data) {
+        const contactsHtml = data.contacts.map(c =>
+            `<div style="display:flex;align-items:flex-start;gap:6px;font-size:7.5pt;color:#dde;margin-bottom:5px;word-break:break-all;line-height:1.3;">
+                ${c.icon ? `<i class="${c.icon}" style="color:#90caf9;min-width:13px;margin-top:1px;"></i>` : ''} ${c.val}
+            </div>`
+        ).join('');
+        return `
+        <div class="cv-page-container" style="width:210mm;min-height:297mm;background:#fff;font-family:sans-serif;color:#222;box-sizing:border-box;overflow-x:hidden;">
+            <style>
+                .t3-header{background:#1a3c5e;padding:28px 30px 22px 30px;display:flex;align-items:center;gap:20px;}
+                .t3-photo{width:68px;height:68px;border-radius:50%;background:#0d2740;border:3px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.35);font-size:26px;flex-shrink:0;}
+                .t3-name{font-size:19pt;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.1;}
+                .t3-job{font-size:9.5pt;color:#90caf9;margin-top:4px;}
+                .t3-body{display:grid;grid-template-columns:1fr 56mm;min-height:calc(297mm - 118px);}
+                .t3-main{padding:16px 20px 16px 30px;border-right:1px solid #d0dce8;}
+                .t3-side{padding:16px 16px;background:#f4f7fb;}
+                .t3-stitle{font-size:9pt;font-weight:700;color:#1a3c5e;text-transform:uppercase;border-bottom:2px solid #1a3c5e;padding-bottom:2px;margin:10px 0 6px 0;}
+                .t3-etitle{font-size:8.5pt;font-weight:700;color:#1a3c5e;display:flex;justify-content:space-between;}
+                .t3-esub{font-size:7.5pt;color:#666;margin:1px 0;}
+                .t3-ul{margin:2px 0 0 14px;font-size:7.5pt;line-height:1.3;color:#333;}
+                .t3-entry{margin-bottom:7px;page-break-inside:avoid;break-inside:avoid;}
+            </style>
+            <div class="t3-header">
+                <div class="t3-photo"><i class="fas fa-user"></i></div>
+                <div style="flex:1;">
+                    <div class="t3-name">${data.name}</div>
+                    <div class="t3-job">${data.job}</div>
+                </div>
+                <div style="min-width:140px;">${contactsHtml}</div>
+            </div>
+            <div class="t3-body">
+                <div class="t3-main">
+                    ${data.mainHtml.replace(/<div class="stitle">/g,'<div class="t3-stitle">').replace(/<div class="entry-title-row">/g,'<div class="t3-etitle">').replace(/<div class="entry-sub">/g,'<div class="t3-esub">').replace(/<ul>/g,'<ul class="t3-ul">').replace(/<div class="entry-item">/g,'<div class="t3-entry">')}
+                </div>
+                <div class="t3-side">
+                    ${data.sideHtml.replace(/<div class="stitle">/g,'<div class="t3-stitle">').replace(/<div class="entry-title-row">/g,'<div class="t3-etitle">').replace(/<div class="entry-sub">/g,'<div class="t3-esub">').replace(/<ul>/g,'<ul class="t3-ul">').replace(/<div class="entry-item">/g,'<div class="t3-entry">')}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ─── DESIGN 4: Left photo card, full-width info ───────────────────────────
+    function generateTemplate4(data) {
+        const contactsHtml = data.contacts.map(c =>
+            `<div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:7px;font-size:7.5pt;color:#333;word-break:break-all;line-height:1.3;">
+                ${c.icon ? `<i class="${c.icon}" style="color:#1a3c5e;min-width:13px;margin-top:1px;"></i>` : ''}
+                <span>${c.val}</span>
+            </div>`
+        ).join('');
+        return `
+        <div class="cv-page-container" style="width:210mm;min-height:297mm;display:flex;flex-direction:row;background:#fff;font-family:sans-serif;color:#222;box-sizing:border-box;overflow-x:hidden;">
+            <style>
+                .t4-left{width:58mm;min-height:297mm;background:#f4f7fb;border-right:1px solid #d0dce8;padding:24px 16px;box-sizing:border-box;flex-shrink:0;}
+                .t4-right{flex:1;padding:24px 24px;box-sizing:border-box;}
+                .t4-photo{width:76px;height:76px;border-radius:50%;background:#1a3c5e;border:4px solid #1a3c5e;margin:0 auto 14px auto;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:30px;}
+                .t4-name{font-size:11pt;font-weight:900;color:#1a3c5e;text-align:center;line-height:1.2;margin-bottom:3px;}
+                .t4-job{font-size:7.5pt;color:#666;text-align:center;margin-bottom:16px;}
+                .t4-sec{font-size:8pt;font-weight:700;text-transform:uppercase;color:#1a3c5e;border-bottom:1px solid #1a3c5e;padding-bottom:2px;margin:12px 0 7px 0;}
+                .t4-motto{font-size:7.5pt;color:#444;font-style:italic;text-align:center;margin-top:20px;padding-top:12px;border-top:1px solid #d0dce8;}
+                .r4-stitle{font-size:9.5pt;font-weight:700;color:#1a3c5e;text-transform:uppercase;border-bottom:2px solid #1a3c5e;padding-bottom:2px;margin:10px 0 6px 0;}
+                .r4-etitle{font-size:8.5pt;font-weight:700;color:#1a3c5e;display:flex;justify-content:space-between;}
+                .r4-esub{font-size:7.5pt;color:#666;margin:1px 0;}
+                .r4-ul{margin:2px 0 0 14px;font-size:7.5pt;line-height:1.3;color:#333;}
+                .r4-entry{margin-bottom:7px;page-break-inside:avoid;break-inside:avoid;}
+            </style>
+            <div class="t4-left">
+                <div class="t4-photo"><i class="fas fa-user"></i></div>
+                <div class="t4-name">${data.name}</div>
+                <div class="t4-job">${data.job}</div>
+                <div class="t4-sec">Contact</div>
+                ${contactsHtml}
+                <div class="t4-motto">Building Intelligent Solutions for a Better Tomorrow</div>
+            </div>
+            <div class="t4-right">
+                ${data.mainHtml.replace(/<div class="stitle">/g,'<div class="r4-stitle">').replace(/<div class="entry-title-row">/g,'<div class="r4-etitle">').replace(/<div class="entry-sub">/g,'<div class="r4-esub">').replace(/<ul>/g,'<ul class="r4-ul">').replace(/<div class="entry-item">/g,'<div class="r4-entry">')}
+                ${data.sideHtml.replace(/<div class="stitle">/g,'<div class="r4-stitle">').replace(/<div class="entry-title-row">/g,'<div class="r4-etitle">').replace(/<div class="entry-sub">/g,'<div class="r4-esub">').replace(/<ul>/g,'<ul class="r4-ul">').replace(/<div class="entry-item">/g,'<div class="r4-entry">')}
+            </div>
+        </div>`;
+    }
+
+    // ─── DESIGN 5: Wide center header + photo, two equal columns ─────────────
+    function generateTemplate5(data) {
+        const contactsHtml = data.contacts.map(c =>
+            `<span style="display:inline-flex;align-items:center;gap:5px;font-size:7.5pt;color:#dde;">
+                ${c.icon ? `<i class="${c.icon}" style="color:#90caf9;"></i>` : ''} ${c.val}
+            </span>`
+        ).join('');
+        return `
+        <div class="cv-page-container" style="width:210mm;min-height:297mm;background:#fff;font-family:sans-serif;color:#222;box-sizing:border-box;overflow-x:hidden;">
+            <style>
+                .t5-header{background:#1a3c5e;padding:22px 30px 18px 30px;}
+                .t5-top{display:flex;align-items:center;gap:18px;margin-bottom:12px;}
+                .t5-photo{width:68px;height:68px;border-radius:50%;background:#0d2740;border:3px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.35);font-size:26px;flex-shrink:0;}
+                .t5-name{font-size:19pt;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.1;}
+                .t5-job{font-size:9.5pt;color:#90caf9;margin-top:4px;}
+                .t5-contacts{display:flex;flex-wrap:wrap;gap:14px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.15);}
+                .t5-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+                .t5-col{padding:16px 20px;box-sizing:border-box;}
+                .t5-col:first-child{border-right:1px solid #d0dce8;}
+                .t5-stitle{font-size:9.5pt;font-weight:700;color:#1a3c5e;text-transform:uppercase;border-bottom:2px solid #1a3c5e;padding-bottom:2px;margin:10px 0 6px 0;display:flex;align-items:center;gap:6px;}
+                .t5-etitle{font-size:8.5pt;font-weight:700;color:#1a3c5e;display:flex;justify-content:space-between;}
+                .t5-esub{font-size:7.5pt;color:#666;margin:1px 0;}
+                .t5-ul{margin:2px 0 0 14px;font-size:7.5pt;line-height:1.3;color:#333;}
+                .t5-entry{margin-bottom:7px;page-break-inside:avoid;break-inside:avoid;}
+                .t5-tag{display:inline-block;background:#e8f4fd;color:#1a3c5e;border-radius:3px;padding:2px 7px;font-size:7pt;margin:2px 2px 2px 0;}
+            </style>
+            <div class="t5-header">
+                <div class="t5-top">
+                    <div class="t5-photo"><i class="fas fa-user"></i></div>
+                    <div>
+                        <div class="t5-name">${data.name}</div>
+                        <div class="t5-job">${data.job}</div>
+                    </div>
+                </div>
+                <div class="t5-contacts">${contactsHtml}</div>
+            </div>
+            <div class="t5-body">
+                <div class="t5-col">
+                    ${data.mainHtml.replace(/<div class="stitle">/g,'<div class="t5-stitle"><i class="fas fa-bookmark" style="font-size:7pt;"></i>').replace(/<div class="entry-title-row">/g,'<div class="t5-etitle">').replace(/<div class="entry-sub">/g,'<div class="t5-esub">').replace(/<ul>/g,'<ul class="t5-ul">').replace(/<div class="entry-item">/g,'<div class="t5-entry">')}
+                </div>
+                <div class="t5-col">
+                    ${data.sideHtml.replace(/<div class="stitle">/g,'<div class="t5-stitle"><i class="fas fa-bookmark" style="font-size:7pt;"></i>').replace(/<div class="entry-title-row">/g,'<div class="t5-etitle">').replace(/<div class="entry-sub">/g,'<div class="t5-esub">').replace(/<ul>/g,'<ul class="t5-ul">').replace(/<div class="entry-item">/g,'<div class="t5-entry">')}
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ─── DESIGN 6: Full dark header + city/landscape photo top banner ────────
+    function generateTemplate6(data) {
+        const contactsHtml = data.contacts.map(c =>
+            `<div style="display:flex;align-items:flex-start;gap:6px;font-size:7.5pt;color:#dde;margin-bottom:5px;word-break:break-all;line-height:1.3;">
+                ${c.icon ? `<i class="${c.icon}" style="color:#90caf9;min-width:13px;margin-top:1px;"></i>` : ''} ${c.val}
+            </div>`
+        ).join('');
+        return `
+        <div class="cv-page-container" style="width:210mm;min-height:297mm;background:#fff;font-family:sans-serif;color:#222;box-sizing:border-box;overflow-x:hidden;">
+            <style>
+                .t6-header{background:linear-gradient(135deg,#1a3c5e 60%,#2a5a8e 100%);padding:26px 24px 20px 24px;position:relative;overflow:hidden;}
+                .t6-name{font-size:20pt;font-weight:900;text-transform:uppercase;color:#fff;line-height:1.1;}
+                .t6-job{font-size:9.5pt;color:#90caf9;margin-top:4px;margin-bottom:16px;}
+                .t6-contacts{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+                .t6-body{display:grid;grid-template-columns:1.5fr 1fr;gap:0;}
+                .t6-main{padding:14px 18px 14px 24px;border-right:1px solid #d0dce8;}
+                .t6-side{padding:14px 16px;}
+                .t6-stitle{font-size:9pt;font-weight:700;color:#1a3c5e;text-transform:uppercase;border-bottom:2px solid #1a3c5e;padding-bottom:2px;margin:10px 0 6px 0;}
+                .t6-etitle{font-size:8pt;font-weight:700;color:#1a3c5e;display:flex;justify-content:space-between;}
+                .t6-esub{font-size:7.5pt;color:#666;margin:1px 0;}
+                .t6-ul{margin:2px 0 0 14px;font-size:7.5pt;line-height:1.3;color:#333;}
+                .t6-entry{margin-bottom:7px;page-break-inside:avoid;break-inside:avoid;}
+                .t6-star{color:#f5a623;margin-right:4px;font-size:9pt;}
+            </style>
+            <div class="t6-header">
+                <div class="t6-name">${data.name}</div>
+                <div class="t6-job">${data.job}</div>
+                <div class="t6-contacts">${contactsHtml}</div>
+            </div>
+            <div class="t6-body">
+                <div class="t6-main">
+                    ${data.mainHtml.replace(/<div class="stitle">/g,'<div class="t6-stitle">').replace(/<div class="entry-title-row">/g,'<div class="t6-etitle">').replace(/<div class="entry-sub">/g,'<div class="t6-esub">').replace(/<ul>/g,'<ul class="t6-ul">').replace(/<div class="entry-item">/g,'<div class="t6-entry">')}
+                </div>
+                <div class="t6-side">
+                    ${data.sideHtml.replace(/<div class="stitle">/g,'<div class="t6-stitle"><i class="fas fa-star t6-star"></i>').replace(/<div class="entry-title-row">/g,'<div class="t6-etitle">').replace(/<div class="entry-sub">/g,'<div class="t6-esub">').replace(/<ul>/g,'<ul class="t6-ul">').replace(/<div class="entry-item">/g,'<div class="t6-entry">')}
+                </div>
+            </div>
+        </div>`;
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     // Unified Robust PDF Export Engine (Accurately outputs 1 page if 1 page, 2 pages if 2 pages)
     function executePdfExport(targetElement, filename) {
         const opt = { 
@@ -1772,7 +2084,7 @@
         const data = getCVData();
         const safeName = (data.name || 'CV').trim().replace(/[^a-zA-Z0-9_-]/g, '_');
         const filename = `${safeName}_CV.pdf`;
-        const docHtml = generateCVDocumentHtml(data);
+        const docHtml = generateTemplateHtml(data);
 
         const cvHtml = `<!DOCTYPE html>
 <html><head>
@@ -1904,7 +2216,7 @@
         exportContainer.style.padding = '0';
 
         // Insert the EXACT same document HTML used in Open PDF View
-        exportContainer.innerHTML = generateCVDocumentHtml(data);
+        exportContainer.innerHTML = generateTemplateHtml(data);
         document.body.appendChild(exportContainer);
 
         const targetEl = exportContainer.querySelector('.cv-page-container');
