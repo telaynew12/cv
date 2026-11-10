@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio - Professional Document Editor</title>
+    <title>CV Studio - Ultra-Premium Document Editor</title>
     <!-- Modern Inter Typography & FontAwesome 6 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +13,1592 @@
     <!-- Local libraries with CDN fallback -->
     <script src="sortable.min.js"></script>
     <script>
+        if (typeof Sortable === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"><\/script>');
+        }
+    </script>
+    <script src="html2pdf.bundle.min.js"></script>
+    <script>
+        if (typeof html2pdf === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script>');
+        }
+    </script>
+
+    <style>
+/* ═══════════════════════════════════════════════════════════════════════════
+   CV STUDIO - ULTRA-PREMIUM CONSUMER SAAS DESIGN SYSTEM
+   Inspired by Notion & Linear
+   Exact Match to User Reference Images
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    /* Brand Colors */
+    --rail-bg: #091122;
+    --rail-hover: #16243d;
+    --rail-active: #1e293b;
+
+    --blue-primary: #2563EB;
+    --blue-hover: #1d4ed8;
+    --blue-tint: #eef2ff;
+
+    --green-primary: #10B981;
+    --green-hover: #059669;
+    --green-tint: #ecfdf5;
+
+    --canvas-bg: #f3f4f6;
+    --card-bg: #ffffff;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-subtle: #6b7280;
+    --text-light: #9ca3af;
+
+    --border-subtle: #f1f5f9;
+    --border-light: #e5e7eb;
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    --preview-scale: 0.62;
+    --header-height: 60px;
+    --rail-width: 56px;
+
+    /* Legacy compatibility variables for existing code */
+    --navy: #173B5E;
+    --navy-light: #2c527c;
+    --navy-bg: #eef2ff;
+    --green: #10B981;
+    --green-dark: #059669;
+    --green-bg: #ecfdf5;
+    --bg: var(--canvas-bg);
+    --border: var(--border-light);
+    --red: #ef4444;
+    --text: var(--text-primary);
+    --text-muted: var(--text-subtle);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--canvas-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Thin Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   1. SLIM DARK NAVIGATION RAIL (56px) - Matching Screenshot
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-rail {
+    width: var(--rail-width);
+    background: var(--rail-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0 16px 0;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.rail-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.rail-logo {
+    width: 36px;
+    height: 36px;
+    background: var(--blue-primary);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+    transition: transform 0.15s;
+}
+
+.rail-logo:hover {
+    transform: scale(1.05);
+}
+
+.rail-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.rail-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.rail-btn:hover {
+    background: var(--rail-hover);
+    color: white;
+}
+
+.rail-btn.active {
+    background: var(--rail-active);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.rail-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.rail-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+.rail-user-avatar:hover {
+    color: white;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   2. MAIN APPLICATION CONTAINER (Right of Rail)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 100vh;
+    background: var(--canvas-bg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   3. SLEEK WHITE TOP NAVIGATION (60px) - Matching Screenshot
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-header {
+    height: var(--header-height);
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-light);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.doc-name-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.doc-title-input {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    border: none;
+    background: transparent;
+    padding: 4px 6px;
+    border-radius: 6px;
+    outline: none;
+    cursor: text;
+    transition: background 0.15s;
+    font-family: inherit;
+    width: 230px;
+}
+
+.doc-title-input:hover {
+    background: #f3f4f6;
+}
+
+.doc-title-input:focus {
+    background: white;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.doc-edit-icon {
+    font-size: 12px;
+    color: #9ca3af;
+    cursor: pointer;
+}
+
+.save-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #059669;
+    padding: 3px 10px;
+    background: var(--green-tint);
+    border-radius: var(--radius-full);
+}
+
+.save-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-primary);
+}
+
+.header-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-template-selector {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 4px 10px;
+}
+
+.header-template-selector label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #4b5563;
+    margin: 0;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.header-template-selector select {
+    background: transparent;
+    border: none;
+    color: #111827;
+    font-size: 12.5px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 2px 4px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Modern Pill & Clean Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-preview-pill {
+    background: #ffffff;
+    color: var(--blue-primary);
+    border: 1px solid #dbeafe;
+}
+
+.btn-preview-pill:hover {
+    background: var(--blue-tint);
+}
+
+.btn-download-primary {
+    background: var(--blue-primary);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+}
+
+.btn-download-primary:hover {
+    background: var(--blue-hover);
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-open-pdf {
+    background: var(--green-primary);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+}
+
+.btn-open-pdf:hover {
+    background: var(--green-hover);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Legacy button mapping */
+.btn-green {
+    background: var(--green-primary);
+    color: white;
+}
+.btn-navy {
+    background: white;
+    color: #173B5E;
+    border: 1px solid var(--border-light);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   4. WORKSPACE LAYOUT (Center Editor + Right Live Preview)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.app-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) 480px;
+    gap: 20px;
+    padding: 20px 24px 40px 24px;
+    width: 100%;
+    margin: 0;
+    background: var(--canvas-bg);
+}
+
+@media (max-width: 1200px) {
+    .app-layout {
+        grid-template-columns: 1fr;
+    }
+    .preview-pane {
+        display: none !important;
+    }
+    .preview-pane.active-mobile {
+        display: flex !important;
+        position: fixed;
+        inset: 64px 10px 10px 10px;
+        height: auto;
+        z-index: 9999;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   5. CENTER EDITOR WORKSPACE - Floating Paper Aesthetics
+   ═══════════════════════════════════════════════════════════════════════════ */
+.editor-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.micro-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+    margin-bottom: 6px;
+}
+
+/* Personal Info Header Card */
+.editor-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+    padding: 16px 20px;
+    transition: all 0.2s;
+}
+
+.personal-info-pill-bar {
+    background: #f0f5ff;
+    border-radius: var(--radius-md);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 12px;
+}
+
+.personal-info-pill-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e40af;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.editor-card.is-collapsed .header-card-body {
+    display: none;
+}
+
+/* Two Columns Section Grid */
+.columns-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 860px) {
+    .columns-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.column-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.column-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 2px;
+}
+
+.col-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.col-title-wrap i {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.badge-count {
+    font-size: 11px;
+    font-weight: 700;
+    color: #4b5563;
+    background: #ffffff;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    border: 1px solid #e5e7eb;
+}
+
+.column-hint {
+    display: none; /* Clean uncluttered modern aesthetic */
+}
+
+.sections-dropzone {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 200px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   6. REDESIGNED FLOATING SECTION CARDS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.section-box {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-box.is-main {
+    border-left: 3.5px solid var(--blue-primary);
+}
+
+.section-box.is-side {
+    border-left: 3.5px solid #0284c7;
+}
+
+.section-header-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #ffffff;
+    border-bottom: 1px solid #f3f4f6;
+    user-select: none;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: #9ca3af;
+    opacity: 0.5;
+    padding: 4px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s, color 0.15s;
+}
+
+.drag-handle:hover {
+    opacity: 1;
+    color: #111827;
+}
+
+.sec-order-badge {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #4b5563;
+    background: #f3f4f6;
+    padding: 2px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.sec-title-input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #111827;
+    padding: 3px 6px;
+    outline: none;
+    border-radius: 4px;
+    font-family: inherit;
+    transition: background 0.15s;
+}
+
+.sec-title-input:hover {
+    background: #f9fafb;
+}
+
+.sec-title-input:focus {
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.sec-actions {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.sec-tool-btn {
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.15s;
+}
+
+.sec-tool-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.sec-tool-btn.btn-del:hover {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.section-body {
+    padding: 14px 16px;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.section-box.is-collapsed .section-body {
+    display: none;
+}
+
+.sec-meta-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 6px 10px;
+    background: #f9fafb;
+    border-radius: var(--radius-sm);
+    font-size: 11.5px;
+}
+
+.sec-meta-row label {
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    font-size: 10px;
+    margin: 0;
+}
+
+.sec-meta-row select,
+.sec-meta-row input {
+    padding: 3px 6px;
+    font-size: 11.5px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    font-family: inherit;
+    margin: 0;
+}
+
+.sec-meta-row input[type="number"] {
+    width: 44px;
+    text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   7. FORM CONTROLS & NESTED ENTRY CARDS
+   ═══════════════════════════════════════════════════════════════════════════ */
+.rows-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.row-item {
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 12px 14px;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: all 0.15s;
+}
+
+.row-item:hover {
+    border-color: #cbd5e1;
+}
+
+.row-item-header {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 6px;
+}
+
+.row-drag-handle {
+    cursor: grab;
+    color: #9ca3af;
+    opacity: 0.5;
+    padding: 2px 4px;
+    font-size: 12px;
+}
+
+.row-drag-handle:hover {
+    opacity: 1;
+    color: #111827;
+}
+
+.row-index-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: #f3f4f6;
+    color: #4b5563;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+.row-item-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 4px;
+}
+
+.btn-remove-row {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+
+.btn-remove-row:hover {
+    color: #ef4444;
+    background: #fef2f2;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+label {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #4b5563;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--text-primary);
+    transition: all 0.15s;
+    outline: none;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 52px;
+    line-height: 1.4;
+}
+
+.btn-add-row {
+    background: #f9fafb;
+    color: #374151;
+    border: 1px dashed #d1d5db;
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.btn-add-row:hover {
+    background: #f3f4f6;
+    border-color: var(--blue-primary);
+    color: var(--blue-primary);
+}
+
+.btn-add-section-col {
+    width: 100%;
+    background: #eef2ff;
+    color: var(--blue-primary);
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.15s, transform 0.15s;
+    margin-top: 8px;
+}
+
+.btn-add-section-col:hover {
+    background: #e0e7ff;
+    transform: translateY(-1px);
+}
+
+.btn-add-section {
+    background: white;
+    color: var(--blue-primary);
+    border: 1px solid #dbeafe;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.15s;
+}
+
+.btn-add-section:hover {
+    background: #eff6ff;
+}
+
+.generate-btn {
+    flex: 1.3;
+    padding: 12px;
+    background: var(--blue-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13.5px;
+    cursor: pointer;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    transition: all 0.15s;
+}
+
+.generate-btn:hover {
+    background: var(--blue-hover);
+    transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   8. RIGHT LIVE DOCUMENT PREVIEW - Floating A4 Paper Aesthetics
+   ═══════════════════════════════════════════════════════════════════════════ */
+.preview-pane {
+    position: sticky;
+    top: 76px;
+    height: calc(100vh - 96px);
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+.preview-toolbar {
+    background: #ffffff;
+    padding: 12px 18px;
+    border-bottom: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.preview-toolbar-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+}
+
+.preview-tools-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.preview-icon-btn {
+    background: #f9fafb;
+    border: 1px solid var(--border-light);
+    color: #6b7280;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.preview-icon-btn:hover {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.preview-zoom-btn {
+    background: #ffffff;
+    color: #4b5563;
+    border: 1px solid var(--border-light);
+    padding: 3px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.15s;
+}
+
+.preview-zoom-btn:hover {
+    background: #f3f4f6;
+}
+
+.preview-zoom-btn.active {
+    background: var(--blue-primary);
+    border-color: var(--blue-primary);
+    color: white;
+}
+
+.preview-viewport {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 24px 16px 48px 16px;
+    display: flex;
+    justify-content: center;
+    background: #f3f4f6; /* Gray canvas matching screenshot */
+}
+
+.preview-page-wrapper {
+    transform-origin: top center;
+    transform: scale(var(--preview-scale));
+    box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
+    background: white;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   9. VISUAL TEMPLATE MODAL & TOAST
+   ═══════════════════════════════════════════════════════════════════════════ */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-container {
+    background: white;
+    width: 100%;
+    max-width: 860px;
+    max-height: 85vh;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.97);
+    transition: transform 0.2s;
+}
+
+.modal-overlay.active .modal-container {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #9ca3af;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.template-card {
+    border: 1.5px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.15s;
+}
+
+.template-card:hover {
+    border-color: var(--blue-primary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+}
+
+.template-card.active {
+    border-color: var(--blue-primary);
+    background: #f8faff;
+}
+
+#toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #111827;
+    color: white;
+    padding: 10px 18px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 99999;
+    opacity: 0;
+    transition: all 0.25s;
+}
+
+#toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   10. EXACT A4 CV FORMAT (100% PRESERVED FOR ACCURATE LIVE PREVIEW & EXPORT)
+   ═══════════════════════════════════════════════════════════════════════════ */
+.cv-render-box {
+    width: 210mm;
+    min-height: 297mm;
+    position: relative;
+    background: white;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    color: #000;
+    overflow-x: hidden;
+}
+
+.cv-render-box * {
+    box-sizing: border-box;
+}
+
+.cv-render-box .header {
+    position: absolute;
+    top: 0;
+    left: -2px;
+    right: -2px;
+    width: calc(100% + 4px);
+    background: #1a3c5e;
+    color: white;
+    padding: 35px 50px 20px 50px;
+    margin: 0;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.cv-render-box .title-block h1 {
+    font-size: 28pt;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.1;
+    color: white;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.cv-render-box .title-block h2 {
+    font-size: 14pt;
+    opacity: 0.9;
+    margin-top: 3px;
+    font-weight: 300;
+    color: white;
+    font-family: sans-serif;
+}
+
+.cv-render-box .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    font-size: 8pt;
+    margin-top: 15px;
+    color: white;
+}
+
+.cv-render-box .contact-grid span {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 6px;
+    word-break: break-all;
+    line-height: 1.25;
+}
+
+.cv-render-box .contact-grid span i {
+    margin-top: 1px;
+    flex-shrink: 0;
+}
+
+.cv-render-box .content {
+    padding-top: 165px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 25px;
+    position: relative;
+    z-index: 1;
+    min-height: calc(297mm - 165px);
+    box-sizing: border-box;
+}
+
+.cv-render-box .content>div>.stitle:first-child {
+    margin-top: 0;
+}
+
+.cv-render-box .stitle {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1a3c5e;
+    text-transform: uppercase;
+    border-bottom: 2px solid #1a3c5e;
+    margin: 10px 0 6px 0;
+    padding-bottom: 2px;
+    page-break-after: avoid;
+    break-after: avoid;
+    font-family: sans-serif;
+}
+
+.cv-render-box .entry-item {
+    margin-bottom: 6px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.cv-render-box .entry-title-row {
+    display: flex;
+    justify-content: space-between;
+    color: #1a3c5e;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.cv-render-box .entry-sub {
+    font-weight: bold;
+    font-size: 8pt;
+    color: #555;
+    margin-top: 1px;
+}
+
+.cv-render-box ul {
+    margin: 1px 0 0 15px;
+    padding: 0;
+    font-size: 8pt;
+    line-height: 1.2;
+    color: #000;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   11. PRINT STYLESHEET (100% PRESERVED FOR VECTOR PRINTING)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .app-rail,
+    .app-header,
+    .editor-container,
+    .preview-toolbar,
+    #toast,
+    .modal-overlay,
+    .header-actions {
+        display: none !important;
+    }
+
+    .app-layout {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: none !important;
+    }
+
+    .preview-pane {
+        position: static !important;
+        height: auto !important;
+        background: white !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+
+    .preview-viewport {
+        padding: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+        display: block !important;
+    }
+
+    .preview-page-wrapper {
+        transform: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+
+    #cv-document {
+        width: 210mm !important;
+        height: 297mm !important;
+        box-shadow: none !important;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Slim Dark Left Navigation Rail (Matching Screenshot) -->
+    <aside class="app-rail">
+        <div class="rail-top">
+            <a href="#" class="rail-logo" title="CV Studio">
+                <i class="fas fa-file-contract"></i>
+            </a>
+            <div class="rail-nav">
+                <button type="button" class="rail-btn" title="Dashboard"><i class="fas fa-home"></i></button>
+                <button type="button" class="rail-btn" title="Choose Template" onclick="openTemplateModal()"><i class="fas fa-layer-group"></i></button>
+                <button type="button" class="rail-btn active" title="Document Editor"><i class="fas fa-file-alt"></i></button>
+                <button type="button" class="rail-btn" title="Layout Settings" onclick="scrollToElement('main-column-panel')"><i class="fas fa-sliders-h"></i></button>
+                <button type="button" class="rail-btn" title="Certificates"><i class="fas fa-award"></i></button>
+            </div>
+        </div>
+        <div class="rail-bottom">
+            <button type="button" class="rail-btn" title="Notifications"><i class="far fa-bell"></i></button>
+            <div class="rail-user-avatar" title="User Profile">
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="app-main-content">
+
+        <!-- Top Navigation Bar (Matching Screenshot) -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="doc-name-group">
+                    <input type="text" id="doc-title-input" class="doc-title-input" value="Telaynew Ambachew - CV" onchange="showToast('Document renamed')">
+                    <i class="fas fa-pencil-alt doc-edit-icon" onclick="document.getElementById('doc-title-input').focus()"></i>
+                </div>
+                <div class="save-status-pill">
+                    <span class="save-dot"></span>
+                    <span>Saved</span>
+                </div>
+            </div>
+
+            <div class="header-center">
+                <!-- Template Dropdown -->
+                <div class="header-template-selector">
+                    <label for="cv-template-select">Template:</label>
+                    <select id="cv-template-select" onchange="onTemplateSelectChange()">
+                        <option value="default">Default</option>
+                        <option value="t1">Design 1 - Dark Left Bar</option>
+                        <option value="t2">Design 2 - Center Header</option>
+                        <option value="t3">Design 3 - Dark Full Header</option>
+                        <option value="t4">Design 4 - Left Photo Card</option>
+                        <option value="t5">Design 5 - Wide Center Header</option>
+                        <option value="t6">Design 6 - City Background</option>
+                        <option value="t7">Design 7 - Teal Modern Executive</option>
+                    </select>
+                </div>
+
+                <!-- Preview Toggle Button -->
+                <button type="button" class="btn btn-preview-pill" id="btn-toggle-mobile" onclick="toggleMobilePreview()">
+                    <i class="far fa-eye"></i> <span id="mobile-toggle-text">Preview</span>
+                </button>
+            </div>
+
+            <div class="header-actions">
+                <span id="collapse-toggle-text" style="display:none;">Collapse Cards</span>
+                <button type="button" class="btn btn-download-primary" id="btn-download-top" onclick="downloadCVPdf()">
+                    <i class="fas fa-download"></i> Download PDF
+                </button>
+                <button type="button" class="btn btn-open-pdf" onclick="generateCV()">
+                    <i class="fas fa-cloud-arrow-down"></i> Open PDF View
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace (Editor + Live Preview) -->
+        <div class="app-layout">
+
+            <!-- Center Editor Area -->
+            <main class="editor-container">
+
+                <!-- DOCUMENT Group -->
+                <div class="editor-section-group">
+                    <div class="micro-section-label">DOCUMENT</div>
+                    <div class="editor-card" id="header-editor-card">
+                        <div class="personal-info-pill-bar" onclick="toggleCollapseHeader()">
+                            <div class="personal-info-pill-title">
+                                <i class="far fa-id-card"></i>
+                                <span>Personal Info</span>
+                            </div>
+                            <i class="fas fa-angle-down collapse-icon" style="color:#2563eb;font-size:12px;"></i>
+                        </div>
+
+                        <div class="header-card-body">
+                            <div class="grid-2">
+                                <div>
+                                    <label>FULL NAME</label>
+                                    <input type="text" id="userName" value="TELAYNEW AMBACHEW" oninput="updateLivePreview(); syncDocName(this.value);" placeholder="e.g. John Doe">
+                                </div>
+                                <div>
+                                    <label>JOB TITLE / ROLE</label>
+                                    <input type="text" id="userTitle" value="AI and Data Engineer" oninput="updateLivePreview()" placeholder="e.g. Senior Software Engineer">
+                                </div>
+                            </div>
+
+                            <label style="margin-top: 14px;">CONTACTS (DRAG TO REORDER)</label>
+                            <div id="contact-list" style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+                                <div class="row-item" style="padding:8px 10px;">
+                                    <div style="display:flex;gap:10px;align-items:center;">
+                                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                        <input type="text" class="c-icon" value="fas fa-phone" style="width:140px;" oninput="updateLivePreview()">
+                                        <input type="text" class="c-val" value="+251963391736" style="flex-grow:1;" oninput="updateLivePreview()">
+                                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                    </div>
+                                </div>
+                                <div class="row-item" style="padding:8px 10px;">
+                                    <div style="display:flex;gap:10px;align-items:center;">
+                                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                        <input type="text" class="c-icon" value="fas fa-envelope" style="width:140px;" oninput="updateLivePreview()">
+                                        <input type="text" class="c-val" value="telaynew11@gmail.com" style="flex-grow:1;" oninput="updateLivePreview()">
+                                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                    </div>
+                                </div>
+                                <div class="row-item" style="padding:8px 10px;">
+                                    <div style="display:flex;gap:10px;align-items:center;">
+                                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                        <input type="text" class="c-icon" value="fab fa-linkedin" style="width:140px;" oninput="updateLivePreview()">
+                                        <input type="text" class="c-val" value="linkedin.com/in/telaynew-ambachew-44950825a" style="flex-grow:1;" oninput="updateLivePreview()">
+                                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                    </div>
+                                </div>
+                                <div class="row-item" style="padding:8px 10px;">
+                                    <div style="display:flex;gap:10px;align-items:center;">
+                                        <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                                        <input type="text" class="c-icon" value="fas fa-globe" placeholder="Icon (e.g. fas fa-globe)" style="width:140px;" oninput="updateLivePreview()">
+                                        <input type="text" class="c-val" value="https://telaynew.vercel.app" style="flex-grow:1;" oninput="updateLivePreview()">
+                                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm" style="background:#f0f5ff;color:#2563eb;border:none;margin-top:10px;font-weight:600;" onclick="addContactField()">
+                                <i class="fas fa-plus"></i> Add Contact Field
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two-Column Section Organizer (Matching Screenshot) -->
+                <div class="columns-grid">
+
+                    <!-- MAIN COLUMN -->
+                    <div class="column-panel main-panel" id="main-column-panel">
+                        <div class="column-panel-header">
+                            <div class="col-title-wrap">
+                                <i class="fas fa-bars-staggered"></i>
+                                <span>Main Column</span>
+                            </div>
+                            <span class="badge-count" id="main-count">2</span>
+                        </div>
+
+                        <!-- Main Dropzone -->
+                        <div id="main-sections-container" class="sections-dropzone" data-col="main"></div>
+
+                        <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'main', title:'NEW MAIN SECTION'})">
+                            <i class="fas fa-plus"></i> Add Section
+                        </button>
+                    </div>
+
+                    <!-- SIDE COLUMN -->
+                    <div class="column-panel side-panel" id="side-column-panel">
+                        <div class="column-panel-header">
+                            <div class="col-title-wrap">
+                                <i class="fas fa-bars-staggered"></i>
+                                <span>Side Column</span>
+                            </div>
+                            <span class="badge-count" id="side-count">4</span>
+                        </div>
+
+                        <!-- Side Dropzone -->
+                        <div id="side-sections-container" class="sections-dropzone" data-col="side"></div>
+
+                        <button type="button" class="btn-add-section-col" onclick="addNewSection({col:'side', title:'NEW SIDE SECTION'})">
+                            <i class="fas fa-plus"></i> Add Section
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Hidden Bottom Download button to preserve JS reference -->
+                <button type="button" id="btn-download-bottom" style="display:none;" onclick="downloadCVPdf()"></button>
+
+            </main>
+
+            <!-- RIGHT LIVE DOCUMENT PREVIEW (Matching Screenshot) -->
+            <aside class="preview-pane" id="preview-pane-container">
+                <div class="preview-toolbar">
+                    <span class="preview-toolbar-title">RIGHT LIVE DOCUMENT PREVIEW</span>
+                    <div class="preview-tools-group">
+                        <button type="button" class="preview-icon-btn" title="Expand View" onclick="setZoom(1.0)">
+                            <i class="fas fa-expand-alt"></i>
+                        </button>
+                        <button type="button" class="preview-icon-btn" title="Fit to Screen" onclick="setZoom(0.62)">
+                            <i class="fas fa-arrows-alt-h"></i>
+                        </button>
+                        <button type="button" class="preview-zoom-btn" onclick="setZoom(0.5)">50%</button>
+                        <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit" onclick="setZoom(0.62)">Fit</button>
+                        <button type="button" class="preview-zoom-btn" onclick="setZoom(0.8)">80%</button>
+                    </div>
+                </div>
+
+                <div class="preview-viewport" id="preview-viewport">
+                    <div class="preview-page-wrapper" id="preview-wrapper">
+                        <!-- Rendered CV Document for Live Preview & Export -->
+                        <div id="cv-document" class="cv-render-box">
+                            <div class="header">
+                                <div class="title-block">
+                                    <h1 id="preview-name">TELAYNEW AMBACHEW</h1>
+                                    <h2 id="preview-title">AI and Data Engineer</h2>
+                                </div>
+                                <div class="contact-grid" id="preview-contacts"></div>
+                            </div>
+                            <div class="content">
+                                <div id="preview-main-content"></div>
+                                <div id="preview-side-content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+
+    </div>
+
+    <!-- Visual Template Selector Modal -->
+    <div class="modal-overlay" id="template-modal" onclick="if(event.target === this) closeTemplateModal()">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-layer-group" style="color:var(--blue-primary)"></i> Choose CV Design Template</h3>
+                <button type="button" class="modal-close-btn" onclick="closeTemplateModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="template-cards-grid">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast">
+        <i class="fas fa-check-circle" style="color:var(--green-primary)"></i>
+        <span id="toast-text">Order updated</span>
+    </div>
+
+
+    <script>
+
         if (typeof Sortable === 'undefined') {
             document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"><\/script>');
         }
@@ -5156,6 +6742,117 @@ const CV_ASSETS = {
             if (bSide) bSide.innerText = sideBoxes.length;
         };
     }
+
+    
+
+    // ─── UI Enhancement Helpers ──────────────────────────────────────────────
+    const TEMPLATES_CATALOG = [
+        { id: 'default', name: 'Default (Current)', tag: 'Classic', desc: 'Authoritative dark navy header with 1.7x / 1.0x dual column layout.', color: '#1a3c5e' },
+        { id: 't1', name: 'Design 1 - Dark Left Bar', tag: 'Executive', desc: 'Deep navy left sidebar with circular avatar and white main area.', color: '#162b48' },
+        { id: 't2', name: 'Design 2 - Center Header', tag: 'Minimal', desc: 'Centered profile badge and contact row with geometric accents.', color: '#4f46e5' },
+        { id: 't3', name: 'Design 3 - Dark Full Header', tag: 'Corporate', desc: 'Full-width dark header with dual-toned sidebar and main cards.', color: '#1a2736' },
+        { id: 't4', name: 'Design 4 - Left Photo Card', tag: 'Creative', desc: 'Photo card on the left with Addis cityscape architectural baseline.', color: '#2b5797' },
+        { id: 't5', name: 'Design 5 - Wide Center Header', tag: 'Modern', desc: 'Curved clean header with central avatar badge and pill tags.', color: '#2563eb' },
+        { id: 't6', name: 'Design 6 - City Background', tag: 'Panoramic', desc: 'Mountain and city skyline panorama with golden star ratings.', color: '#0d2238' },
+        { id: 't7', name: 'Design 7 - Teal Modern Executive', tag: 'Executive', desc: 'Concentric teal circular arcs, double bars, and skill progress levels.', color: '#00c2cb' }
+    ];
+
+    function scrollToElement(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.transition = 'outline 0.2s';
+            el.style.outline = '3px solid #2563eb';
+            setTimeout(() => { el.style.outline = 'none'; }, 1200);
+        }
+    }
+
+    function syncDocName(name) {
+        const docInput = document.getElementById('doc-title-input');
+        const bName = document.getElementById('breadcrumb-doc-name');
+        if (docInput && name) docInput.value = `${name} - CV`;
+        if (bName && name) bName.innerText = name;
+    }
+
+    function onTemplateSelectChange() {
+        const sel = document.getElementById('cv-template-select');
+        const val = sel ? sel.value : 'default';
+        const found = TEMPLATES_CATALOG.find(t => t.id === val);
+        const name = found ? found.name : val;
+        
+        const sideLabel = document.getElementById('sidebar-active-template-name');
+        if (sideLabel) sideLabel.innerText = `Active: ${name}`;
+
+        updateLivePreview();
+        renderTemplateCards();
+        showToast(`Template changed to ${name}`);
+    }
+
+    function openTemplateModal() {
+        renderTemplateCards();
+        const m = document.getElementById('template-modal');
+        if (m) m.classList.add('active');
+    }
+
+    function closeTemplateModal() {
+        const m = document.getElementById('template-modal');
+        if (m) m.classList.remove('active');
+    }
+
+    function selectTemplateVisual(tId) {
+        const sel = document.getElementById('cv-template-select');
+        if (sel) {
+            sel.value = tId;
+            onTemplateSelectChange();
+        }
+        closeTemplateModal();
+    }
+
+    function renderTemplateCards() {
+        const grid = document.getElementById('template-cards-grid');
+        if (!grid) return;
+        const cur = document.getElementById('cv-template-select')?.value || 'default';
+
+        grid.innerHTML = TEMPLATES_CATALOG.map(t => {
+            const isActive = t.id === cur;
+            return `
+            <div class="template-card ${isActive ? 'active' : ''}" onclick="selectTemplateVisual('${t.id}')">
+                <div class="template-card-badge" style="background:${t.color}15;color:${t.color};border:1px solid ${t.color}40;">
+                    ${t.tag}
+                </div>
+                <div class="template-card-preview" style="background:linear-gradient(135deg, ${t.color}20 0%, ${t.color}05 100%);border-top:3px solid ${t.color};align-items:center;justify-content:center;position:relative;">
+                    <div style="width:70%;height:65%;background:white;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,0.1);display:flex;flex-direction:column;padding:6px;gap:4px;overflow:hidden;">
+                        <div style="height:12px;background:${t.color};border-radius:2px;width:100%;"></div>
+                        <div style="display:flex;gap:4px;flex-grow:1;">
+                            <div style="width:60%;background:#f1f5f9;border-radius:2px;"></div>
+                            <div style="width:40%;background:#e2e8f0;border-radius:2px;"></div>
+                        </div>
+                    </div>
+                    ${isActive ? '<div style="position:absolute;top:6px;right:6px;background:var(--blue-600);color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;"><i class="fas fa-check"></i></div>' : ''}
+                </div>
+                <div class="template-card-title">${t.name}</div>
+                <div class="template-card-desc">${t.desc}</div>
+                <button type="button" class="btn ${isActive ? 'btn-primary' : 'btn-outline'} btn-sm" style="width:100%;">
+                    ${isActive ? '<i class="fas fa-check-circle"></i> Currently Selected' : 'Use This Template'}
+                </button>
+            </div>`;
+        }).join('');
+    }
+
+    // Wrap updateAllOrders to also update sidebar badge counts
+    const _origUpdateAllOrders = typeof updateAllOrders === 'function' ? updateAllOrders : null;
+    if (_origUpdateAllOrders) {
+        updateAllOrders = function() {
+            _origUpdateAllOrders();
+            const mainBoxes = document.querySelectorAll('#main-sections-container .section-box');
+            const sideBoxes = document.querySelectorAll('#side-sections-container .section-box');
+            const bMain = document.getElementById('sidebar-main-badge');
+            const bSide = document.getElementById('sidebar-side-badge');
+            if (bMain) bMain.innerText = mainBoxes.length;
+            if (bSide) bSide.innerText = sideBoxes.length;
+        };
+    }
+
 
     </script>
 </body>
