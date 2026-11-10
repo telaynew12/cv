@@ -2011,69 +2011,90 @@ const CV_ASSETS = {
 
 
     // =========================================================================
-    // HIGH-FIDELITY TEMPLATES MATCHING USER SAMPLE IMAGES 1-6
+    // DYNAMIC HIGH-FIDELITY TEMPLATES MATCHING USER SAMPLE IMAGES 1-6
+    // Renders ALL user-edited sections, custom titles, items, and bullets!
     // =========================================================================
 
-    // Helpers
-    function getSectionList(data, col) {
-        if (!data.sections) return [];
-        return data.sections.filter(s => s.col === col).sort((a,b) => a.order - b.order);
+    function getSectionIcon(title) {
+        const t = (title || '').toUpperCase();
+        if (t.includes('EXP') || t.includes('WORK')) return 'fas fa-briefcase';
+        if (t.includes('PROJ')) return 'fas fa-laptop-code';
+        if (t.includes('EDUC') || t.includes('ACADEM') || t.includes('DEGREE')) return 'fas fa-graduation-cap';
+        if (t.includes('SKILL') || t.includes('TECH') || t.includes('STACK')) return 'fas fa-code';
+        if (t.includes('CERTIF') || t.includes('AWARD') || t.includes('LICENSE')) return 'fas fa-certificate';
+        if (t.includes('SUMM') || t.includes('PROFILE') || t.includes('ABOUT')) return 'fas fa-user-tie';
+        if (t.includes('LANG')) return 'fas fa-globe';
+        return 'fas fa-bookmark';
     }
 
-    function getSectionByTitle(data, keyword) {
-        if (!data.sections) return null;
-        return data.sections.find(s => (s.title || '').toUpperCase().includes(keyword.toUpperCase()));
-    }
-
-    function extractSkills(data) {
-        const sec = getSectionByTitle(data, 'SKILL');
-        if (sec && sec.items && sec.items.length) {
-            const allText = sec.items.map(it => (it.bullets || []).join(', ') + ' ' + (it.title || '') + ' ' + (it.sub || '')).join(', ');
-            const items = allText.split(/[,•\n]+/).map(s => s.trim()).filter(Boolean);
-            if (items.length) return items;
-        }
-        return ['Python', 'TypeScript', 'JavaScript', 'FastAPI', 'NestJS', 'React', 'Next.js', 'Azure', 'Azure OpenAI', 'RAG', 'LangChain', 'PostgreSQL', 'Docker', 'Git', 'Linux'];
-    }
-
-    function extractLanguages(data) {
-        const sec = getSectionByTitle(data, 'LANG');
-        if (sec && sec.items && sec.items.length) {
-            const allText = sec.items.map(it => (it.bullets || []).join(', ') + ' ' + (it.title || '') + ' ' + (it.sub || '')).join(', ');
-            const items = allText.split(/[,•\n]+/).map(s => s.trim()).filter(Boolean);
-            if (items.length) return items;
-        }
-        return ['English', 'Amharic'];
-    }
-
-    function renderItemsCustom(items, opt = {}) {
-        if (!items || !items.length) return '';
+    function renderSectionCard(sec, opt = {}) {
+        if (!sec) return '';
+        const isSkills = (sec.title || '').toUpperCase().includes('SKILL');
+        const isLang = (sec.title || '').toUpperCase().includes('LANG');
+        const icon = opt.icon || getSectionIcon(sec.title);
+        const titleColor = opt.titleColor || '#0f172a';
+        const borderColor = opt.borderColor || '';
+        const badgeBg = opt.badgeBg || '';
+        const badgeColor = opt.badgeColor || '';
         const tColor = opt.tColor || '#0f172a';
         const dColor = opt.dColor || '#64748b';
         const sColor = opt.sColor || '#475569';
         const bColor = opt.bColor || '#334155';
-        const dotColor = opt.dotColor || '#3b82f6';
+        const pillBg = opt.pillBg || '';
+        const pillColor = opt.pillColor || '';
+        const pillBorder = opt.pillBorder || '';
 
-        return items.map(it => {
+        // If it is a skills section and the template uses pill badges
+        if ((isSkills || isLang) && opt.usePills) {
+            const rawSkills = (sec.items || []).flatMap(it => {
+                const combined = (it.bullets || []).concat([it.title, it.sub]).filter(Boolean).join(', ');
+                return combined.split(/[,•\n]+/).map(s => s.trim()).filter(Boolean);
+            });
+            const pills = rawSkills.length ? rawSkills : ['Python', 'TypeScript', 'JavaScript', 'FastAPI', 'NestJS', 'React', 'Next.js', 'Azure', 'RAG'];
+
+            return `
+            <div style="margin-bottom:14px;page-break-inside:avoid;break-inside:avoid;">
+                <div style="font-size:${opt.titleSize || '9.5pt'};font-weight:800;color:${titleColor};text-transform:uppercase;${borderColor ? `border-bottom:2px solid ${borderColor};padding-bottom:2px;` : ''}margin-bottom:8px;display:flex;align-items:center;gap:7px;">
+                    ${badgeBg ? `<span style="background:${badgeBg};color:${badgeColor};width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5pt;"><i class="${icon}"></i></span>` : `<i class="${icon}" style="color:${opt.iconColor || titleColor};font-size:9.5pt;"></i>`}
+                    <span>${sec.title}</span>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:4px;">
+                    ${pills.map(p => `<span style="background:${pillBg || '#ede9fe'};color:${pillColor || '#4338ca'};${pillBorder ? `border:1px solid ${pillBorder};` : ''}border-radius:4px;padding:2px 8px;font-size:7.2pt;font-weight:600;">${p}</span>`).join('')}
+                </div>
+            </div>`;
+        }
+
+        // Standard section with items
+        const itemsHtml = (sec.items || []).map(it => {
             const hasHeader = it.title || it.date;
             return `<div style="margin-bottom:7px;page-break-inside:avoid;break-inside:avoid;">
                 ${hasHeader ? `<div style="display:flex;justify-content:space-between;align-items:baseline;font-size:8.5pt;font-weight:700;color:${tColor};line-height:1.2;">
                     <span>${it.title}</span>
                     <span style="font-size:7.5pt;font-weight:600;color:${dColor};margin-left:8px;white-space:nowrap;">${it.date}</span>
                 </div>` : ''}
-                ${it.sub ? `<div style="font-size:7.5pt;font-weight:600;color:${sColor};margin-top:1px;">${it.sub}</div>` : ''}
+                ${it.sub ? `<div style="font-size:7.6pt;font-weight:600;color:${sColor};margin-top:1px;">${it.sub}</div>` : ''}
                 ${it.bullets && it.bullets.length ? `<ul style="margin:2px 0 0 14px;padding:0;font-size:7.5pt;line-height:1.25;color:${bColor};">
                     ${it.bullets.map(b => `<li style="margin-bottom:1px;">${b}</li>`).join('')}
                 </ul>` : ''}
             </div>`;
         }).join('');
+
+        return `
+        <div style="margin-bottom:14px;page-break-inside:avoid;break-inside:avoid;">
+            <div style="font-size:${opt.titleSize || '9.5pt'};font-weight:800;color:${titleColor};text-transform:uppercase;${borderColor ? `border-bottom:2px solid ${borderColor};padding-bottom:2px;` : ''}margin-bottom:8px;display:flex;align-items:center;gap:7px;">
+                ${badgeBg ? `<span style="background:${badgeBg};color:${badgeColor};width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5pt;"><i class="${icon}"></i></span>` : `<i class="${icon}" style="color:${opt.iconColor || titleColor};font-size:9.5pt;"></i>`}
+                <span>${sec.title}</span>
+            </div>
+            <div>
+                ${itemsHtml}
+            </div>
+        </div>`;
     }
 
     // ─── TEMPLATE 1: Top-Left "Blue Modern Sidebar" ──────────────────────────
     function generateTemplate1(data) {
-        const skills = extractSkills(data);
-        const languages = extractLanguages(data);
-        const mainSecs = (data.mainSections || []).filter(s => !s.title.toUpperCase().includes('SKILL') && !s.title.toUpperCase().includes('LANG'));
-        const sideSecs = (data.sideSections || []).filter(s => !s.title.toUpperCase().includes('SKILL') && !s.title.toUpperCase().includes('LANG'));
+        const mainSecs = data.mainSections || [];
+        const sideSecs = data.sideSections || [];
 
         const contactsHtml = (data.contacts || []).map(c => `
             <div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:6px;font-size:7.5pt;color:#ffffff;word-break:break-all;line-height:1.25;">
@@ -2096,20 +2117,21 @@ const CV_ASSETS = {
                     ${contactsHtml}
                 </div>
 
-                <!-- Skills as pill tags -->
-                <div style="margin-bottom:16px;">
-                    <div style="font-size:8.5pt;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ffffff;border-bottom:1px solid #1e4976;padding-bottom:3px;margin-bottom:8px;">SKILLS</div>
-                    <div style="display:flex;flex-wrap:wrap;gap:4px;">
-                        ${skills.map(s => `<span style="background:#133863;color:#bfdbfe;border:1px solid #1e4f88;border-radius:4px;padding:2px 7px;font-size:7pt;font-weight:600;">${s}</span>`).join('')}
-                    </div>
-                </div>
-
-                <!-- Languages as pill tags -->
-                <div style="margin-bottom:16px;">
-                    <div style="font-size:8.5pt;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ffffff;border-bottom:1px solid #1e4976;padding-bottom:3px;margin-bottom:8px;">LANGUAGES</div>
-                    <div style="display:flex;flex-wrap:wrap;gap:4px;">
-                        ${languages.map(l => `<span style="background:#133863;color:#bfdbfe;border:1px solid #1e4f88;border-radius:4px;padding:2px 7px;font-size:7pt;font-weight:600;">${l}</span>`).join('')}
-                    </div>
+                <!-- Side Column Sections (Rendered in sidebar) -->
+                <div>
+                    ${sideSecs.map(s => renderSectionCard(s, {
+                        titleColor: '#ffffff',
+                        borderColor: '#1e4976',
+                        iconColor: '#60a5fa',
+                        tColor: '#ffffff',
+                        dColor: '#93c5fd',
+                        sColor: '#94a3b8',
+                        bColor: '#cbd5e1',
+                        usePills: true,
+                        pillBg: '#133863',
+                        pillColor: '#bfdbfe',
+                        pillBorder: '#1e4f88'
+                    })).join('')}
                 </div>
 
                 <!-- Bottom curved wave accent -->
@@ -2134,33 +2156,17 @@ const CV_ASSETS = {
                     <div style="font-size:10.5pt;font-weight:600;color:#0284c7;margin-top:3px;">${data.job}</div>
                 </div>
 
-                <!-- 2-Column Content Layout -->
-                <div style="position:relative;z-index:1;display:grid;grid-template-columns:1.55fr 1fr;gap:18px;">
-                    <!-- Left Body Column (Experience) -->
-                    <div>
-                        ${mainSecs.map(s => `
-                            <div style="margin-bottom:14px;">
-                                <div style="font-size:9.5pt;font-weight:800;color:#0b2545;text-transform:uppercase;border-bottom:2px solid #0b2545;padding-bottom:2px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                                    <i class="fas fa-briefcase" style="color:#0284c7;font-size:9pt;"></i>
-                                    <span>${s.title}</span>
-                                </div>
-                                ${renderItemsCustom(s.items, { tColor: '#0b2545', dColor: '#475569', sColor: '#475569', bColor: '#1e293b' })}
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <!-- Right Body Column (Summary, Education, etc.) -->
-                    <div>
-                        ${sideSecs.map(s => `
-                            <div style="margin-bottom:14px;">
-                                <div style="font-size:9.5pt;font-weight:800;color:#0b2545;text-transform:uppercase;border-bottom:2px solid #0b2545;padding-bottom:2px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                                    <i class="${s.title.toUpperCase().includes('SUMM') ? 'fas fa-user-tie' : s.title.toUpperCase().includes('EDUC') ? 'fas fa-graduation-cap' : 'fas fa-bookmark'}" style="color:#0284c7;font-size:9pt;"></i>
-                                    <span>${s.title}</span>
-                                </div>
-                                ${renderItemsCustom(s.items, { tColor: '#0b2545', dColor: '#475569', sColor: '#475569', bColor: '#1e293b' })}
-                            </div>
-                        `).join('')}
-                    </div>
+                <!-- Main Column Sections (Rendered in main area) -->
+                <div style="position:relative;z-index:1;">
+                    ${mainSecs.map(s => renderSectionCard(s, {
+                        titleColor: '#0b2545',
+                        borderColor: '#0b2545',
+                        iconColor: '#0284c7',
+                        tColor: '#0b2545',
+                        dColor: '#475569',
+                        sColor: '#475569',
+                        bColor: '#1e293b'
+                    })).join('')}
                 </div>
             </div>
         </div>`;
@@ -2168,9 +2174,8 @@ const CV_ASSETS = {
 
     // ─── TEMPLATE 2: Top-Center "Purple/Indigo Modern Curve" ─────────────────
     function generateTemplate2(data) {
-        const skills = extractSkills(data);
-        const mainSecs = (data.mainSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
-        const sideSecs = (data.sideSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
+        const mainSecs = data.mainSections || [];
+        const sideSecs = data.sideSections || [];
 
         const contactsHtml = (data.contacts || []).map(c => `
             <span style="display:inline-flex;align-items:center;gap:5px;font-size:7.8pt;color:#475569;">
@@ -2203,47 +2208,34 @@ const CV_ASSETS = {
 
             <!-- 2-Column Layout -->
             <div style="position:relative;z-index:1;display:grid;grid-template-columns:1.55fr 1fr;gap:22px;">
-                <!-- Left Column -->
+                <!-- Left Column (Main Sections) -->
                 <div>
-                    ${mainSecs.map(s => `
-                        <div style="margin-bottom:14px;">
-                            <div style="font-size:9.5pt;font-weight:800;color:#1e1b4b;text-transform:capitalize;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                                <span style="background:#ede9fe;color:#4f46e5;width:22px;height:22px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:8pt;">
-                                    <i class="fas fa-briefcase"></i>
-                                </span>
-                                <span>${s.title}</span>
-                            </div>
-                            ${renderItemsCustom(s.items, { tColor: '#1e1b4b', dColor: '#6366f1', sColor: '#475569', bColor: '#1e293b' })}
-                        </div>
-                    `).join('')}
+                    ${mainSecs.map(s => renderSectionCard(s, {
+                        badgeBg: '#ede9fe',
+                        badgeColor: '#4f46e5',
+                        titleColor: '#1e1b4b',
+                        tColor: '#1e1b4b',
+                        dColor: '#6366f1',
+                        sColor: '#475569',
+                        bColor: '#1e293b'
+                    })).join('')}
                 </div>
 
-                <!-- Right Column -->
+                <!-- Right Column (Side Sections) -->
                 <div>
-                    ${sideSecs.map(s => `
-                        <div style="margin-bottom:14px;">
-                            <div style="font-size:9.5pt;font-weight:800;color:#1e1b4b;text-transform:capitalize;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                                <span style="background:#ede9fe;color:#4f46e5;width:22px;height:22px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:8pt;">
-                                    <i class="${s.title.toUpperCase().includes('SUMM') ? 'fas fa-user' : s.title.toUpperCase().includes('EDUC') ? 'fas fa-graduation-cap' : 'fas fa-star'}"></i>
-                                </span>
-                                <span>${s.title}</span>
-                            </div>
-                            ${renderItemsCustom(s.items, { tColor: '#1e1b4b', dColor: '#6366f1', sColor: '#475569', bColor: '#1e293b' })}
-                        </div>
-                    `).join('')}
-
-                    <!-- Skills as Lavender Pill Tags -->
-                    <div style="margin-bottom:14px;">
-                        <div style="font-size:9.5pt;font-weight:800;color:#1e1b4b;text-transform:capitalize;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                            <span style="background:#ede9fe;color:#4f46e5;width:22px;height:22px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:8pt;">
-                                <i class="fas fa-code"></i>
-                            </span>
-                            <span>Skills</span>
-                        </div>
-                        <div style="display:flex;flex-wrap:wrap;gap:4px;">
-                            ${skills.map(s => `<span style="background:#ede9fe;color:#4338ca;border:1px solid #c7d2fe;border-radius:4px;padding:2px 8px;font-size:7.2pt;font-weight:600;">${s}</span>`).join('')}
-                        </div>
-                    </div>
+                    ${sideSecs.map(s => renderSectionCard(s, {
+                        badgeBg: '#ede9fe',
+                        badgeColor: '#4f46e5',
+                        titleColor: '#1e1b4b',
+                        tColor: '#1e1b4b',
+                        dColor: '#6366f1',
+                        sColor: '#475569',
+                        bColor: '#1e293b',
+                        usePills: true,
+                        pillBg: '#ede9fe',
+                        pillColor: '#4338ca',
+                        pillBorder: '#c7d2fe'
+                    })).join('')}
                 </div>
             </div>
         </div>`;
@@ -2251,11 +2243,8 @@ const CV_ASSETS = {
 
     // ─── TEMPLATE 3: Top-Right "Executive Dark Header & Navy Split" ──────────
     function generateTemplate3(data) {
-        const skills = extractSkills(data);
-        const languages = extractLanguages(data);
-        const eduSec = getSectionByTitle(data, 'EDUC');
-        const expSec = getSectionByTitle(data, 'EXP');
-        const summSec = getSectionByTitle(data, 'SUMM');
+        const mainSecs = data.mainSections || [];
+        const sideSecs = data.sideSections || [];
 
         const contactsHtml = (data.contacts || []).map(c => `
             <span style="display:inline-flex;align-items:center;gap:5px;font-size:7.5pt;color:#e2e8f0;">
@@ -2281,67 +2270,32 @@ const CV_ASSETS = {
                 <div style="position:absolute;top:0;right:0;width:70px;height:100%;background:linear-gradient(135deg, transparent 40%, #00b4d8 100%);opacity:0.85;pointer-events:none;"></div>
             </div>
 
-            <!-- Split Body: Left Solid Navy (66mm) + Right White (144mm) -->
+            <!-- Split Body: Left Solid Navy (Side Sections) + Right White (Main Sections) -->
             <div style="display:flex;min-height:calc(297mm - 110px);">
                 <!-- Left Dark Navy Column -->
                 <div style="width:66mm;background:#091b29;color:#ffffff;padding:20px 18px;box-sizing:border-box;flex-shrink:0;">
-                    <!-- Skills -->
-                    <div style="margin-bottom:18px;">
-                        <div style="font-size:8.5pt;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#ffffff;border-bottom:1px solid #1e3a5a;padding-bottom:3px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                            <i class="fas fa-cog" style="color:#00b4d8;font-size:8.5pt;"></i>
-                            <span>SKILLS</span>
-                        </div>
-                        <div style="font-size:7.5pt;line-height:1.4;color:#cbd5e1;">
-                            ${skills.join(', ')}
-                        </div>
-                    </div>
-
-                    <!-- Education -->
-                    ${eduSec ? `
-                    <div style="margin-bottom:18px;">
-                        <div style="font-size:8.5pt;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#ffffff;border-bottom:1px solid #1e3a5a;padding-bottom:3px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                            <i class="fas fa-graduation-cap" style="color:#00b4d8;font-size:8.5pt;"></i>
-                            <span>EDUCATION</span>
-                        </div>
-                        ${renderItemsCustom(eduSec.items, { tColor: '#ffffff', dColor: '#93c5fd', sColor: '#94a3b8', bColor: '#cbd5e1' })}
-                    </div>
-                    ` : ''}
-
-                    <!-- Languages -->
-                    <div style="margin-bottom:18px;">
-                        <div style="font-size:8.5pt;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#ffffff;border-bottom:1px solid #1e3a5a;padding-bottom:3px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                            <i class="fas fa-globe" style="color:#00b4d8;font-size:8.5pt;"></i>
-                            <span>LANGUAGES</span>
-                        </div>
-                        <div style="font-size:7.5pt;color:#cbd5e1;line-height:1.4;">
-                            ${languages.join(' &nbsp;•&nbsp; ')}
-                        </div>
-                    </div>
+                    ${sideSecs.map(s => renderSectionCard(s, {
+                        titleColor: '#ffffff',
+                        borderColor: '#1e3a5a',
+                        iconColor: '#00b4d8',
+                        tColor: '#ffffff',
+                        dColor: '#93c5fd',
+                        sColor: '#94a3b8',
+                        bColor: '#cbd5e1'
+                    })).join('')}
                 </div>
 
                 <!-- Right White Column -->
                 <div style="flex:1;background:#ffffff;padding:20px 24px;box-sizing:border-box;">
-                    <!-- Experience -->
-                    ${expSec ? `
-                    <div style="margin-bottom:18px;">
-                        <div style="font-size:10pt;font-weight:800;color:#091b29;text-transform:uppercase;border-bottom:2px solid #091b29;padding-bottom:2px;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-                            <i class="fas fa-briefcase" style="color:#00b4d8;font-size:9.5pt;"></i>
-                            <span>EXPERIENCE</span>
-                        </div>
-                        ${renderItemsCustom(expSec.items, { tColor: '#091b29', dColor: '#00b4d8', sColor: '#475569', bColor: '#1e293b' })}
-                    </div>
-                    ` : ''}
-
-                    <!-- Summary -->
-                    ${summSec ? `
-                    <div style="margin-bottom:18px;">
-                        <div style="font-size:10pt;font-weight:800;color:#091b29;text-transform:uppercase;border-bottom:2px solid #091b29;padding-bottom:2px;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-                            <i class="fas fa-user" style="color:#00b4d8;font-size:9.5pt;"></i>
-                            <span>SUMMARY</span>
-                        </div>
-                        ${renderItemsCustom(summSec.items, { tColor: '#091b29', dColor: '#64748b', sColor: '#475569', bColor: '#1e293b' })}
-                    </div>
-                    ` : ''}
+                    ${mainSecs.map(s => renderSectionCard(s, {
+                        titleColor: '#091b29',
+                        borderColor: '#091b29',
+                        iconColor: '#00b4d8',
+                        tColor: '#091b29',
+                        dColor: '#00b4d8',
+                        sColor: '#475569',
+                        bColor: '#1e293b'
+                    })).join('')}
                 </div>
             </div>
         </div>`;
@@ -2349,9 +2303,8 @@ const CV_ASSETS = {
 
     // ─── TEMPLATE 4: Bottom-Left "Royal Blue Skyline Corporate" ───────────────
     function generateTemplate4(data) {
-        const skills = extractSkills(data);
-        const mainSecs = (data.mainSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
-        const sideSecs = (data.sideSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
+        const mainSecs = data.mainSections || [];
+        const sideSecs = data.sideSections || [];
 
         const contactsHtml = (data.contacts || []).map(c => `
             <div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:6px;font-size:7.5pt;color:#ffffff;word-break:break-all;line-height:1.25;">
@@ -2393,43 +2346,30 @@ const CV_ASSETS = {
 
             <!-- Right Area (width 144mm) -->
             <div style="flex:1;min-height:297mm;background:#ffffff;padding:26px 24px 20px 24px;box-sizing:border-box;display:flex;flex-direction:column;position:relative;">
-                <!-- 2-Column Content -->
+                <!-- 2-Column Content: Main Sections (Left) & Side Sections (Right) -->
                 <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px;flex:1;">
-                    <!-- Left -->
+                    <!-- Main Sections -->
                     <div>
-                        ${mainSecs.map(s => `
-                            <div style="margin-bottom:14px;">
-                                <div style="font-size:9.5pt;font-weight:800;color:#0d3b66;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                                    <i class="fas fa-briefcase" style="color:#0284c7;font-size:9pt;"></i>
-                                    <span>${s.title}</span>
-                                </div>
-                                ${renderItemsCustom(s.items, { tColor: '#0d3b66', dColor: '#64748b', sColor: '#475569', bColor: '#1e293b' })}
-                            </div>
-                        `).join('')}
+                        ${mainSecs.map(s => renderSectionCard(s, {
+                            titleColor: '#0d3b66',
+                            iconColor: '#0284c7',
+                            tColor: '#0d3b66',
+                            dColor: '#64748b',
+                            sColor: '#475569',
+                            bColor: '#1e293b'
+                        })).join('')}
                     </div>
 
-                    <!-- Right -->
+                    <!-- Side Sections -->
                     <div>
-                        ${sideSecs.map(s => `
-                            <div style="margin-bottom:14px;">
-                                <div style="font-size:9.5pt;font-weight:800;color:#0d3b66;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                                    <i class="${s.title.toUpperCase().includes('SUMM') ? 'fas fa-user' : s.title.toUpperCase().includes('EDUC') ? 'fas fa-graduation-cap' : 'fas fa-star'}" style="color:#0284c7;font-size:9pt;"></i>
-                                    <span>${s.title}</span>
-                                </div>
-                                ${renderItemsCustom(s.items, { tColor: '#0d3b66', dColor: '#64748b', sColor: '#475569', bColor: '#1e293b' })}
-                            </div>
-                        `).join('')}
-
-                        <!-- Skills -->
-                        <div style="margin-bottom:14px;">
-                            <div style="font-size:9.5pt;font-weight:800;color:#0d3b66;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                                <i class="fas fa-code" style="color:#0284c7;font-size:9pt;"></i>
-                                <span>Skills</span>
-                            </div>
-                            <div style="font-size:7.5pt;line-height:1.35;color:#334155;">
-                                ${skills.join(', ')}
-                            </div>
-                        </div>
+                        ${sideSecs.map(s => renderSectionCard(s, {
+                            titleColor: '#0d3b66',
+                            iconColor: '#0284c7',
+                            tColor: '#0d3b66',
+                            dColor: '#64748b',
+                            sColor: '#475569',
+                            bColor: '#1e293b'
+                        })).join('')}
                     </div>
                 </div>
 
@@ -2443,9 +2383,8 @@ const CV_ASSETS = {
 
     // ─── TEMPLATE 5: Bottom-Center "Dynamic Blue & Orange Waves" ──────────────
     function generateTemplate5(data) {
-        const skills = extractSkills(data);
-        const mainSecs = (data.mainSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
-        const sideSecs = (data.sideSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
+        const mainSecs = data.mainSections || [];
+        const sideSecs = data.sideSections || [];
 
         const contactsHtml = (data.contacts || []).map(c => `
             <span style="display:inline-flex;align-items:center;gap:5px;font-size:7.8pt;color:#334155;">
@@ -2478,47 +2417,33 @@ const CV_ASSETS = {
 
             <!-- 2-Column Layout with Colorful Badges -->
             <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:24px;position:relative;z-index:2;flex:1;">
-                <!-- Left Column -->
+                <!-- Left Column (Main Sections) -->
                 <div>
-                    ${mainSecs.map(s => `
-                        <div style="margin-bottom:14px;">
-                            <div style="font-size:9.5pt;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                                <span style="background:#ffedd5;color:#ea580c;width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5pt;">
-                                    <i class="fas fa-briefcase"></i>
-                                </span>
-                                <span>${s.title}</span>
-                            </div>
-                            ${renderItemsCustom(s.items, { tColor: '#0f172a', dColor: '#64748b', sColor: '#475569', bColor: '#1e293b' })}
-                        </div>
-                    `).join('')}
+                    ${mainSecs.map(s => renderSectionCard(s, {
+                        badgeBg: '#ffedd5',
+                        badgeColor: '#ea580c',
+                        titleColor: '#0f172a',
+                        tColor: '#0f172a',
+                        dColor: '#64748b',
+                        sColor: '#475569',
+                        bColor: '#1e293b'
+                    })).join('')}
                 </div>
 
-                <!-- Right Column -->
+                <!-- Right Column (Side Sections) -->
                 <div>
-                    ${sideSecs.map(s => `
-                        <div style="margin-bottom:14px;">
-                            <div style="font-size:9.5pt;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                                <span style="background:#dbeafe;color:#1e40af;width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5pt;">
-                                    <i class="${s.title.toUpperCase().includes('SUMM') ? 'fas fa-user' : s.title.toUpperCase().includes('EDUC') ? 'fas fa-graduation-cap' : 'fas fa-star'}"></i>
-                                </span>
-                                <span>${s.title}</span>
-                            </div>
-                            ${renderItemsCustom(s.items, { tColor: '#0f172a', dColor: '#64748b', sColor: '#475569', bColor: '#1e293b' })}
-                        </div>
-                    `).join('')}
-
-                    <!-- Skills with Orange Badge + Light Blue Pill Tags -->
-                    <div style="margin-bottom:14px;">
-                        <div style="font-size:9.5pt;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                            <span style="background:#ffedd5;color:#ea580c;width:24px;height:24px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5pt;">
-                                <i class="fas fa-code"></i>
-                            </span>
-                            <span>Skills</span>
-                        </div>
-                        <div style="display:flex;flex-wrap:wrap;gap:4px;">
-                            ${skills.map(s => `<span style="background:#bfdbfe;color:#1e3a8a;border-radius:4px;padding:2px 8px;font-size:7.2pt;font-weight:600;">${s}</span>`).join('')}
-                        </div>
-                    </div>
+                    ${sideSecs.map(s => renderSectionCard(s, {
+                        badgeBg: '#dbeafe',
+                        badgeColor: '#1e40af',
+                        titleColor: '#0f172a',
+                        tColor: '#0f172a',
+                        dColor: '#64748b',
+                        sColor: '#475569',
+                        bColor: '#1e293b',
+                        usePills: true,
+                        pillBg: '#bfdbfe',
+                        pillColor: '#1e3a8a'
+                    })).join('')}
                 </div>
             </div>
 
@@ -2534,9 +2459,8 @@ const CV_ASSETS = {
 
     // ─── TEMPLATE 6: Bottom-Right "Panoramic City & Mountain Header" ─────────
     function generateTemplate6(data) {
-        const skills = extractSkills(data);
-        const mainSecs = (data.mainSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
-        const sideSecs = (data.sideSections || []).filter(s => !s.title.toUpperCase().includes('SKILL'));
+        const mainSecs = data.mainSections || [];
+        const sideSecs = data.sideSections || [];
 
         const contactsHtml = (data.contacts || []).map(c => `
             <span style="display:inline-flex;align-items:center;gap:5px;font-size:7.5pt;color:#ffffff;">
@@ -2561,39 +2485,38 @@ const CV_ASSETS = {
 
             <!-- Body Area with Rounded Card Containers -->
             <div style="padding:16px 20px 20px 20px;display:grid;grid-template-columns:1.55fr 1fr;gap:16px;box-sizing:border-box;">
-                <!-- Left Column Cards -->
+                <!-- Left Column Cards (Main Sections) -->
                 <div>
                     ${mainSecs.map(s => `
                         <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,0.03);">
                             <div style="font-size:9.5pt;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                                <i class="fas fa-briefcase" style="color:#f59e0b;font-size:9.5pt;"></i>
+                                <i class="${getSectionIcon(s.title)}" style="color:#f59e0b;font-size:9.5pt;"></i>
                                 <span>${s.title}</span>
                             </div>
-                            ${renderItemsCustom(s.items, { tColor: '#0f172a', dColor: '#64748b', sColor: '#475569', bColor: '#1e293b' })}
+                            ${renderSectionCard(s, {
+                                titleColor: '#0f172a',
+                                dColor: '#64748b',
+                                sColor: '#475569',
+                                bColor: '#1e293b'
+                            })}
                         </div>
                     `).join('')}
-
-                    <!-- Skills Card -->
-                    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,0.03);">
-                        <div style="font-size:9.5pt;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                            <i class="fas fa-code" style="color:#ea580c;font-size:9.5pt;"></i>
-                            <span>Skills</span>
-                        </div>
-                        <div style="font-size:7.5pt;line-height:1.4;color:#334155;">
-                            ${skills.join(' &nbsp;•&nbsp; ')}
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Right Column Cards -->
+                <!-- Right Column Cards (Side Sections) -->
                 <div>
                     ${sideSecs.map(s => `
                         <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,0.03);">
                             <div style="font-size:9.5pt;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;align-items:center;gap:7px;">
-                                <i class="${s.title.toUpperCase().includes('SUMM') ? 'fas fa-star' : s.title.toUpperCase().includes('EDUC') ? 'fas fa-graduation-cap' : 'fas fa-bookmark'}" style="color:#f59e0b;font-size:9.5pt;"></i>
+                                <i class="${getSectionIcon(s.title)}" style="color:#f59e0b;font-size:9.5pt;"></i>
                                 <span>${s.title}</span>
                             </div>
-                            ${renderItemsCustom(s.items, { tColor: '#0f172a', dColor: '#64748b', sColor: '#475569', bColor: '#1e293b' })}
+                            ${renderSectionCard(s, {
+                                titleColor: '#0f172a',
+                                dColor: '#64748b',
+                                sColor: '#475569',
+                                bColor: '#1e293b'
+                            })}
                         </div>
                     `).join('')}
                 </div>
