@@ -343,32 +343,58 @@ body {
     cursor: pointer;
 }
 
-.sidebar-system.collapsed .sub-sidebar-collapse-btn {
-    position: absolute;
-    right: -11px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #1E293B;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+.sidebar-system.collapsed .sub-sidebar-header {
+    height: auto;
+    padding: 14px 0;
+    justify-content: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-system.collapsed .sub-sidebar-logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: #2563EB;
     color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-    z-index: 1002;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 18px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45);
+    cursor: pointer;
+}
+
+.sidebar-system.collapsed .sub-sidebar-collapse-btn {
+    position: static;
+    transform: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: none;
 }
 
 .sidebar-system.collapsed .sub-sidebar-collapse-btn:hover {
     background: #2563EB;
     border-color: #2563EB;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
 }
 
 .sidebar-system.collapsed #sidebar-toggle-chevron {
-    transform: rotate(180deg);
+    transform: none;
 }
 
 .sidebar-system.collapsed .sub-sidebar-content {
@@ -4026,6 +4052,248 @@ textarea.r-bullets {
         padding: 32px 24px;
     }
 }
+/* ══════════════════════════════════════════════════════════════════════
+   UNIFIED MODERN WORKSPACE UI/UX (Matching Auth/Hero Design Aesthetic)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Modern Card Styling */
+.editor-card,
+.cover-letter-card,
+.dash-card,
+.dashboard-card,
+.doc-item-card {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.editor-card:hover,
+.cover-letter-card:hover,
+.dash-card:hover,
+.dashboard-card:hover,
+.doc-item-card:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 8px 28px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Card Header Icon Pill */
+.card-header-line h3,
+.cl-card-title,
+.dash-card-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.card-header-line h3 i,
+.cl-card-title i,
+.dash-card-title i {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13.5px !important;
+}
+
+/* Form Inputs & Textareas */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: #0f172a;
+    background: #ffffff;
+    padding: 9px 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Modern Labels */
+label,
+.cl-form-group label,
+.dash-label,
+.sec-card-top-bar {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    color: #64748b !important;
+}
+
+/* Top App Header & Nav Tabs */
+.app-header {
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+.nav-tab-link {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    padding: 7px 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.nav-tab-link:hover {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+.nav-tab-link.active-blue {
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    font-weight: 700 !important;
+}
+
+/* Primary and Ghost Buttons */
+.btn-primary {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+.btn-download-green {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-download-green:hover {
+    background: linear-gradient(135deg, #047857 0%, #059669 100%) !important;
+    transform: translateY(-1px);
+}
+
+.btn-nav-slate,
+.btn-nav-preview {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    color: #334155 !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 7px 14px !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-nav-slate:hover,
+.btn-nav-preview:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* Breadcrumbs */
+.workspace-breadcrumb-row {
+    margin-bottom: 20px !important;
+}
+
+.crumb-name {
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    font-size: 14px !important;
+}
+
+.crumb-sep {
+    color: #cbd5e1 !important;
+    margin: 0 6px !important;
+}
+
+.crumb-section {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.editor-mode-badge {
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    border: 1px solid #a7f3d0 !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar Nav Items */
+.sub-nav-item {
+    border-radius: 10px !important;
+    padding: 9px 12px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #cbd5e1 !important;
+    transition: all 0.18s ease !important;
+}
+
+.sub-nav-item:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.sub-nav-item.active {
+    background: rgba(37, 99, 235, 0.22) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-left: 3px solid #3b82f6 !important;
+}
+
+.sub-nav-item i {
+    font-size: 14px !important;
+    width: 18px !important;
+    color: #94a3b8 !important;
+}
+
+.sub-nav-item.active i {
+    color: #60a5fa !important;
+}
     </style>
 </head>
 
@@ -4138,11 +4406,6 @@ textarea.r-bullets {
     <!-- Expandable / Collapsible Sidebar System -->
     <div class="sidebar-system" id="sidebar-wrapper">
 
-        <!-- Floating Expand Trigger Button (Visible when sidebar is collapsed) -->
-        <button type="button" class="rail-expand-trigger" id="rail-expand-btn" title="Expand Sidebar" onclick="toggleSidebarExpand()">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-
         <!-- Dark Navy Sidebar (240px Normal, 68px Collapsed Minimal Symbol Mode matching Image 3) -->
         <aside class="sub-sidebar" id="sub-sidebar">
             <div class="sub-sidebar-header">
@@ -4167,31 +4430,26 @@ textarea.r-bullets {
 
                 <!-- 2. CV & DOCUMENTS Category -->
                 <div class="sub-nav-group">
-                    <div class="sub-nav-heading">CV CATEGORIES</div>
-                    <div class="sub-nav-item" id="nav-item-cover-letters-list" title="Cover Letter" onclick="switchWorkspaceView('cover-letters-list')">
+                    <div class="sub-nav-heading">DOCUMENTS</div>
+                    <div class="sub-nav-item" id="nav-item-editor" title="Live CV Document Editor" onclick="switchWorkspaceView('editor')">
+                        <i class="fas fa-file-contract"></i>
+                        <span>CV Document</span>
+                    </div>
+                    <div class="sub-nav-item" id="nav-item-cover-letter" title="Cover Letter Preparation" onclick="switchWorkspaceView('cover-letter')">
                         <i class="fas fa-envelope-open-text"></i>
                         <span>Cover Letter</span>
                     </div>
-                    <div class="sub-nav-item" id="nav-item-settings" title="Settings" onclick="switchWorkspaceView('settings')">
-                        <i class="fas fa-sliders"></i>
-                        <span>Settings</span>
+                    <div class="sub-nav-item" id="nav-item-resumes" title="All Resumes & CVs" onclick="switchWorkspaceView('resumes')">
+                        <i class="fas fa-folder-open"></i>
+                        <span>My Resumes</span>
                     </div>
-                    <div class="sub-nav-item" id="nav-item-resumes" title="Resumes" onclick="switchWorkspaceView('resumes')">
-                        <i class="fas fa-file-lines"></i>
-                        <span>Resumes</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-templates" title="Templates" onclick="switchWorkspaceView('templates')">
-                        <i class="fas fa-award"></i>
+                    <div class="sub-nav-item" id="nav-item-templates" title="CV Templates Gallery" onclick="switchWorkspaceView('templates')">
+                        <i class="fas fa-palette"></i>
                         <span>Templates</span>
                     </div>
-                    <!-- Direct editor shortcuts preserved -->
-                    <div class="sub-nav-item" id="nav-item-editor" style="display:none;" title="Live CV Editor" onclick="switchWorkspaceView('editor')">
-                        <i class="fas fa-file-pen"></i>
-                        <span>Live CV Editor</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-cover-letter" style="display:none;" title="Cover Letter" onclick="switchWorkspaceView('cover-letter')">
-                        <i class="fas fa-envelope-open-text"></i>
-                        <span>Cover Letter</span>
+                    <div class="sub-nav-item" id="nav-item-settings" title="Account Settings" onclick="switchWorkspaceView('settings')">
+                        <i class="fas fa-sliders"></i>
+                        <span>Settings</span>
                     </div>
                 </div>
 
@@ -4240,12 +4498,16 @@ textarea.r-bullets {
                 </button>
                 <div class="header-left-stack">
                     <div class="header-nav-tabs">
-                        <button type="button" class="nav-tab-link" id="header-tab-resumes" onclick="switchWorkspaceView('resumes')">
-                            <i class="fas fa-file-lines" style="margin-right:4px;"></i> Resumes
+                        <button type="button" class="nav-tab-link" id="header-tab-editor" onclick="switchWorkspaceView('editor')">
+                            <i class="fas fa-file-contract" style="margin-right:4px;"></i> CV Editor
                         </button>
                         <span class="nav-tab-sep">|</span>
-                        <button type="button" class="nav-tab-link" id="header-tab-cover" onclick="switchWorkspaceView('cover-letters-list')">
+                        <button type="button" class="nav-tab-link" id="header-tab-cover" onclick="switchWorkspaceView('cover-letter')">
                             <i class="fas fa-envelope-open-text" style="margin-right:4px;"></i> Cover Letter
+                        </button>
+                        <span class="nav-tab-sep">|</span>
+                        <button type="button" class="nav-tab-link" id="header-tab-resumes" onclick="switchWorkspaceView('resumes')">
+                            <i class="fas fa-folder-open" style="margin-right:4px;"></i> My CVs
                         </button>
                         <span class="nav-tab-sep">|</span>
                         <button type="button" class="nav-tab-link" id="header-tab-downloads" onclick="openDownloadsModal()">
@@ -4253,7 +4515,6 @@ textarea.r-bullets {
                         </button>
                         <button type="button" id="header-tab-dash" style="display:none;" onclick="switchWorkspaceView('dashboard')"></button>
                         <button type="button" id="header-tab-templates" style="display:none;" onclick="switchWorkspaceView('templates')"></button>
-                        <button type="button" id="header-tab-edit" style="display:none;" onclick="switchWorkspaceView('editor')"></button>
                     </div>
                     <div class="doc-name-group">
                         <input type="text" id="doc-title-input" class="doc-title-input" value="TELAYNEW AMBACHEW - CV" onchange="showToast('Document renamed')">
@@ -4343,7 +4604,7 @@ textarea.r-bullets {
 
                 <!-- Breadcrumb Title Row -->
                 <div class="workspace-breadcrumb-row">
-                    <span class="crumb-name">Alex Morgan</span>
+                    <span class="crumb-name">TELAYNEW AMBACHEW</span>
                     <span class="crumb-sep">/</span>
                     <span class="crumb-section">Dashboard &amp; Overview</span>
                 </div>
@@ -4594,7 +4855,7 @@ textarea.r-bullets {
                 <div id="view-resumes" class="workspace-view">
                     <div class="workspace-breadcrumb-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                         <div>
-                            <span class="crumb-name">Alex Morgan</span>
+                            <span class="crumb-name">TELAYNEW AMBACHEW</span>
                             <span class="crumb-sep">/</span>
                             <span class="crumb-section">My Resumes</span>
                         </div>
@@ -4617,7 +4878,7 @@ textarea.r-bullets {
                                 <div class="doc-item-thumb">
                                     <i class="fas fa-file-contract" style="color:#2563EB;"></i>
                                 </div>
-                                <div class="doc-item-title">Alex Morgan - Senior CV</div>
+                                <div class="doc-item-title">TELAYNEW AMBACHEW - Senior CV</div>
                                 <div class="doc-item-meta">Active Document â€¢ Updated Today</div>
                             </div>
                             <div class="doc-item-actions">
@@ -4655,7 +4916,7 @@ textarea.r-bullets {
                 <div id="view-cover-letters-list" class="workspace-view">
                     <div class="workspace-breadcrumb-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                         <div>
-                            <span class="crumb-name">Alex Morgan</span>
+                            <span class="crumb-name">TELAYNEW AMBACHEW</span>
                             <span class="crumb-sep">/</span>
                             <span class="crumb-section">My Cover Letters</span>
                         </div>
@@ -4697,7 +4958,7 @@ textarea.r-bullets {
                 <div id="view-templates" class="workspace-view">
                     <div class="workspace-breadcrumb-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                         <div>
-                            <span class="crumb-name">Alex Morgan</span>
+                            <span class="crumb-name">TELAYNEW AMBACHEW</span>
                             <span class="crumb-sep">/</span>
                             <span class="crumb-section">CV Templates</span>
                         </div>
@@ -4798,7 +5059,7 @@ textarea.r-bullets {
                 <!-- ACCOUNT SETTINGS VIEW -->
                 <div id="view-settings" class="workspace-view">
                     <div class="workspace-breadcrumb-row" style="margin-bottom:20px;">
-                        <span class="crumb-name">Alex Morgan</span>
+                        <span class="crumb-name">TELAYNEW AMBACHEW</span>
                         <span class="crumb-sep">/</span>
                         <span class="crumb-section">Account Settings</span>
                     </div>
@@ -5029,7 +5290,7 @@ textarea.r-bullets {
                     <!-- Breadcrumb & Actions Row -->
                     <div class="workspace-breadcrumb-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
                         <div style="display:flex;align-items:center;gap:10px;">
-                            <span class="crumb-name" id="cover-crumb-name">Alex Morgan</span>
+                            <span class="crumb-name" id="cover-crumb-name">TELAYNEW AMBACHEW</span>
                             <span class="crumb-sep">/</span>
                             <span class="crumb-section">Cover Letter Preparation</span>
                             <span class="editor-mode-badge" style="background:#ecfdf5;color:#059669;border-color:#a7f3d0;"><i class="fas fa-circle-check"></i> Ready to Export</span>
@@ -5216,7 +5477,7 @@ textarea.r-bullets {
                                 </div>
                                 <div class="cl-form-group">
                                     <label>Location</label>
-                                    <input type="text" id="cl-sender-location" value="San Francisco, CA" oninput="updateCoverLetterLivePreview()">
+                                    <input type="text" id="cl-sender-location" value="Addis Ababa, Ethiopia" oninput="updateCoverLetterLivePreview()">
                                 </div>
                             </div>
                         </div>
@@ -5587,7 +5848,7 @@ textarea.r-bullets {
                     <form id="signup-form" onsubmit="event.preventDefault(); handleSignupSubmit();">
                         <div class="auth-field-group">
                             <label for="signup-name">Full name</label>
-                            <input type="text" id="signup-name" value="Alex Morgan" placeholder="Alex Morgan" required>
+                            <input type="text" id="signup-name" value="Telaynew Ambachew" placeholder="Telaynew Ambachew" required>
                         </div>
 
                         <div class="auth-field-group">
@@ -6599,7 +6860,249 @@ textarea.r-bullets {
                 line-height: 1.2;
                 color: #000;
             }
-        </style>
+    /* ══════════════════════════════════════════════════════════════════════
+   UNIFIED MODERN WORKSPACE UI/UX (Matching Auth/Hero Design Aesthetic)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Modern Card Styling */
+.editor-card,
+.cover-letter-card,
+.dash-card,
+.dashboard-card,
+.doc-item-card {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.editor-card:hover,
+.cover-letter-card:hover,
+.dash-card:hover,
+.dashboard-card:hover,
+.doc-item-card:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 8px 28px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Card Header Icon Pill */
+.card-header-line h3,
+.cl-card-title,
+.dash-card-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.card-header-line h3 i,
+.cl-card-title i,
+.dash-card-title i {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13.5px !important;
+}
+
+/* Form Inputs & Textareas */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: #0f172a;
+    background: #ffffff;
+    padding: 9px 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Modern Labels */
+label,
+.cl-form-group label,
+.dash-label,
+.sec-card-top-bar {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    color: #64748b !important;
+}
+
+/* Top App Header & Nav Tabs */
+.app-header {
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+.nav-tab-link {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    padding: 7px 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.nav-tab-link:hover {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+.nav-tab-link.active-blue {
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    font-weight: 700 !important;
+}
+
+/* Primary and Ghost Buttons */
+.btn-primary {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+.btn-download-green {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-download-green:hover {
+    background: linear-gradient(135deg, #047857 0%, #059669 100%) !important;
+    transform: translateY(-1px);
+}
+
+.btn-nav-slate,
+.btn-nav-preview {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    color: #334155 !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 7px 14px !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-nav-slate:hover,
+.btn-nav-preview:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* Breadcrumbs */
+.workspace-breadcrumb-row {
+    margin-bottom: 20px !important;
+}
+
+.crumb-name {
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    font-size: 14px !important;
+}
+
+.crumb-sep {
+    color: #cbd5e1 !important;
+    margin: 0 6px !important;
+}
+
+.crumb-section {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.editor-mode-badge {
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    border: 1px solid #a7f3d0 !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar Nav Items */
+.sub-nav-item {
+    border-radius: 10px !important;
+    padding: 9px 12px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #cbd5e1 !important;
+    transition: all 0.18s ease !important;
+}
+
+.sub-nav-item:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.sub-nav-item.active {
+    background: rgba(37, 99, 235, 0.22) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-left: 3px solid #3b82f6 !important;
+}
+
+.sub-nav-item i {
+    font-size: 14px !important;
+    width: 18px !important;
+    color: #94a3b8 !important;
+}
+
+.sub-nav-item.active i {
+    color: #60a5fa !important;
+}
+    </style>
         <div class="header">
             ${photoHtml}
             <div class="title-block">
@@ -8041,6 +8544,248 @@ if (userPhotoDataUrl) {
             #dl-trigger { display: none !important; }
             .cv-page-container { box-shadow: none !important; margin: 0 !important; }
         }
+/* ══════════════════════════════════════════════════════════════════════
+   UNIFIED MODERN WORKSPACE UI/UX (Matching Auth/Hero Design Aesthetic)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Modern Card Styling */
+.editor-card,
+.cover-letter-card,
+.dash-card,
+.dashboard-card,
+.doc-item-card {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.editor-card:hover,
+.cover-letter-card:hover,
+.dash-card:hover,
+.dashboard-card:hover,
+.doc-item-card:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 8px 28px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Card Header Icon Pill */
+.card-header-line h3,
+.cl-card-title,
+.dash-card-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.card-header-line h3 i,
+.cl-card-title i,
+.dash-card-title i {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13.5px !important;
+}
+
+/* Form Inputs & Textareas */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: #0f172a;
+    background: #ffffff;
+    padding: 9px 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Modern Labels */
+label,
+.cl-form-group label,
+.dash-label,
+.sec-card-top-bar {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    color: #64748b !important;
+}
+
+/* Top App Header & Nav Tabs */
+.app-header {
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+.nav-tab-link {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    padding: 7px 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.nav-tab-link:hover {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+.nav-tab-link.active-blue {
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    font-weight: 700 !important;
+}
+
+/* Primary and Ghost Buttons */
+.btn-primary {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+.btn-download-green {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-download-green:hover {
+    background: linear-gradient(135deg, #047857 0%, #059669 100%) !important;
+    transform: translateY(-1px);
+}
+
+.btn-nav-slate,
+.btn-nav-preview {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    color: #334155 !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 7px 14px !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-nav-slate:hover,
+.btn-nav-preview:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* Breadcrumbs */
+.workspace-breadcrumb-row {
+    margin-bottom: 20px !important;
+}
+
+.crumb-name {
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    font-size: 14px !important;
+}
+
+.crumb-sep {
+    color: #cbd5e1 !important;
+    margin: 0 6px !important;
+}
+
+.crumb-section {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.editor-mode-badge {
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    border: 1px solid #a7f3d0 !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar Nav Items */
+.sub-nav-item {
+    border-radius: 10px !important;
+    padding: 9px 12px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #cbd5e1 !important;
+    transition: all 0.18s ease !important;
+}
+
+.sub-nav-item:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.sub-nav-item.active {
+    background: rgba(37, 99, 235, 0.22) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-left: 3px solid #3b82f6 !important;
+}
+
+.sub-nav-item i {
+    font-size: 14px !important;
+    width: 18px !important;
+    color: #94a3b8 !important;
+}
+
+.sub-nav-item.active i {
+    color: #60a5fa !important;
+}
     </style>
 </head>
 <body>
@@ -8617,10 +9362,10 @@ function switchWorkspaceView(view) {
     // Header tabs
     const allTabs = [
         'header-tab-dash',
+        'header-tab-editor',
         'header-tab-resumes',
         'header-tab-cover',
-        'header-tab-templates',
-        'header-tab-edit'
+        'header-tab-templates'
     ];
     allTabs.forEach(tId => {
         const el = document.getElementById(tId);
@@ -8632,55 +9377,33 @@ function switchWorkspaceView(view) {
     const cvDoc = document.getElementById('cv-document');
     const clDoc = document.getElementById('cover-letter-document');
 
-    // Dynamic Header Visibility Mode:
-    // Only Resume, Cover Letter, and Downloads are always visible and never duplicated.
-    // Document Title, Saved pill, Template dropdown, and action buttons appear ONLY in editing mode.
     const header = document.querySelector('.app-header');
+    const activeName = (appCurrentUser && appCurrentUser.name) ? appCurrentUser.name : (document.getElementById('userName')?.value || 'TELAYNEW AMBACHEW');
+
     if (header) {
         header.classList.remove('header-minimal', 'header-editor-mode', 'header-cover-letter-mode');
+        const docInput = document.getElementById('doc-title-input');
         if (view === 'editor') {
             header.classList.add('header-editor-mode');
-            const docInput = document.getElementById('doc-title-input');
-            if (docInput) docInput.value = 'Alex Morgan - Campaigns';
+            if (docInput) docInput.value = activeName + ' - CV';
         } else if (view === 'cover-letter') {
             header.classList.add('header-cover-letter-mode');
-            const docInput = document.getElementById('doc-title-input');
-            if (docInput) docInput.value = 'Alex Morgan - Cover Letter';
+            if (docInput) docInput.value = activeName + ' - Cover Letter';
         } else {
             header.classList.add('header-minimal');
         }
     }
 
-    if (view === 'resumes') {
-        document.getElementById('view-resumes')?.classList.add('active');
-        document.getElementById('nav-item-resumes')?.classList.add('active');
-        document.getElementById('header-tab-resumes')?.classList.add('active-blue');
+    if (view === 'editor') {
+        document.getElementById('view-editor')?.classList.add('active');
+        document.getElementById('nav-item-editor')?.classList.add('active');
+        document.getElementById('header-tab-editor')?.classList.add('active-blue');
         if (cvWrapper) cvWrapper.style.display = 'block';
         if (clWrapper) clWrapper.style.display = 'none';
         if (cvDoc) cvDoc.style.display = 'block';
         if (clDoc) clDoc.style.display = 'none';
         updateLivePreview();
-        showToast('Resumes & CVs gallery active');
-    } else if (view === 'cover-letters-list') {
-        document.getElementById('view-cover-letters-list')?.classList.add('active');
-        document.getElementById('nav-item-cover-letters-list')?.classList.add('active');
-        document.getElementById('header-tab-cover')?.classList.add('active-blue');
-        if (cvWrapper) cvWrapper.style.display = 'none';
-        if (clWrapper) clWrapper.style.display = 'block';
-        if (cvDoc) cvDoc.style.display = 'none';
-        if (clDoc) clDoc.style.display = 'block';
-        updateCoverLetterLivePreview();
-        showToast('Cover Letters gallery active');
-    } else if (view === 'templates') {
-        document.getElementById('view-templates')?.classList.add('active');
-        document.getElementById('nav-item-templates')?.classList.add('active');
-        document.getElementById('header-tab-templates')?.classList.add('active-blue');
-        if (cvWrapper) cvWrapper.style.display = 'block';
-        if (clWrapper) clWrapper.style.display = 'none';
-        if (cvDoc) cvDoc.style.display = 'block';
-        if (clDoc) clDoc.style.display = 'none';
-        updateLivePreview();
-        showToast('Templates gallery active');
+        showToast('Live CV Editor active');
     } else if (view === 'cover-letter') {
         document.getElementById('view-cover-letter')?.classList.add('active');
         document.getElementById('nav-item-cover-letter')?.classList.add('active');
@@ -8692,16 +9415,36 @@ function switchWorkspaceView(view) {
         syncCoverLetterFromCV(false);
         updateCoverLetterLivePreview();
         showToast('Cover Letter Preparation active');
-    } else if (view === 'editor') {
-        document.getElementById('view-editor')?.classList.add('active');
-        document.getElementById('nav-item-editor')?.classList.add('active');
+    } else if (view === 'resumes') {
+        document.getElementById('view-resumes')?.classList.add('active');
+        document.getElementById('nav-item-resumes')?.classList.add('active');
         document.getElementById('header-tab-resumes')?.classList.add('active-blue');
         if (cvWrapper) cvWrapper.style.display = 'block';
         if (clWrapper) clWrapper.style.display = 'none';
         if (cvDoc) cvDoc.style.display = 'block';
         if (clDoc) clDoc.style.display = 'none';
         updateLivePreview();
-        showToast('Live CV Editor mode active');
+        showToast('My CVs & Resumes gallery active');
+    } else if (view === 'templates') {
+        document.getElementById('view-templates')?.classList.add('active');
+        document.getElementById('nav-item-templates')?.classList.add('active');
+        document.getElementById('header-tab-templates')?.classList.add('active-blue');
+        if (cvWrapper) cvWrapper.style.display = 'block';
+        if (clWrapper) clWrapper.style.display = 'none';
+        if (cvDoc) cvDoc.style.display = 'block';
+        if (clDoc) clDoc.style.display = 'none';
+        updateLivePreview();
+        showToast('Templates gallery active');
+    } else if (view === 'cover-letters-list') {
+        document.getElementById('view-cover-letters-list')?.classList.add('active');
+        document.getElementById('nav-item-cover-letters-list')?.classList.add('active');
+        document.getElementById('header-tab-cover')?.classList.add('active-blue');
+        if (cvWrapper) cvWrapper.style.display = 'none';
+        if (clWrapper) clWrapper.style.display = 'block';
+        if (cvDoc) cvDoc.style.display = 'none';
+        if (clDoc) clDoc.style.display = 'block';
+        updateCoverLetterLivePreview();
+        showToast('Cover Letters gallery active');
     } else if (view === 'settings') {
         document.getElementById('view-settings')?.classList.add('active');
         document.getElementById('nav-item-settings')?.classList.add('active');
@@ -8711,7 +9454,6 @@ function switchWorkspaceView(view) {
         if (clDoc) clDoc.style.display = 'none';
         showToast('Account Settings active');
     } else {
-        // Default to dashboard
         document.getElementById('view-dashboard')?.classList.add('active');
         document.getElementById('nav-item-dashboard')?.classList.add('active');
         document.getElementById('header-tab-dash')?.classList.add('active-blue');
@@ -8735,7 +9477,7 @@ function closeSignupPage() {
 
 function handleSignupSubmit() {
     const nameInput = document.getElementById('signup-name');
-    const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Alex Morgan';
+    const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Telaynew Ambachew';
 
     const userName = document.getElementById('userName');
     if (userName) {
@@ -8759,7 +9501,7 @@ function handleSocialAuth(provider) {
 function handleLoginClick() {
     closeSignupPage();
     switchWorkspaceView('dashboard');
-    showToast("Logged in successfully as Alex Morgan.");
+    showToast("Logged in successfully as Telaynew Ambachew.");
 }
 
 function handleSignOut() {
@@ -8881,17 +9623,17 @@ function updateCoverLetterLivePreview() {
     if (!clDoc) return;
 
     // Sender Info
-    const candidateName = document.getElementById('cl-sender-name')?.value || document.getElementById('userName')?.value || 'Alex Morgan';
+    const candidateName = document.getElementById('cl-sender-name')?.value || document.getElementById('userName')?.value || 'TELAYNEW AMBACHEW';
     const candidateRole = document.getElementById('cl-sender-role')?.value || document.getElementById('userTitle')?.value || 'AI and Data Engineer';
     const candidateEmail = document.getElementById('cl-sender-email')?.value || 'alex.morgan@example.com';
     const candidatePhone = document.getElementById('cl-sender-phone')?.value || '+1 (555) 019-2834';
-    const candidateLocation = document.getElementById('cl-sender-location')?.value || 'San Francisco, CA';
+    const candidateLocation = document.getElementById('cl-sender-location')?.value || 'Addis Ababa, Ethiopia';
 
     // Recipient Info
     const recipientName = document.getElementById('cl-recipient-name')?.value || 'Hiring Manager';
     const recipientTitle = document.getElementById('cl-recipient-title')?.value || 'Talent Acquisition Team';
     const companyName = document.getElementById('cl-company-name')?.value || 'Acme Corporation';
-    const companyAddress = document.getElementById('cl-company-location')?.value || 'San Francisco, CA';
+    const companyAddress = document.getElementById('cl-company-location')?.value || 'Addis Ababa, Ethiopia';
     const letterDate = document.getElementById('cl-date')?.value || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const targetJob = document.getElementById('cl-job-title')?.value || candidateRole;
 
@@ -9289,6 +10031,248 @@ function generateCoverLetterPopup(autoDownload) {
             box-shadow: 0 6px 20px rgba(0,0,0,0.3) !important;
             display: block !important;
         }
+/* ══════════════════════════════════════════════════════════════════════
+   UNIFIED MODERN WORKSPACE UI/UX (Matching Auth/Hero Design Aesthetic)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Modern Card Styling */
+.editor-card,
+.cover-letter-card,
+.dash-card,
+.dashboard-card,
+.doc-item-card {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.editor-card:hover,
+.cover-letter-card:hover,
+.dash-card:hover,
+.dashboard-card:hover,
+.doc-item-card:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 8px 28px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Card Header Icon Pill */
+.card-header-line h3,
+.cl-card-title,
+.dash-card-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.card-header-line h3 i,
+.cl-card-title i,
+.dash-card-title i {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13.5px !important;
+}
+
+/* Form Inputs & Textareas */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+select,
+textarea {
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 13.5px;
+    color: #0f172a;
+    background: #ffffff;
+    padding: 9px 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Modern Labels */
+label,
+.cl-form-group label,
+.dash-label,
+.sec-card-top-bar {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    color: #64748b !important;
+}
+
+/* Top App Header & Nav Tabs */
+.app-header {
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+.nav-tab-link {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    padding: 7px 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.nav-tab-link:hover {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+.nav-tab-link.active-blue {
+    color: #2563eb !important;
+    background: #eff6ff !important;
+    font-weight: 700 !important;
+}
+
+/* Primary and Ghost Buttons */
+.btn-primary {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8 !important;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
+    transform: translateY(-1px);
+}
+
+.btn-download-green {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25) !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-download-green:hover {
+    background: linear-gradient(135deg, #047857 0%, #059669 100%) !important;
+    transform: translateY(-1px);
+}
+
+.btn-nav-slate,
+.btn-nav-preview {
+    background: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    color: #334155 !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    padding: 7px 14px !important;
+    transition: all 0.18s ease !important;
+}
+
+.btn-nav-slate:hover,
+.btn-nav-preview:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* Breadcrumbs */
+.workspace-breadcrumb-row {
+    margin-bottom: 20px !important;
+}
+
+.crumb-name {
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    font-size: 14px !important;
+}
+
+.crumb-sep {
+    color: #cbd5e1 !important;
+    margin: 0 6px !important;
+}
+
+.crumb-section {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+
+.editor-mode-badge {
+    background: #ecfdf5 !important;
+    color: #059669 !important;
+    border: 1px solid #a7f3d0 !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+}
+
+/* Sidebar Nav Items */
+.sub-nav-item {
+    border-radius: 10px !important;
+    padding: 9px 12px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #cbd5e1 !important;
+    transition: all 0.18s ease !important;
+}
+
+.sub-nav-item:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.sub-nav-item.active {
+    background: rgba(37, 99, 235, 0.22) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-left: 3px solid #3b82f6 !important;
+}
+
+.sub-nav-item i {
+    font-size: 14px !important;
+    width: 18px !important;
+    color: #94a3b8 !important;
+}
+
+.sub-nav-item.active i {
+    color: #60a5fa !important;
+}
     </style>
 </head>
 <body>
