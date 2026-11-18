@@ -10045,6 +10045,7 @@ function switchWorkspaceView(view) {
         if (cvWrapper) cvWrapper.style.display = 'none';
         if (clWrapper) clWrapper.style.display = 'none';
         if (tplSelector) tplSelector.style.display = 'none';
+        if (typeof loadUserDocumentsFromBackend === 'function') loadUserDocumentsFromBackend();
         showToast('My CVs gallery active');
     } else if (view === 'templates') {
         document.getElementById('view-templates')?.classList.add('active');
@@ -11218,12 +11219,126 @@ function triggerAutoSave() {
     }, 1200);
 }
 
-function saveDocumentState() {
+// ── Backend API Integration & State Persistence ─────────────────────────
+window.API_BASE = 'http://localhost:3000/api';
+let authToken = localStorage.getItem('cv_jwt_token') || null;
+
+function getAuthHeaders() {
+    const headers = { 'Content-Type': 'application/json' };
+    if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
+    if (appCurrentUser && appCurrentUser.id) headers['x-user-id'] = appCurrentUser.id;
+    return headers;
+}
+
+function getCoverLetterData() {
+    return {
+        title: (document.getElementById('doc-title-input')?.value || 'Software Developer Cover Letter').trim(),
+        theme: document.getElementById('cl-theme-select')?.value || 'executive',
+        companyName: document.getElementById('cl-company-name')?.value || '',
+        jobTitle: document.getElementById('cl-job-title')?.value || '',
+        date: document.getElementById('cl-date')?.value || '',
+        recipient: {
+            name: document.getElementById('cl-recipient-name')?.value || '',
+            title: document.getElementById('cl-recipient-title')?.value || '',
+            company: document.getElementById('cl-company-name')?.value || '',
+            location: document.getElementById('cl-company-location')?.value || ''
+        },
+        sender: {
+            name: document.getElementById('cl-sender-name')?.value || '',
+            role: document.getElementById('cl-sender-role')?.value || '',
+            email: document.getElementById('cl-sender-email')?.value || '',
+            phone: document.getElementById('cl-sender-phone')?.value || '',
+            location: document.getElementById('cl-sender-location')?.value || ''
+        },
+        body: document.getElementById('cover-letter-text')?.value || '',
+        toggles: {
+            includeHeader: !!document.getElementById('cl-chk-include-header')?.checked,
+            includeSenderName: !!document.getElementById('cl-chk-sender-name')?.checked,
+            includeSenderTitle: !!document.getElementById('cl-chk-sender-title')?.checked,
+            includeContacts: !!document.getElementById('cl-chk-contacts')?.checked,
+            includeDivider: !!document.getElementById('cl-chk-divider')?.checked,
+            includeDate: !!document.getElementById('cl-chk-date')?.checked,
+            includeRecipient: !!document.getElementById('cl-chk-recipient')?.checked,
+            includeSubject: !!document.getElementById('cl-chk-subject')?.checked,
+            includeSignature: !!document.getElementById('cl-chk-signature')?.checked
+        }
+    };
+}
+
+async function saveDocumentState() {
     try {
-        const snapshot = { savedAt: new Date().toISOString(), userId: appCurrentUser ? appCurrentUser.id : 'guest' };
-        localStorage.setItem('cv_document_state', JSON.stringify(snapshot));
-        document.dispatchEvent(new CustomEvent('cv:saved', { detail: snapshot }));
-    } catch (e) {}
+        const isCl = (typeof currentWorkspaceView !== 'undefined' && currentWorkspaceView === 'cover-letter');
+        const activeUserId = appCurrentUser ? appCurrentUser.id : 'guest';
+
+        if (isCl) {
+            const clData = getCoverLetterData();
+            clData.userId = activeUserId;
+            localStorage.setItem('cv_cover_letter_state', JSON.stringify({ savedAt: new Date().toISOString(), data: clData }));
+
+            // Try saving to NestJS backend / MongoDB Atlas
+            try {
+                const res = await fetch(`${API_BASE}/cover-letter/save`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(clData)
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.document && data.document._id) {
+                        localStorage.setItem('cv_active_cl_id', data.document._id);
+                    }
+                }
+            } catch(backendErr) {
+                // Offline fallback - saved to localStorage
+            }
+        } else {
+            const cvData = (typeof getCVData === 'function') ? getCVData() : {};
+            const docTitle = (document.getElementById('doc-title-input')?.value || `${cvData.name || 'Telaynew Ambachew'} - CV`).trim();
+            const activeTpl = (typeof getActiveTemplate === 'function') ? getActiveTemplate() : 'modern';
+
+            const payload = {
+                userId: activeUserId,
+                title: docTitle,
+                name: cvData.name || 'TELAYNEW AMBACHEW',
+                job: cvData.job || 'Full-Stack Developer',
+                template: activeTpl,
+                contacts: cvData.contacts || [],
+                sections: cvData.sections || [],
+                photoConfig: {
+                    photo: cvData.photo || '',
+                    showPhoto: cvData.showPhoto !== false,
+                    photoAlign: cvData.photoAlign || 'center',
+                    photoShape: cvData.photoShape || 'circle'
+                },
+                rawSnapshot: { savedAt: new Date().toISOString(), ...cvData }
+            };
+
+            const existingCvId = localStorage.getItem('cv_active_id');
+            if (existingCvId) payload.id = existingCvId;
+
+            localStorage.setItem('cv_document_state', JSON.stringify(payload));
+            document.dispatchEvent(new CustomEvent('cv:saved', { detail: payload }));
+
+            // Try saving to NestJS backend / MongoDB Atlas
+            try {
+                const res = await fetch(`${API_BASE}/cv/save`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.document && data.document._id) {
+                        localStorage.setItem('cv_active_id', data.document._id);
+                    }
+                }
+            } catch(backendErr) {
+                // Offline fallback - saved to localStorage
+            }
+        }
+    } catch (e) {
+        console.warn('Save error:', e);
+    }
 }
 
 // ── Auth Gate Overlay ─────────────────────────────────────────────────
@@ -11247,39 +11362,108 @@ function switchAuthTab(tab) {
     if (panelEl) panelEl.classList.add('active');
 }
 
-function handleGateSignup() {
+async function handleGateSignup() {
     const name  = (document.getElementById('auth-signup-name')?.value  || '').trim();
     const email = (document.getElementById('auth-signup-email')?.value || '').trim();
     const pass  = (document.getElementById('auth-signup-password')?.value || '').trim();
     if (!name)  { showToast('Please enter your full name.'); return; }
     if (!email) { showToast('Please enter your email address.'); return; }
     if (!pass || pass.length < 6) { showToast('Password must be at least 6 characters.'); return; }
+
+    const submitBtn = document.querySelector('#auth-panel-signup .auth-submit-btn');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account…'; }
+
+    try {
+        const response = await fetch(`${API_BASE}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password: pass })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.token) {
+                authToken = data.token;
+                localStorage.setItem('cv_jwt_token', authToken);
+            }
+            signInUser(data.user);
+            showToast('Account created & connected to MongoDB Atlas! 🎉');
+            saveDocumentState();
+            return;
+        } else {
+            const errData = await response.json().catch(() => ({}));
+            showToast(errData.message || 'Signup failed on server. Continuing with local session.');
+        }
+    } catch (netErr) {
+        console.warn('Backend offline, using local fallback:', netErr);
+    } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Free Account'; }
+    }
+
+    // Local fallback
     const userData = {
-        id: 'local_' + Date.now(), name: name, email: email,
-        initials: name.split(' ').slice(0,2).map(w => w[0]?.toUpperCase()).join('')
+        id: 'local_' + Date.now(),
+        name: name,
+        email: email,
+        initials: name.split(' ').slice(0, 2).map(w => w[0]?.toUpperCase()).join('')
     };
     signInUser(userData);
-    showToast('Welcome to CVForge, ' + name.split(' ')[0] + '! \uD83C\uDF89');
+    showToast('Welcome to CVForge, ' + name.split(' ')[0] + '! 🎉 (Offline Mode)');
+    saveDocumentState();
 }
 
-function handleGateLogin() {
+async function handleGateLogin() {
     const email = (document.getElementById('auth-login-email')?.value  || '').trim();
     const pass  = (document.getElementById('auth-login-password')?.value || '').trim();
     if (!email) { showToast('Please enter your email address.'); return; }
     if (!pass)  { showToast('Please enter your password.'); return; }
-    const name = email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+
+    const submitBtn = document.querySelector('#auth-panel-login .auth-submit-btn');
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging In…'; }
+
+    try {
+        const response = await fetch(`${API_BASE}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password: pass })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            if (data.token) {
+                authToken = data.token;
+                localStorage.setItem('cv_jwt_token', authToken);
+            }
+            signInUser(data.user);
+            showToast('Logged in successfully! Synced with MongoDB. ✨');
+            loadUserDocumentsFromBackend();
+            return;
+        } else {
+            const errData = await response.json().catch(() => ({}));
+            showToast(errData.message || 'Login failed. Checking local backup.');
+        }
+    } catch (netErr) {
+        console.warn('Backend offline, using local fallback:', netErr);
+    } finally {
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log In to Your Account'; }
+    }
+
+    // Local fallback
+    const name = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
     const userData = {
-        id: 'local_' + Date.now(), name: name, email: email,
-        initials: name.split(' ').slice(0,2).map(w=>w[0]?.toUpperCase()).join('')
+        id: 'local_' + Date.now(),
+        name: name,
+        email: email,
+        initials: name.split(' ').slice(0, 2).map(w => w[0]?.toUpperCase()).join('')
     };
     signInUser(userData);
-    showToast('Welcome back, ' + name.split(' ')[0] + '!');
+    showToast('Welcome back, ' + name.split(' ')[0] + '! (Offline Mode)');
 }
 
 function continueAsGuest() {
     hideAuthOverlay();
     applyGuestUI();
-    showToast('Continuing as guest. Your work is saved locally only.');
+    showToast('Continuing as guest. Your work is saved locally and can be synced anytime.');
 }
 
 // ── Auth State Transitions ────────────────────────────────────────────
@@ -11300,7 +11484,11 @@ function signInUser(userData) {
 function signOutUser() {
     appCurrentUser = null;
     appAuthState   = 'guest';
-    try { localStorage.removeItem('cv_session'); } catch(e) {}
+    authToken      = null;
+    try {
+        localStorage.removeItem('cv_session');
+        localStorage.removeItem('cv_jwt_token');
+    } catch(e) {}
     applyGuestUI();
     showToast('You have been signed out.');
 }
@@ -11315,7 +11503,7 @@ function applyAuthenticatedUI(userData) {
 
     const headerInitials = document.getElementById('header-user-initials');
     const headerName     = document.getElementById('header-user-name');
-    if (headerInitials) headerInitials.textContent = userData.initials || 'U';
+    if (headerInitials) headerInitials.textContent = userData.initials || 'TA';
     if (headerName)     headerName.textContent     = userData.name.split(' ')[0];
 
     const dName  = document.getElementById('dropdown-user-name');
@@ -11328,7 +11516,7 @@ function applyAuthenticatedUI(userData) {
 
     const dashSignupBtn = document.getElementById('dash-signup-btn');
     if (dashSignupBtn) {
-        dashSignupBtn.innerHTML = '<i class="fas fa-check-circle"></i> Account Active';
+        dashSignupBtn.innerHTML = '<i class="fas fa-check-circle"></i> Account Active (MongoDB)';
         dashSignupBtn.style.background = '#10B981';
         dashSignupBtn.onclick = null;
     }
@@ -11340,7 +11528,7 @@ function applyAuthenticatedUI(userData) {
     pills.forEach(pill => {
         const txt = pill.querySelector('span:last-child');
         pill.classList.remove('saving','unsaved');
-        if (txt) txt.textContent = 'Saved to your account';
+        if (txt) txt.textContent = 'Saved to your account (MongoDB)';
     });
 }
 
@@ -11355,6 +11543,69 @@ function applyGuestUI() {
 
     const welcomeName = document.getElementById('dash-welcome-name');
     if (welcomeName) welcomeName.textContent = 'Welcome to CVForge!';
+}
+
+// ── Load User Documents from Backend ──────────────────────────────────
+
+async function loadUserDocumentsFromBackend() {
+    try {
+        const res = await fetch(`${API_BASE}/documents`, {
+            headers: getAuthHeaders()
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && Array.isArray(data.documents) && data.documents.length > 0) {
+            renderDocumentCardsInGrid(data.documents);
+        }
+    } catch(err) {
+        // Backend not reachable, keep existing UI cards
+    }
+}
+
+function renderDocumentCardsInGrid(docs) {
+    const grid = document.querySelector('#view-resumes .doc-manage-grid');
+    if (!grid) return;
+
+    // Keep the "Create New" card
+    const createCard = grid.querySelector('.doc-create-new-card');
+    grid.innerHTML = '';
+    if (createCard) grid.appendChild(createCard);
+
+    docs.forEach(doc => {
+        const card = document.createElement('div');
+        card.className = 'doc-item-card';
+        card.onclick = () => {
+            if (doc.type === 'cover-letter') {
+                switchWorkspaceView('cover-letter');
+            } else {
+                switchWorkspaceView('editor');
+            }
+        };
+
+        const isCV = doc.type === 'cv';
+        const iconClass = isCV ? 'fa-file-contract' : 'fa-envelope-open-text';
+        const iconColor = isCV ? '#2563EB' : '#059669';
+        const dateStr = doc.updatedAt ? new Date(doc.updatedAt).toLocaleDateString() : 'Today';
+
+        card.innerHTML = `
+            <div>
+                <div class="doc-item-thumb">
+                    <i class="fas ${iconClass}" style="color:${iconColor};"></i>
+                </div>
+                <div class="doc-item-title">${doc.title}</div>
+                <div class="doc-item-meta">${doc.subtitle} • Updated ${dateStr}</div>
+            </div>
+            <div class="doc-item-actions">
+                <button type="button" class="btn btn-nav-preview" style="flex:1;padding:6px 8px;font-size:12px;" onclick="event.stopPropagation(); switchWorkspaceView('${isCV ? 'editor' : 'cover-letter'}')">
+                    <i class="fas fa-pen-to-square"></i> Edit
+                </button>
+                <button type="button" class="btn btn-download-green" style="padding:6px 10px;font-size:12px;" onclick="event.stopPropagation(); ${isCV ? 'downloadCVPdf()' : 'downloadCoverLetterPdf()'}">
+                    <i class="fas fa-download"></i> PDF
+                </button>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
 }
 
 // ── User Dropdown ──────────────────────────────────────────────────────
@@ -11376,7 +11627,30 @@ document.addEventListener('click', function(e) {
 
 // ── Session Restore ────────────────────────────────────────────────────
 
-function restoreSession() {
+async function restoreSession() {
+    // 1. Try restoring via backend /api/auth/me if JWT exists
+    if (authToken) {
+        try {
+            const res = await fetch(`${API_BASE}/auth/me`, {
+                headers: getAuthHeaders()
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.user) {
+                    appCurrentUser = data.user;
+                    appAuthState = 'authenticated';
+                    hideAuthOverlay();
+                    applyAuthenticatedUI(data.user);
+                    loadUserDocumentsFromBackend();
+                    return;
+                }
+            }
+        } catch(err) {
+            console.warn('Backend auth/me check skipped (offline fallback).');
+        }
+    }
+
+    // 2. Check local session
     try {
         const raw = localStorage.getItem('cv_session');
         if (raw) {
@@ -11417,6 +11691,7 @@ if (document.readyState === 'loading') {
 } else {
     restoreSession();
 }
+
     </script>
 </body>
 </html>
