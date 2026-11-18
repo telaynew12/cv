@@ -67,7 +67,7 @@
     --header-height: 64px;
     --rail-width: 56px;
     --sub-sidebar-width: 230px;
-    --preview-scale: 0.62;
+    --preview-scale: 0.58;
 
     /* Legacy compatibility */
     --navy: #173B5E;
@@ -4294,6 +4294,217 @@ label,
 .sub-nav-item.active i {
     color: #60a5fa !important;
 }
+/* ══════════════════════════════════════════════════════════════════════
+   HEADER, MODE PILLS & FULL PREVIEW PANE ENHANCEMENTS (NO CUT-OFF)
+   ══════════════════════════════════════════════════════════════════════ */
+.app-header {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 500 !important;
+}
+
+.header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.doc-name-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.doc-title-input {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    border-radius: 6px !important;
+    padding: 5px 10px !important;
+    width: 220px !important;
+    transition: all 0.2s ease !important;
+}
+
+.doc-title-input:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+.doc-title-input:focus {
+    background: #ffffff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+}
+
+/* Header Center: Mode Switcher Tabs */
+.header-center {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+
+.header-mode-pills {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #f1f5f9 !important;
+    padding: 3px !important;
+    border-radius: 10px !important;
+    gap: 3px !important;
+}
+
+.mode-pill-btn {
+    border: none !important;
+    background: transparent !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.18s ease !important;
+}
+
+.mode-pill-btn:hover {
+    color: #0f172a !important;
+}
+
+.mode-pill-btn.active {
+    background: #ffffff !important;
+    color: #2563eb !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.header-template-selector {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #f8fafc !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 4px 12px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.header-template-selector select {
+    border: none !important;
+    background: transparent !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    cursor: pointer !important;
+    padding: 2px 4px !important;
+    outline: none !important;
+}
+
+.header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+/* ── Spacious Workspace Layout (Two-Panel vs Full-Width) ── */
+.app-layout {
+    display: grid !important;
+    grid-template-columns: minmax(460px, 1fr) 520px !important;
+    gap: 28px !important;
+    padding: 24px 32px 48px 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: #f8fafc !important;
+    min-width: 0 !important;
+}
+
+.editor-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 820px !important;
+}
+
+/* Full Width Gallery & Dashboard Views */
+.app-layout.full-width-view {
+    display: block !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 28px 36px 48px 36px !important;
+}
+
+.app-layout.full-width-view .editor-container {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.app-layout.full-width-view .preview-pane {
+    display: none !important;
+}
+
+/* ── Live Preview Pane (Ample 520px Width - Never Cut Off) ── */
+.preview-pane {
+    width: 520px !important;
+    min-width: 520px !important;
+    position: sticky !important;
+    top: 76px !important;
+    height: calc(100vh - 96px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: transparent !important;
+    overflow: hidden !important;
+}
+
+.preview-toolbar {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
+    padding-right: 4px !important;
+}
+
+.preview-viewport {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 4px 10px 40px 10px !important;
+}
+
+.preview-page-wrapper {
+    transform-origin: top center !important;
+    transform: scale(var(--preview-scale, 0.58)) !important;
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.12) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    margin: 0 auto !important;
+    transition: transform 0.2s ease !important;
+}
+
+#cv-document,
+#cover-letter-document {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+}
     </style>
 </head>
 
@@ -4490,49 +4701,40 @@ label,
     <!-- Main Application Shell -->
     <div class="app-main-content">
 
-        <!-- Top Navigation Bar (Airy, Modern, White #FFFFFF, 64px, Matches image_29.png) -->
-        <header class="app-header header-minimal">
+        <!-- Top Navigation Bar (Clean Modern Single-Row Bar, Height: 60px) -->
+        <header class="app-header" id="app-header">
             <div class="header-left">
-                <button type="button" class="btn-header-sidebar-toggle" id="btn-header-sidebar-toggle" title="Toggle Sidebar (Normal / Minimal)" onclick="toggleSidebarExpand()">
+                <button type="button" class="btn-header-sidebar-toggle" id="btn-header-sidebar-toggle" title="Toggle Sidebar" onclick="toggleSidebarExpand()">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="header-left-stack">
-                    <div class="header-nav-tabs">
-                        <button type="button" class="nav-tab-link" id="header-tab-editor" onclick="switchWorkspaceView('editor')">
-                            <i class="fas fa-file-contract" style="margin-right:4px;"></i> CV Editor
-                        </button>
-                        <span class="nav-tab-sep">|</span>
-                        <button type="button" class="nav-tab-link" id="header-tab-cover" onclick="switchWorkspaceView('cover-letter')">
-                            <i class="fas fa-envelope-open-text" style="margin-right:4px;"></i> Cover Letter
-                        </button>
-                        <span class="nav-tab-sep">|</span>
-                        <button type="button" class="nav-tab-link" id="header-tab-resumes" onclick="switchWorkspaceView('resumes')">
-                            <i class="fas fa-folder-open" style="margin-right:4px;"></i> My CVs
-                        </button>
-                        <span class="nav-tab-sep">|</span>
-                        <button type="button" class="nav-tab-link" id="header-tab-downloads" onclick="openDownloadsModal()">
-                            <i class="fas fa-download" style="margin-right:4px;color:var(--blue-primary);"></i> Downloads (PDF)
-                        </button>
-                        <button type="button" id="header-tab-dash" style="display:none;" onclick="switchWorkspaceView('dashboard')"></button>
-                        <button type="button" id="header-tab-templates" style="display:none;" onclick="switchWorkspaceView('templates')"></button>
-                    </div>
-                    <div class="doc-name-group">
-                        <input type="text" id="doc-title-input" class="doc-title-input" value="TELAYNEW AMBACHEW - CV" onchange="showToast('Document renamed')">
-                        <div class="save-status-pill">
-                            <span class="save-dot"></span>
-                            <span>Saved</span>
-                        </div>
-                        <i class="fas fa-pencil-alt doc-edit-icon" onclick="document.getElementById('doc-title-input').focus()"></i>
+                <div class="doc-name-group" id="header-doc-name-group">
+                    <input type="text" id="doc-title-input" class="doc-title-input" value="TELAYNEW AMBACHEW - CV" onchange="showToast('Document renamed')">
+                    <div class="save-status-pill" id="header-save-pill">
+                        <span class="save-dot"></span>
+                        <span id="save-status-text">Saved</span>
                     </div>
                 </div>
             </div>
 
             <div class="header-center">
-                <div class="header-template-selector">
+                <!-- Segmented View Switcher Pills -->
+                <div class="header-mode-pills">
+                    <button type="button" class="mode-pill-btn active" id="header-tab-editor" onclick="switchWorkspaceView('editor')">
+                        <i class="fas fa-file-contract"></i> <span>CV Editor</span>
+                    </button>
+                    <button type="button" class="mode-pill-btn" id="header-tab-cover" onclick="switchWorkspaceView('cover-letter')">
+                        <i class="fas fa-envelope-open-text"></i> <span>Cover Letter</span>
+                    </button>
+                    <button type="button" class="mode-pill-btn" id="header-tab-resumes" onclick="switchWorkspaceView('resumes')">
+                        <i class="fas fa-folder-open"></i> <span>My CVs</span>
+                    </button>
+                </div>
+
+                <!-- Template Selector -->
+                <div class="header-template-selector" id="header-template-selector-wrap">
                     <i class="fas fa-palette"></i>
-                    <label for="cv-template-select">Template:</label>
                     <select id="cv-template-select" onchange="onTemplateSelectChange()">
-                        <option value="default">Default</option>
+                        <option value="default">Default ATS</option>
                         <option value="t1">Design 1 - Dark Left Bar</option>
                         <option value="t2">Design 2 - Center Header</option>
                         <option value="t3">Design 3 - Dark Full Header</option>
@@ -4540,25 +4742,16 @@ label,
                         <option value="t5">Design 5 - Wide Center Header</option>
                         <option value="t6">Design 6 - City Background</option>
                         <option value="t7">Design 7 - Teal Modern Executive</option>
-                        <option value="t8" selected>Design 8 - Resume Template ARYA (Page 01 &amp; Page 02)</option>
-                        <option value="t9">Design 9 - Arya Mitchell Executive (Page 02)</option>
+                        <option value="t8" selected>Design 8 - ARYA Mitchell</option>
+                        <option value="t9">Design 9 - Arya Executive</option>
                         <option value="t10">Design 10 - Modern Navy-Teal Wave</option>
                     </select>
                 </div>
             </div>
 
             <div class="header-actions">
-                <button type="button" class="btn btn-nav-preview" id="btn-toggle-mobile" onclick="toggleMobilePreview()">
-                    <i class="far fa-eye"></i> <span id="mobile-toggle-text">Preview</span>
-                </button>
-                <button type="button" class="btn btn-nav-slate" onclick="toggleCollapseAll()">
-                    <i class="fas fa-compress-arrows-alt"></i> <span id="collapse-toggle-text">Collapse Cards</span>
-                </button>
-                <button type="button" class="btn btn-nav-slate" onclick="generateCV()">
-                    <i class="fas fa-arrow-up-right-from-square"></i> Open PDF View
-                </button>
-                <button type="button" class="btn btn-download-green" id="btn-download-top" onclick="downloadCVPdf()">
-                    <i class="fas fa-download"></i> Download PDF
+                <button type="button" class="btn btn-download-green" id="btn-download-top" onclick="downloadActiveDocPdf()">
+                    <i class="fas fa-download"></i> <span>Download PDF</span>
                 </button>
                 <!-- User account button: shown when logged in; replaced by Sign Up when guest -->
                 <div style="position:relative;" id="header-user-wrapper">
@@ -4580,6 +4773,9 @@ label,
                         </div>
                         <div class="user-dropdown-item" onclick="switchWorkspaceView('dashboard'); closeUserDropdown();">
                             <i class="fas fa-house"></i> Dashboard
+                        </div>
+                        <div class="user-dropdown-item" onclick="switchWorkspaceView('resumes'); closeUserDropdown();">
+                            <i class="fas fa-folder-open"></i> My CVs
                         </div>
                         <div class="user-dropdown-item" onclick="switchWorkspaceView('settings'); closeUserDropdown();">
                             <i class="fas fa-sliders"></i> Settings
@@ -5114,7 +5310,7 @@ label,
                             <span class="editor-mode-badge"><i class="fas fa-circle-dot"></i> Live Editing</span>
                         </div>
                         <button type="button" class="btn btn-switch-view" onclick="switchWorkspaceView('dashboard')">
-                            <i class="fas fa-chart-pie"></i> Back to Marketing Dashboard
+                            <i class="fas fa-house"></i> Dashboard
                         </button>
                     </div>
 
@@ -5491,8 +5687,8 @@ label,
                 <div class="preview-toolbar">
                     <div class="preview-capsule-controls">
                         <button type="button" class="preview-zoom-btn" onclick="setZoom(0.5)">50%</button>
-                        <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit" onclick="setZoom(0.62)">Fit</button>
-                        <button type="button" class="preview-zoom-btn" onclick="setZoom(0.8)">80%</button>
+                        <button type="button" class="preview-zoom-btn active" id="btn-zoom-fit" onclick="setZoom(0.58)">Fit</button>
+                        <button type="button" class="preview-zoom-btn" onclick="setZoom(0.75)">80%</button>
                     </div>
                 </div>
 
@@ -7101,6 +7297,217 @@ label,
 
 .sub-nav-item.active i {
     color: #60a5fa !important;
+}
+/* ══════════════════════════════════════════════════════════════════════
+   HEADER, MODE PILLS & FULL PREVIEW PANE ENHANCEMENTS (NO CUT-OFF)
+   ══════════════════════════════════════════════════════════════════════ */
+.app-header {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 500 !important;
+}
+
+.header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.doc-name-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.doc-title-input {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    border-radius: 6px !important;
+    padding: 5px 10px !important;
+    width: 220px !important;
+    transition: all 0.2s ease !important;
+}
+
+.doc-title-input:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+.doc-title-input:focus {
+    background: #ffffff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+}
+
+/* Header Center: Mode Switcher Tabs */
+.header-center {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+
+.header-mode-pills {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #f1f5f9 !important;
+    padding: 3px !important;
+    border-radius: 10px !important;
+    gap: 3px !important;
+}
+
+.mode-pill-btn {
+    border: none !important;
+    background: transparent !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.18s ease !important;
+}
+
+.mode-pill-btn:hover {
+    color: #0f172a !important;
+}
+
+.mode-pill-btn.active {
+    background: #ffffff !important;
+    color: #2563eb !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.header-template-selector {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #f8fafc !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 4px 12px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.header-template-selector select {
+    border: none !important;
+    background: transparent !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    cursor: pointer !important;
+    padding: 2px 4px !important;
+    outline: none !important;
+}
+
+.header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+/* ── Spacious Workspace Layout (Two-Panel vs Full-Width) ── */
+.app-layout {
+    display: grid !important;
+    grid-template-columns: minmax(460px, 1fr) 520px !important;
+    gap: 28px !important;
+    padding: 24px 32px 48px 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: #f8fafc !important;
+    min-width: 0 !important;
+}
+
+.editor-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 820px !important;
+}
+
+/* Full Width Gallery & Dashboard Views */
+.app-layout.full-width-view {
+    display: block !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 28px 36px 48px 36px !important;
+}
+
+.app-layout.full-width-view .editor-container {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.app-layout.full-width-view .preview-pane {
+    display: none !important;
+}
+
+/* ── Live Preview Pane (Ample 520px Width - Never Cut Off) ── */
+.preview-pane {
+    width: 520px !important;
+    min-width: 520px !important;
+    position: sticky !important;
+    top: 76px !important;
+    height: calc(100vh - 96px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: transparent !important;
+    overflow: hidden !important;
+}
+
+.preview-toolbar {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
+    padding-right: 4px !important;
+}
+
+.preview-viewport {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 4px 10px 40px 10px !important;
+}
+
+.preview-page-wrapper {
+    transform-origin: top center !important;
+    transform: scale(var(--preview-scale, 0.58)) !important;
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.12) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    margin: 0 auto !important;
+    transition: transform 0.2s ease !important;
+}
+
+#cv-document,
+#cover-letter-document {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
 }
     </style>
         <div class="header">
@@ -8786,6 +9193,217 @@ label,
 .sub-nav-item.active i {
     color: #60a5fa !important;
 }
+/* ══════════════════════════════════════════════════════════════════════
+   HEADER, MODE PILLS & FULL PREVIEW PANE ENHANCEMENTS (NO CUT-OFF)
+   ══════════════════════════════════════════════════════════════════════ */
+.app-header {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 500 !important;
+}
+
+.header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.doc-name-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.doc-title-input {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    border-radius: 6px !important;
+    padding: 5px 10px !important;
+    width: 220px !important;
+    transition: all 0.2s ease !important;
+}
+
+.doc-title-input:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+.doc-title-input:focus {
+    background: #ffffff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+}
+
+/* Header Center: Mode Switcher Tabs */
+.header-center {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+
+.header-mode-pills {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #f1f5f9 !important;
+    padding: 3px !important;
+    border-radius: 10px !important;
+    gap: 3px !important;
+}
+
+.mode-pill-btn {
+    border: none !important;
+    background: transparent !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.18s ease !important;
+}
+
+.mode-pill-btn:hover {
+    color: #0f172a !important;
+}
+
+.mode-pill-btn.active {
+    background: #ffffff !important;
+    color: #2563eb !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.header-template-selector {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #f8fafc !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 4px 12px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.header-template-selector select {
+    border: none !important;
+    background: transparent !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    cursor: pointer !important;
+    padding: 2px 4px !important;
+    outline: none !important;
+}
+
+.header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+/* ── Spacious Workspace Layout (Two-Panel vs Full-Width) ── */
+.app-layout {
+    display: grid !important;
+    grid-template-columns: minmax(460px, 1fr) 520px !important;
+    gap: 28px !important;
+    padding: 24px 32px 48px 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: #f8fafc !important;
+    min-width: 0 !important;
+}
+
+.editor-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 820px !important;
+}
+
+/* Full Width Gallery & Dashboard Views */
+.app-layout.full-width-view {
+    display: block !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 28px 36px 48px 36px !important;
+}
+
+.app-layout.full-width-view .editor-container {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.app-layout.full-width-view .preview-pane {
+    display: none !important;
+}
+
+/* ── Live Preview Pane (Ample 520px Width - Never Cut Off) ── */
+.preview-pane {
+    width: 520px !important;
+    min-width: 520px !important;
+    position: sticky !important;
+    top: 76px !important;
+    height: calc(100vh - 96px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: transparent !important;
+    overflow: hidden !important;
+}
+
+.preview-toolbar {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
+    padding-right: 4px !important;
+}
+
+.preview-viewport {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 4px 10px 40px 10px !important;
+}
+
+.preview-page-wrapper {
+    transform-origin: top center !important;
+    transform: scale(var(--preview-scale, 0.58)) !important;
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.12) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    margin: 0 auto !important;
+    transition: transform 0.2s ease !important;
+}
+
+#cv-document,
+#cover-letter-document {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+}
     </style>
 </head>
 <body>
@@ -8826,7 +9444,15 @@ label,
         }
 
         // Direct Download PDF from main page (100% identical styling and page count as Open PDF View)
-        function downloadCVPdf() {
+        
+function downloadActiveDocPdf() {
+    if (window.currentActiveView === 'cover-letter') {
+        downloadCoverLetterPdf();
+    } else {
+        downloadCVPdf();
+    }
+}
+function downloadCVPdf() {
             if (window.currentActiveView === 'cover-letter' && typeof downloadCoverLetterPdf === 'function') {
                 return downloadCoverLetterPdf();
             }
@@ -9359,107 +9985,98 @@ function switchWorkspaceView(view) {
         if (el) el.classList.remove('active');
     });
 
-    // Header tabs
-    const allTabs = [
-        'header-tab-dash',
+    // Header mode pills
+    const allPills = [
         'header-tab-editor',
-        'header-tab-resumes',
         'header-tab-cover',
-        'header-tab-templates'
+        'header-tab-resumes'
     ];
-    allTabs.forEach(tId => {
-        const el = document.getElementById(tId);
-        if (el) el.classList.remove('active-blue');
+    allPills.forEach(pId => {
+        const el = document.getElementById(pId);
+        if (el) el.classList.remove('active');
     });
 
+    const appLayout = document.querySelector('.app-layout');
     const cvWrapper = document.getElementById('preview-wrapper');
     const clWrapper = document.getElementById('cover-letter-wrapper');
     const cvDoc = document.getElementById('cv-document');
     const clDoc = document.getElementById('cover-letter-document');
+    const tplSelector = document.getElementById('header-template-selector-wrap');
+    const docInput = document.getElementById('doc-title-input');
+    const docGroup = document.getElementById('header-doc-name-group');
 
-    const header = document.querySelector('.app-header');
     const activeName = (appCurrentUser && appCurrentUser.name) ? appCurrentUser.name : (document.getElementById('userName')?.value || 'TELAYNEW AMBACHEW');
-
-    if (header) {
-        header.classList.remove('header-minimal', 'header-editor-mode', 'header-cover-letter-mode');
-        const docInput = document.getElementById('doc-title-input');
-        if (view === 'editor') {
-            header.classList.add('header-editor-mode');
-            if (docInput) docInput.value = activeName + ' - CV';
-        } else if (view === 'cover-letter') {
-            header.classList.add('header-cover-letter-mode');
-            if (docInput) docInput.value = activeName + ' - Cover Letter';
-        } else {
-            header.classList.add('header-minimal');
-        }
-    }
 
     if (view === 'editor') {
         document.getElementById('view-editor')?.classList.add('active');
         document.getElementById('nav-item-editor')?.classList.add('active');
-        document.getElementById('header-tab-editor')?.classList.add('active-blue');
+        document.getElementById('header-tab-editor')?.classList.add('active');
+        if (appLayout) appLayout.classList.remove('full-width-view');
         if (cvWrapper) cvWrapper.style.display = 'block';
         if (clWrapper) clWrapper.style.display = 'none';
         if (cvDoc) cvDoc.style.display = 'block';
         if (clDoc) clDoc.style.display = 'none';
+        if (tplSelector) tplSelector.style.display = 'inline-flex';
+        if (docGroup) docGroup.style.display = 'flex';
+        if (docInput) docInput.value = activeName + ' - CV';
         updateLivePreview();
         showToast('Live CV Editor active');
     } else if (view === 'cover-letter') {
         document.getElementById('view-cover-letter')?.classList.add('active');
         document.getElementById('nav-item-cover-letter')?.classList.add('active');
-        document.getElementById('header-tab-cover')?.classList.add('active-blue');
+        document.getElementById('header-tab-cover')?.classList.add('active');
+        if (appLayout) appLayout.classList.remove('full-width-view');
         if (cvWrapper) cvWrapper.style.display = 'none';
         if (clWrapper) clWrapper.style.display = 'block';
         if (cvDoc) cvDoc.style.display = 'none';
         if (clDoc) clDoc.style.display = 'block';
+        if (tplSelector) tplSelector.style.display = 'none';
+        if (docGroup) docGroup.style.display = 'flex';
+        if (docInput) docInput.value = activeName + ' - Cover Letter';
         syncCoverLetterFromCV(false);
         updateCoverLetterLivePreview();
         showToast('Cover Letter Preparation active');
     } else if (view === 'resumes') {
         document.getElementById('view-resumes')?.classList.add('active');
         document.getElementById('nav-item-resumes')?.classList.add('active');
-        document.getElementById('header-tab-resumes')?.classList.add('active-blue');
-        if (cvWrapper) cvWrapper.style.display = 'block';
+        document.getElementById('header-tab-resumes')?.classList.add('active');
+        // Full width gallery view (no preview pane blocking the cards)
+        if (appLayout) appLayout.classList.add('full-width-view');
+        if (cvWrapper) cvWrapper.style.display = 'none';
         if (clWrapper) clWrapper.style.display = 'none';
-        if (cvDoc) cvDoc.style.display = 'block';
-        if (clDoc) clDoc.style.display = 'none';
-        updateLivePreview();
-        showToast('My CVs & Resumes gallery active');
+        if (tplSelector) tplSelector.style.display = 'none';
+        showToast('My CVs gallery active');
     } else if (view === 'templates') {
         document.getElementById('view-templates')?.classList.add('active');
         document.getElementById('nav-item-templates')?.classList.add('active');
-        document.getElementById('header-tab-templates')?.classList.add('active-blue');
-        if (cvWrapper) cvWrapper.style.display = 'block';
+        if (appLayout) appLayout.classList.add('full-width-view');
+        if (cvWrapper) cvWrapper.style.display = 'none';
         if (clWrapper) clWrapper.style.display = 'none';
-        if (cvDoc) cvDoc.style.display = 'block';
-        if (clDoc) clDoc.style.display = 'none';
-        updateLivePreview();
+        if (tplSelector) tplSelector.style.display = 'none';
         showToast('Templates gallery active');
     } else if (view === 'cover-letters-list') {
         document.getElementById('view-cover-letters-list')?.classList.add('active');
         document.getElementById('nav-item-cover-letters-list')?.classList.add('active');
-        document.getElementById('header-tab-cover')?.classList.add('active-blue');
+        if (appLayout) appLayout.classList.add('full-width-view');
         if (cvWrapper) cvWrapper.style.display = 'none';
-        if (clWrapper) clWrapper.style.display = 'block';
-        if (cvDoc) cvDoc.style.display = 'none';
-        if (clDoc) clDoc.style.display = 'block';
-        updateCoverLetterLivePreview();
+        if (clWrapper) clWrapper.style.display = 'none';
+        if (tplSelector) tplSelector.style.display = 'none';
         showToast('Cover Letters gallery active');
     } else if (view === 'settings') {
         document.getElementById('view-settings')?.classList.add('active');
         document.getElementById('nav-item-settings')?.classList.add('active');
-        if (cvWrapper) cvWrapper.style.display = 'block';
+        if (appLayout) appLayout.classList.add('full-width-view');
+        if (cvWrapper) cvWrapper.style.display = 'none';
         if (clWrapper) clWrapper.style.display = 'none';
-        if (cvDoc) cvDoc.style.display = 'block';
-        if (clDoc) clDoc.style.display = 'none';
+        if (tplSelector) tplSelector.style.display = 'none';
         showToast('Account Settings active');
     } else {
         document.getElementById('view-dashboard')?.classList.add('active');
         document.getElementById('nav-item-dashboard')?.classList.add('active');
-        document.getElementById('header-tab-dash')?.classList.add('active-blue');
-        if (cvDoc) cvDoc.style.display = 'block';
-        if (clDoc) clDoc.style.display = 'none';
-        updateLivePreview();
+        if (appLayout) appLayout.classList.add('full-width-view');
+        if (cvWrapper) cvWrapper.style.display = 'none';
+        if (clWrapper) clWrapper.style.display = 'none';
+        if (tplSelector) tplSelector.style.display = 'none';
         showToast('Dashboard active');
     }
 }
@@ -10272,6 +10889,217 @@ label,
 
 .sub-nav-item.active i {
     color: #60a5fa !important;
+}
+/* ══════════════════════════════════════════════════════════════════════
+   HEADER, MODE PILLS & FULL PREVIEW PANE ENHANCEMENTS (NO CUT-OFF)
+   ══════════════════════════════════════════════════════════════════════ */
+.app-header {
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 0 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #ffffff !important;
+    border-bottom: 1.5px solid #e2e8f0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 500 !important;
+}
+
+.header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.doc-name-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.doc-title-input {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    border: 1px solid transparent !important;
+    background: transparent !important;
+    border-radius: 6px !important;
+    padding: 5px 10px !important;
+    width: 220px !important;
+    transition: all 0.2s ease !important;
+}
+
+.doc-title-input:hover {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+.doc-title-input:focus {
+    background: #ffffff !important;
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+}
+
+/* Header Center: Mode Switcher Tabs */
+.header-center {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
+
+.header-mode-pills {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: #f1f5f9 !important;
+    padding: 3px !important;
+    border-radius: 10px !important;
+    gap: 3px !important;
+}
+
+.mode-pill-btn {
+    border: none !important;
+    background: transparent !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.18s ease !important;
+}
+
+.mode-pill-btn:hover {
+    color: #0f172a !important;
+}
+
+.mode-pill-btn.active {
+    background: #ffffff !important;
+    color: #2563eb !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+.header-template-selector {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: #f8fafc !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 4px 12px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.header-template-selector select {
+    border: none !important;
+    background: transparent !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    cursor: pointer !important;
+    padding: 2px 4px !important;
+    outline: none !important;
+}
+
+.header-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+/* ── Spacious Workspace Layout (Two-Panel vs Full-Width) ── */
+.app-layout {
+    display: grid !important;
+    grid-template-columns: minmax(460px, 1fr) 520px !important;
+    gap: 28px !important;
+    padding: 24px 32px 48px 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: #f8fafc !important;
+    min-width: 0 !important;
+}
+
+.editor-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 820px !important;
+}
+
+/* Full Width Gallery & Dashboard Views */
+.app-layout.full-width-view {
+    display: block !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 28px 36px 48px 36px !important;
+}
+
+.app-layout.full-width-view .editor-container {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.app-layout.full-width-view .preview-pane {
+    display: none !important;
+}
+
+/* ── Live Preview Pane (Ample 520px Width - Never Cut Off) ── */
+.preview-pane {
+    width: 520px !important;
+    min-width: 520px !important;
+    position: sticky !important;
+    top: 76px !important;
+    height: calc(100vh - 96px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: transparent !important;
+    overflow: hidden !important;
+}
+
+.preview-toolbar {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    margin-bottom: 10px !important;
+    padding-right: 4px !important;
+}
+
+.preview-viewport {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 4px 10px 40px 10px !important;
+}
+
+.preview-page-wrapper {
+    transform-origin: top center !important;
+    transform: scale(var(--preview-scale, 0.58)) !important;
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.12) !important;
+    border-radius: 6px !important;
+    background: #ffffff !important;
+    margin: 0 auto !important;
+    transition: transform 0.2s ease !important;
+}
+
+#cv-document,
+#cover-letter-document {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
 }
     </style>
 </head>
