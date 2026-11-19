@@ -11487,7 +11487,12 @@ function triggerAutoSave() {
 }
 
 // ── Backend API Integration & State Persistence ─────────────────────────
-window.API_BASE = 'http://localhost:3000/api';
+// Auto-detect environment: localhost uses local NestJS, production uses deployed backend URL
+window.API_BASE = window.API_BASE || localStorage.getItem('cv_api_base') || (
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:'
+        ? 'http://localhost:3000/api'
+        : (window.location.origin + '/api')
+);
 let authToken = localStorage.getItem('cv_jwt_token') || null;
 
 function getAuthHeaders() {
