@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -4506,6 +4506,389 @@ label,
     background: #ffffff !important;
 }
     </style>
+    <!-- ═══ NEW NAV-HEADER & VIEW STYLES ═══ -->
+    <style>
+/* ─── RESET sidebar-dependent layout ─── */
+.app-layout {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+}
+/* Body uses full-width app-main-content, no sidebar offset */
+body {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.app-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--canvas-bg, #F8F9FA);
+}
+
+/* Editor container scrollable */
+.editor-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 32px 60px;
+    min-height: 0;
+}
+
+/* ─── NEW HEADER ─── */
+.app-header {
+    height: 60px;
+    background: #FFFFFF;
+    border-bottom: 1.5px solid #E5E7EB;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* Logo */
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.5px;
+    padding-right: 32px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.header-logo i { color: #2563EB; font-size: 20px; }
+
+/* Nav tabs */
+.header-main-nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+}
+.header-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: #64748B;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: inherit;
+}
+.header-nav-btn i { font-size: 13px; }
+.header-nav-btn:hover {
+    background: #F1F5F9;
+    color: #0F172A;
+}
+.header-nav-btn.active {
+    background: #EFF6FF;
+    color: #2563EB;
+    font-weight: 600;
+}
+
+/* Header right actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* Template selector */
+.header-template-selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 10px;
+    background: #F8F9FA;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #374151;
+}
+.header-template-selector i { color: #6B7280; }
+.header-template-selector select {
+    border: none;
+    background: transparent;
+    font-size: 13px;
+    color: #374151;
+    cursor: pointer;
+    outline: none;
+    font-family: inherit;
+    max-width: 180px;
+}
+
+/* ─── WORKSPACE VIEWS ─── */
+.workspace-view { display: none; }
+.workspace-view.active { display: block; }
+
+/* Editor container scrollable */
+.editor-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 32px 60px;
+    min-height: 0;
+}
+
+/* ─── VIEW PAGE HEADER ─── */
+.view-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    gap: 16px;
+}
+.view-page-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 4px;
+}
+.view-page-subtitle {
+    font-size: 14px;
+    color: #64748B;
+}
+
+/* ─── DASHBOARD STATS ─── */
+.dash-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+@media (max-width: 900px) { .dash-stats-row { grid-template-columns: repeat(2,1fr); } }
+.dash-stat-card {
+    background: #FFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.dash-stat-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+.dash-stat-num { font-size: 22px; font-weight: 800; color: #0F172A; }
+.dash-stat-label { font-size: 12px; color: #64748B; margin-top: 1px; }
+
+/* ─── DASHBOARD SECTION HEADERS ─── */
+.dash-section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+}
+.dash-section-title {
+    font-size: 15px; font-weight: 700; color: #0F172A;
+}
+.btn-link-blue {
+    background: none; border: none; color: #2563EB; font-size: 13px;
+    font-weight: 600; cursor: pointer; padding: 0; font-family: inherit;
+    display: flex; align-items: center; gap: 5px;
+}
+.btn-link-blue:hover { text-decoration: underline; }
+
+/* ─── DASHBOARD RECENT DOCS ─── */
+.dash-recent-list {
+    background: #FFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.dash-recent-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #F1F5F9;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.dash-recent-row:last-child { border-bottom: none; }
+.dash-recent-row:hover { background: #F8FAFC; }
+.dash-recent-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; flex-shrink: 0;
+}
+.dash-recent-name { font-size: 14px; font-weight: 600; color: #0F172A; }
+.dash-recent-meta { font-size: 12px; color: #64748B; margin-top: 1px; }
+.dash-recent-actions { margin-left: auto; display: flex; gap: 8px; }
+
+/* ─── DASHBOARD QUICK ACTIONS ─── */
+.dash-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+}
+@media (max-width: 900px) { .dash-quick-actions { grid-template-columns: repeat(2,1fr); } }
+.dash-qa-card {
+    background: #FFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.dash-qa-card:hover { box-shadow: 0 4px 16px rgba(37,99,235,0.10); border-color: #BFDBFE; transform: translateY(-1px); }
+.dash-qa-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 12px;
+}
+.dash-qa-label { font-size: 14px; font-weight: 700; color: #0F172A; margin-bottom: 4px; }
+.dash-qa-desc { font-size: 12px; color: #64748B; }
+
+/* ─── DASH EMPTY STATE ─── */
+.dash-empty-state {
+    padding: 48px; text-align: center;
+    color: #94A3B8; font-size: 14px;
+}
+.dash-empty-state i { font-size: 32px; margin-bottom: 10px; display: block; }
+
+/* ─── DOCUMENTS TABLE ─── */
+.docs-filter-tabs {
+    display: flex; gap: 4px; margin-bottom: 16px;
+}
+.docs-filter-btn {
+    padding: 7px 16px; border: 1px solid #E5E7EB; border-radius: 8px;
+    background: #FFF; color: #64748B; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit; transition: all 0.15s;
+}
+.docs-filter-btn:hover { background: #F1F5F9; color: #0F172A; }
+.docs-filter-btn.active {
+    background: #EFF6FF; border-color: #BFDBFE; color: #2563EB; font-weight: 700;
+}
+
+.docs-table-wrap {
+    background: #FFF;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.docs-table {
+    width: 100%; border-collapse: collapse;
+}
+.docs-table thead tr {
+    background: #F8FAFC;
+    border-bottom: 1px solid #E5E7EB;
+}
+.docs-table th {
+    padding: 12px 16px; text-align: left;
+    font-size: 11px; font-weight: 700; color: #64748B;
+    text-transform: uppercase; letter-spacing: 0.05em;
+}
+.docs-table td {
+    padding: 14px 16px; font-size: 14px; color: #0F172A;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: middle;
+}
+.docs-table tbody tr { cursor: pointer; transition: background 0.12s; }
+.docs-table tbody tr:hover { background: #F8FAFC; }
+.docs-table tbody tr:last-child td { border-bottom: none; }
+.docs-type-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700;
+}
+.docs-type-cv { background: #EFF6FF; color: #2563EB; }
+.docs-type-cl { background: #ECFDF5; color: #10B981; }
+.docs-dl-btn {
+    width: 32px; height: 32px; border-radius: 8px;
+    border: 1px solid #E5E7EB; background: #F8FAFC;
+    color: #64748B; cursor: pointer; font-size: 14px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+}
+.docs-dl-btn:hover { background: #2563EB; color: #FFF; border-color: #2563EB; }
+.docs-table-empty {
+    text-align: center; color: #94A3B8; padding: 48px 16px; font-size: 14px;
+}
+.docs-table-empty i { margin-right: 8px; }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+    position: fixed; inset: 0; z-index: 3000;
+    background: rgba(15,23,42,0.6);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-box {
+    background: #FFF; border-radius: 16px;
+    width: 520px; max-width: 95vw;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    padding: 32px;
+    transform: translateY(20px);
+    transition: transform 0.2s;
+}
+.modal-overlay.open .modal-box { transform: translateY(0); }
+.modal-title {
+    font-size: 20px; font-weight: 800; color: #0F172A; margin: 0 0 6px;
+}
+.modal-subtitle { font-size: 14px; color: #64748B; margin-bottom: 24px; }
+.modal-step { display: none; }
+.modal-step.active { display: block; }
+.modal-type-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;
+}
+.modal-type-card {
+    border: 2px solid #E5E7EB; border-radius: 12px;
+    padding: 24px 16px; text-align: center; cursor: pointer;
+    transition: all 0.15s;
+}
+.modal-type-card:hover { border-color: #2563EB; background: #EFF6FF; }
+.modal-type-card.selected { border-color: #2563EB; background: #EFF6FF; }
+.modal-type-card i { font-size: 28px; color: #2563EB; margin-bottom: 10px; display: block; }
+.modal-type-card .tc-label { font-size: 15px; font-weight: 700; color: #0F172A; margin-bottom: 4px; }
+.modal-type-card .tc-desc { font-size: 12px; color: #64748B; }
+.modal-template-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;
+    max-height: 320px; overflow-y: auto;
+}
+.modal-tpl-card {
+    border: 2px solid #E5E7EB; border-radius: 10px;
+    padding: 12px 10px; text-align: center; cursor: pointer;
+    transition: all 0.15s;
+}
+.modal-tpl-card:hover { border-color: #2563EB; }
+.modal-tpl-card.selected { border-color: #2563EB; background: #EFF6FF; }
+.modal-tpl-thumb {
+    width: 100%; height: 80px; border-radius: 6px;
+    background: linear-gradient(135deg, #E5E7EB 0%, #F8FAFC 100%);
+    margin-bottom: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; color: #94A3B8;
+}
+.modal-tpl-name { font-size: 11px; font-weight: 600; color: #374151; }
+.modal-actions {
+    display: flex; gap: 10px; justify-content: flex-end;
+}
+</style>
 </head>
 
 <body>
@@ -4614,124 +4997,39 @@ label,
         <button type="button" onclick="showAuthOverlay()"><i class="fas fa-user-plus"></i> Sign Up Free</button>
     </div>
 
-    <!-- Expandable / Collapsible Sidebar System -->
-    <div class="sidebar-system" id="sidebar-wrapper">
-
-        <!-- Dark Navy Sidebar (240px Normal, 68px Collapsed Minimal Symbol Mode matching Image 3) -->
-        <aside class="sub-sidebar" id="sub-sidebar">
-            <div class="sub-sidebar-header">
-                <div class="sub-sidebar-brand" onclick="toggleSidebarExpand()" title="CVForge - Click to toggle normal / minimal" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-                    <span class="sub-sidebar-logo-icon"><i class="fas fa-file-contract"></i></span>
-                    <span class="sub-sidebar-title">CVForge</span>
-                </div>
-                <button type="button" class="sub-sidebar-collapse-btn" id="sub-sidebar-collapse-btn" title="Toggle Sidebar (Normal / Minimal)" onclick="toggleSidebarExpand()">
-                    <i class="fas fa-chevron-left" id="sidebar-toggle-chevron"></i>
-                </button>
-            </div>
-
-            <div class="sub-sidebar-content">
-                <!-- 1. DASHBOARD Category -->
-                <div class="sub-nav-group">
-                    <div class="sub-nav-heading">DASHBOARD</div>
-                    <div class="sub-nav-item active" id="nav-item-dashboard" title="Dashboard" onclick="switchWorkspaceView('dashboard')">
-                        <i class="fas fa-house"></i>
-                        <span>Dashboard</span>
-                    </div>
-                </div>
-
-                <!-- 2. CV & DOCUMENTS Category -->
-                <div class="sub-nav-group">
-                    <div class="sub-nav-heading">DOCUMENTS</div>
-                    <div class="sub-nav-item" id="nav-item-editor" title="Live CV Document Editor" onclick="switchWorkspaceView('editor')">
-                        <i class="fas fa-file-contract"></i>
-                        <span>CV Document</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-cover-letter" title="Cover Letter Preparation" onclick="switchWorkspaceView('cover-letter')">
-                        <i class="fas fa-envelope-open-text"></i>
-                        <span>Cover Letter</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-resumes" title="All Resumes & CVs" onclick="switchWorkspaceView('resumes')">
-                        <i class="fas fa-folder-open"></i>
-                        <span>My Resumes</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-templates" title="CV Templates Gallery" onclick="switchWorkspaceView('templates')">
-                        <i class="fas fa-palette"></i>
-                        <span>Templates</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-settings" title="Account Settings" onclick="switchWorkspaceView('settings')">
-                        <i class="fas fa-sliders"></i>
-                        <span>Settings</span>
-                    </div>
-                </div>
-
-                <!-- 3. PROFILE Category -->
-                <div class="sub-nav-group">
-                    <div class="sub-nav-heading">PROFILE</div>
-                    <div class="sub-nav-item" id="nav-item-experience" title="Experience" onclick="scrollToSection('Experience');">
-                        <i class="fas fa-briefcase"></i>
-                        <span>Experience</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-education" title="Education" onclick="scrollToSection('Education');">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Education</span>
-                    </div>
-                </div>
-
-                <!-- 4. ACCOUNT / FOOTER Category (pinned to bottom in collapsed mode) -->
-                <div class="sub-nav-group sub-nav-group-bottom">
-                    <div class="sub-nav-heading">ACCOUNT</div>
-                    <div class="sub-nav-item" id="nav-item-notifications" title="Notifications" onclick="showToast('No new notifications')">
-                        <i class="fas fa-bell"></i>
-                        <span>Notifications</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-profile-info" title="Profile Information" onclick="switchWorkspaceView('editor'); scrollToElement('header-editor-card');">
-                        <i class="fas fa-circle-user"></i>
-                        <span>Profile Information</span>
-                    </div>
-                    <div class="sub-nav-item" id="nav-item-signout" title="Sign Out" onclick="handleSignOut()">
-                        <i class="fas fa-arrow-right-from-bracket"></i>
-                        <span>Sign Out</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-    </div>
-
-    <!-- Main Application Shell -->
+    <!-- ═══════════════════════════════════════════════════════════════
+         TOP NAVIGATION HEADER (No sidebar - premium SaaS style)
+    ═══════════════════════════════════════════════════════════════ -->
     <div class="app-main-content">
 
-        <!-- Top Navigation Bar (Clean Modern Single-Row Bar, Height: 60px) -->
+        <!-- New Top Header Bar -->
         <header class="app-header" id="app-header">
-            <div class="header-left">
-                <button type="button" class="btn-header-sidebar-toggle" id="btn-header-sidebar-toggle" title="Toggle Sidebar" onclick="toggleSidebarExpand()">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="doc-name-group" id="header-doc-name-group">
-                    <input type="text" id="doc-title-input" class="doc-title-input" value="TELAYNEW AMBACHEW - CV" onchange="showToast('Document renamed')">
-                    <div class="save-status-pill" id="header-save-pill">
-                        <span class="save-dot"></span>
-                        <span id="save-status-text">Saved</span>
-                    </div>
-                </div>
+            <!-- Logo -->
+            <div class="header-logo">
+                <i class="fas fa-file-contract"></i>
+                <span>CVForge</span>
             </div>
 
-            <div class="header-center">
-                <!-- Segmented View Switcher Pills -->
-                <div class="header-mode-pills">
-                    <button type="button" class="mode-pill-btn active" id="header-tab-editor" onclick="switchWorkspaceView('editor')">
-                        <i class="fas fa-file-contract"></i> <span>CV Editor</span>
-                    </button>
-                    <button type="button" class="mode-pill-btn" id="header-tab-cover" onclick="switchWorkspaceView('cover-letter')">
-                        <i class="fas fa-envelope-open-text"></i> <span>Cover Letter</span>
-                    </button>
-                    <button type="button" class="mode-pill-btn" id="header-tab-resumes" onclick="switchWorkspaceView('resumes')">
-                        <i class="fas fa-folder-open"></i> <span>My CVs</span>
-                    </button>
-                </div>
+            <!-- Main Nav Tabs -->
+            <nav class="header-main-nav" id="header-main-nav">
+                <button type="button" class="header-nav-btn active" id="hnav-dashboard" onclick="switchView('dashboard')">
+                    <i class="fas fa-house"></i> Dashboard
+                </button>
+                <button type="button" class="header-nav-btn" id="hnav-documents" onclick="switchView('documents')">
+                    <i class="fas fa-folder-open"></i> Documents
+                </button>
+                <button type="button" class="header-nav-btn" id="hnav-profile" onclick="switchView('editor')">
+                    <i class="fas fa-user-pen"></i> Profile
+                </button>
+                <button type="button" class="header-nav-btn" id="hnav-saved" onclick="switchView('saved')">
+                    <i class="fas fa-bookmark"></i> Saved Documents
+                </button>
+            </nav>
 
-                <!-- Template Selector -->
-                <div class="header-template-selector" id="header-template-selector-wrap">
+            <!-- Right: Template selector (only in editor/cover-letter) + actions -->
+            <div class="header-actions">
+                <!-- Template Selector (shown only in editor view) -->
+                <div class="header-template-selector" id="header-template-selector-wrap" style="display:none;">
                     <i class="fas fa-palette"></i>
                     <select id="cv-template-select" onchange="onTemplateSelectChange()">
                         <option value="default">Default ATS</option>
@@ -4747,13 +5045,17 @@ label,
                         <option value="t10">Design 10 - Modern Navy-Teal Wave</option>
                     </select>
                 </div>
-            </div>
-
-            <div class="header-actions">
-                <button type="button" class="btn btn-download-green" id="btn-download-top" onclick="downloadActiveDocPdf()">
+                <!-- Save pill (shown in editor/cover-letter) -->
+                <div class="save-status-pill" id="header-save-pill" style="display:none;">
+                    <span class="save-dot"></span>
+                    <span id="save-status-text">Saved</span>
+                </div>
+                <!-- Download (shown in editor/cover-letter) -->
+                <button type="button" class="btn btn-download-green" id="btn-download-top" onclick="downloadActiveDocPdf()" style="display:none;">
                     <i class="fas fa-download"></i> <span>Download PDF</span>
                 </button>
-                <!-- User account button: shown when logged in; replaced by Sign Up when guest -->
+
+                <!-- User area -->
                 <div style="position:relative;" id="header-user-wrapper">
                     <!-- Guest: Sign Up button -->
                     <button type="button" class="btn btn-primary" id="btn-header-signup" onclick="showAuthOverlay()" style="font-size:13px;padding:7px 14px;" title="Sign up to save your documents">
@@ -4771,14 +5073,14 @@ label,
                             <div class="user-dropdown-name" id="dropdown-user-name">Telaynew Ambachew</div>
                             <div class="user-dropdown-email" id="dropdown-user-email">telaynew11@gmail.com</div>
                         </div>
-                        <div class="user-dropdown-item" onclick="switchWorkspaceView('dashboard'); closeUserDropdown();">
+                        <div class="user-dropdown-item" onclick="switchView('dashboard'); closeUserDropdown();">
                             <i class="fas fa-house"></i> Dashboard
                         </div>
-                        <div class="user-dropdown-item" onclick="switchWorkspaceView('resumes'); closeUserDropdown();">
-                            <i class="fas fa-folder-open"></i> My CVs
+                        <div class="user-dropdown-item" onclick="switchView('documents'); closeUserDropdown();">
+                            <i class="fas fa-folder-open"></i> Documents
                         </div>
-                        <div class="user-dropdown-item" onclick="switchWorkspaceView('settings'); closeUserDropdown();">
-                            <i class="fas fa-sliders"></i> Settings
+                        <div class="user-dropdown-item" onclick="switchView('editor'); closeUserDropdown();">
+                            <i class="fas fa-user-pen"></i> Profile / Edit CV
                         </div>
                         <div class="user-dropdown-sep"></div>
                         <div class="user-dropdown-item danger" onclick="handleSignOut(); closeUserDropdown();">
@@ -4795,258 +5097,168 @@ label,
             <!-- Center Editor Canvas -->
             <main class="editor-container">
 
-                <!-- 1. DASHBOARD VIEW (Promotion & Marketing, Matches image_29.png) -->
+                <!-- 1. DASHBOARD VIEW -->
                 <div id="view-dashboard" class="workspace-view active">
-
-                <!-- Breadcrumb Title Row -->
-                <div class="workspace-breadcrumb-row">
-                    <span class="crumb-name">TELAYNEW AMBACHEW</span>
-                    <span class="crumb-sep">/</span>
-                    <span class="crumb-section">Dashboard &amp; Overview</span>
-                </div>
-
-                <!-- Welcome Card (Mock User Alex Morgan, Plan Free, Quick Action) -->
-                <div class="dash-welcome-card">
-                    <div class="dash-user-badge">
-                        <div class="dash-user-avatar">
-                            <i class="fas fa-user-astronaut"></i>
-                        </div>
+                    <div class="view-page-header">
                         <div>
-                            <h1 class="dash-user-name" id="dash-welcome-name">Welcome back, Telaynew Ambachew!</h1>
-                            <div class="dash-user-subtitle">Ready to customize your CV and land your next role.</div>
+                            <h1 class="view-page-title" id="dash-welcome-name">Welcome back, Telaynew!</h1>
+                            <div class="view-page-subtitle">Here's what's happening with your documents.</div>
                         </div>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:12px;">
-                        <div class="save-status-pill" id="dash-save-status-pill" style="font-size:12px;">
-                            <span class="save-dot"></span>
-                            <span id="dash-save-status-text">All documents saved</span>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="openNewCvWizard()" style="padding:7px 14px;font-size:13px;">
-                            <i class="fas fa-plus"></i> New CV
+                        <button type="button" class="btn btn-primary" onclick="openNewDocModal()">
+                            <i class="fas fa-plus"></i> Create New
                         </button>
                     </div>
-                </div>
 
-                <!-- Profile Strength & Pricing Status Grid -->
-                <div class="dash-status-grid">
-                    <!-- Profile Strength Card -->
-                    <div class="dash-card">
-                        <div class="dash-card-header">
-                            <div class="dash-card-title">
-                                <i class="fas fa-chart-line" style="color:#2563EB;"></i> Profile Strength
+                    <!-- Stats Row -->
+                    <div class="dash-stats-row">
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon" style="background:#EFF6FF;color:#2563EB;"><i class="fas fa-file-contract"></i></div>
+                            <div>
+                                <div class="dash-stat-num" id="stat-cv-count">0</div>
+                                <div class="dash-stat-label">CVs / Resumes</div>
                             </div>
-                            <span style="font-size:13px;font-weight:700;color:#2563EB;">85% Completed</span>
                         </div>
-                        <div class="strength-bar-bg">
-                            <div class="strength-bar-fill" style="width: 85%;"></div>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon" style="background:#ECFDF5;color:#10B981;"><i class="fas fa-envelope-open-text"></i></div>
+                            <div>
+                                <div class="dash-stat-num" id="stat-cl-count">0</div>
+                                <div class="dash-stat-label">Cover Letters</div>
+                            </div>
                         </div>
-                        <ul class="strength-tips-list">
-                            <li><i class="fas fa-check-circle done"></i> Personal Info &amp; Contacts completed</li>
-                            <li><i class="fas fa-check-circle done"></i> 2 Work Experiences added</li>
-                            <li><i class="fas fa-check-circle done"></i> Education history added</li>
-                            <li><i class="far fa-circle pending"></i> <a href="javascript:void(0)" onclick="scrollToSection('Experience')" style="color:#2563EB;text-decoration:none;font-weight:600;">Add 1 Key Project</a> to reach 100%</li>
-                        </ul>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon" style="background:#F5F3FF;color:#7C3AED;"><i class="fas fa-download"></i></div>
+                            <div>
+                                <div class="dash-stat-num" id="stat-dl-count">0</div>
+                                <div class="dash-stat-label">Downloads</div>
+                            </div>
+                        </div>
+                        <div class="dash-stat-card">
+                            <div class="dash-stat-icon" style="background:#FFF7ED;color:#EA580C;"><i class="fas fa-bolt"></i></div>
+                            <div>
+                                <div class="dash-stat-num">Free</div>
+                                <div class="dash-stat-label">Plan · Forever</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- My Account & Documents Card -->
-                    <div class="dash-card" id="dash-card-plan">
-                        <div class="dash-card-header">
-                            <div class="dash-card-title">
-                                <i class="fas fa-folder-open" style="color:#2563EB;"></i> My Documents
-                            </div>
-                            <span id="dash-plan-badge" style="font-size:11px;font-weight:700;color:#10B981;background:#ecfdf5;padding:3px 8px;border-radius:12px;">FREE FOREVER</span>
-                        </div>
-                        <div style="font-size:18px;font-weight:800;color:#0F172A;margin-bottom:6px;">CVForge — Free for Everyone</div>
-                        <div style="font-size:12.5px;color:#64748B;line-height:1.5;margin-bottom:12px;">
-                            All CV templates, PDF downloads, and cover letter tools are completely free. Sign up to save and sync your documents across devices.
-                        </div>
-                        <div style="display:flex;gap:8px;">
-                            <button type="button" class="btn btn-primary" onclick="showAuthOverlay()" style="flex:1;justify-content:center;font-size:12px;padding:7px 10px;" id="dash-signup-btn">
-                                <i class="fas fa-user-plus"></i> Sign Up Free
-                            </button>
-                            <button type="button" class="btn btn-nav-slate" onclick="switchWorkspaceView('editor')" style="font-size:12px;padding:7px 10px;">
-                                <i class="fas fa-file-pen"></i> Edit CV
+                    <!-- Recent Documents -->
+                    <div class="dash-section-header">
+                        <span class="dash-section-title">Recent Documents</span>
+                        <button type="button" class="btn-link-blue" onclick="switchView('documents')">View All <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div id="dash-recent-docs" class="dash-recent-list">
+                        <div class="dash-empty-state">
+                            <i class="fas fa-folder-open"></i>
+                            <div>No documents yet — create your first CV!</div>
+                            <button type="button" class="btn btn-primary" onclick="openNewDocModal()" style="margin-top:12px;">
+                                <i class="fas fa-plus"></i> Create New
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <!-- CARD 1: Active Campaign Summary (Matches image_29.png) -->
-                <div class="dashboard-card" id="card-active-campaign">
-                    <div class="dash-card-header">
-                        <h2 class="dash-card-title">Active Campaign Summary</h2>
-                        <div class="dash-card-subtitle">Campaign Target</div>
-                        <div class="dash-divider"></div>
+                    <!-- Quick Actions -->
+                    <div class="dash-section-header" style="margin-top:28px;">
+                        <span class="dash-section-title">Quick Actions</span>
                     </div>
-                    <div class="dash-campaign-grid">
-                        <div class="dash-input-group">
-                            <label class="dash-label">CAMPAIGN NAME</label>
-                            <input type="text" id="campaign-name-input" class="dash-input" value="Digital Marketing Launch 2026" oninput="syncCampaignData()">
+                    <div class="dash-quick-actions">
+                        <div class="dash-qa-card" onclick="openNewDocModal()">
+                            <div class="dash-qa-icon" style="background:#EFF6FF;color:#2563EB;"><i class="fas fa-file-plus"></i></div>
+                            <div class="dash-qa-label">New CV</div>
+                            <div class="dash-qa-desc">Build a professional resume</div>
                         </div>
-                        <div class="dash-input-group">
-                            <label class="dash-label">TARGET ROLE</label>
-                            <input type="text" id="campaign-role-input" class="dash-input" value="AI and Data Engineer / Tech Marketer" oninput="syncCampaignData()">
+                        <div class="dash-qa-card" onclick="openNewDocModal('cover-letter')">
+                            <div class="dash-qa-icon" style="background:#ECFDF5;color:#10B981;"><i class="fas fa-envelope-open-text"></i></div>
+                            <div class="dash-qa-label">New Cover Letter</div>
+                            <div class="dash-qa-desc">Write a compelling letter</div>
                         </div>
-                    </div>
-                    <div class="dash-channels-block">
-                        <label class="dash-label">TARGET CHANNELS</label>
-                        <div class="dash-channels-grid">
-                            <label class="dash-checkbox"><input type="checkbox" checked> <span>Website Portfolio</span></label>
-                            <label class="dash-checkbox"><input type="checkbox" checked> <span>Automated Marketing</span></label>
-                            <label class="dash-checkbox"><input type="checkbox" checked> <span>Marketings</span></label>
-                            <label class="dash-checkbox"><input type="checkbox" checked> <span>LinkedIn Outreach</span></label>
-                            <label class="dash-checkbox"><input type="checkbox" checked> <span>Job Portals</span></label>
-                            <label class="dash-checkbox"><input type="checkbox" checked> <span>Recruiter Network</span></label>
+                        <div class="dash-qa-card" onclick="switchView('editor')">
+                            <div class="dash-qa-icon" style="background:#F5F3FF;color:#7C3AED;"><i class="fas fa-user-pen"></i></div>
+                            <div class="dash-qa-label">Edit Profile</div>
+                            <div class="dash-qa-desc">Update your information</div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- CARD 2: Split Row (Campaign Reach Metrics ~60% and Application Status ~40%) -->
-                <div class="dash-split-row">
-                    <!-- Left Card: Campaign Reach Metrics -->
-                    <div class="dashboard-card dash-card-60">
-                        <div class="dash-card-header-flex">
-                            <h3 class="dash-card-title-sm">Campaign Reach Metrics</h3>
-                            <div class="dash-card-actions">
-                                <button type="button" class="dash-icon-btn" title="Edit Reach Metrics" onclick="showToast('Edit reach metrics')"><i class="fas fa-pencil-alt"></i></button>
-                                <button type="button" class="dash-icon-btn" title="Reset Metrics" onclick="showToast('Reset metrics')"><i class="far fa-trash-alt"></i></button>
-                            </div>
+                        <div class="dash-qa-card" onclick="switchView('saved')">
+                            <div class="dash-qa-icon" style="background:#FFF7ED;color:#EA580C;"><i class="fas fa-bookmark"></i></div>
+                            <div class="dash-qa-label">Saved Documents</div>
+                            <div class="dash-qa-desc">View & manage all docs</div>
                         </div>
-                        <div class="dash-metrics-container">
-                            <div class="metric-box">
-                                <div class="metric-icon-box"><i class="fas fa-chart-simple"></i></div>
-                                <div class="metric-info">
-                                    <div class="metric-label">Total Impressions</div>
-                                    <div class="metric-val-row">
-                                        <span class="metric-val">12,450</span>
-                                        <span class="metric-badge-green">+14.3%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="metric-box">
-                                <div class="metric-icon-box"><i class="fas fa-signal"></i></div>
-                                <div class="metric-info">
-                                    <div class="metric-label">Total targets</div>
-                                    <div class="metric-val-row">
-                                        <span class="metric-val">1,383</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Card: Application Status -->
-                    <div class="dashboard-card dash-card-40">
-                        <div class="dash-card-header-flex">
-                            <h3 class="dash-card-title-sm">Application Status</h3>
-                        </div>
-                        <div class="status-bars-grid">
-                            <div class="status-bar-item">
-                                <div class="status-bar-header">Drafts</div>
-                                <div class="status-progress-track">
-                                    <div class="status-progress-fill" style="width: 35%;"></div>
-                                </div>
-                            </div>
-                            <div class="status-bar-item">
-                                <div class="status-bar-header">Sent</div>
-                                <div class="status-progress-track">
-                                    <div class="status-progress-fill" style="width: 65%;"></div>
-                                </div>
-                            </div>
-                            <div class="status-bar-item">
-                                <div class="status-bar-header">In Review</div>
-                                <div class="status-progress-track">
-                                    <div class="status-progress-fill" style="width: 20%;"></div>
-                                </div>
-                            </div>
-                            <div class="status-bar-item">
-                                <div class="status-bar-header">Interview</div>
-                                <div class="status-progress-track">
-                                    <div class="status-progress-fill" style="width: 45%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CARD 3: Marketing & Portfolio Templates (Matches image_29.png) -->
-                <div class="dashboard-card" id="card-portfolio-templates">
-                    <div class="dash-card-header">
-                        <h2 class="dash-card-title" style="font-size:16px;">Marketing & Portfolio Templates</h2>
-                        <div class="dash-card-subtitle" style="font-size:13px;font-weight:600;color:#4B5563;text-transform:none;">Choose a Campaign Base Template</div>
-                    </div>
-                    <div class="dash-templates-horizontal">
-                        <!-- Card 1 -->
-                        <div class="campaign-tpl-card active" onclick="applyCampaignTemplate('default', this)">
-                            <div class="campaign-tpl-thumb">
-                                <div style="width:100%;height:100%;display:flex;flex-direction:column;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
-                                    <div style="height:28%;background:#1a3c5e;padding:3px;display:flex;gap:2px;">
-                                        <div style="width:40%;height:3px;background:#ffffff;border-radius:1px;"></div>
-                                    </div>
-                                    <div style="flex-grow:1;display:flex;padding:3px;gap:3px;">
-                                        <div style="width:60%;background:#f1f5f9;border-radius:1px;"></div>
-                                        <div style="width:40%;background:#e2e8f0;border-radius:1px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="campaign-tpl-name">Minimalist Resume Campaign</div>
-                            <div class="campaign-tpl-tags">
-                                <span class="campaign-tag">Navy Accent</span>
-                                <span class="campaign-tag">Simple</span>
-                            </div>
-                        </div>
-
-                        <!-- Card 2 -->
-                        <div class="campaign-tpl-card" onclick="applyCampaignTemplate('t3', this)">
-                            <div class="campaign-tpl-thumb">
-                                <div style="width:100%;height:100%;display:flex;flex-direction:column;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
-                                    <div style="height:35%;background:#1a2736;padding:3px;display:flex;align-items:center;gap:3px;">
-                                        <div style="width:12px;height:12px;background:#38bdf8;border-radius:2px;"></div>
-                                        <div style="width:40%;height:3px;background:#ffffff;border-radius:1px;"></div>
-                                    </div>
-                                    <div style="flex-grow:1;display:flex;padding:3px;gap:3px;">
-                                        <div style="width:65%;background:#f8fafc;border-radius:1px;"></div>
-                                        <div style="width:35%;background:#e2e8f0;border-radius:1px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="campaign-tpl-name">Modern Tech Pitch</div>
-                            <div class="campaign-tpl-tags">
-                                <span class="campaign-tag">Navy Accent</span>
-                                <span class="campaign-tag">Simple</span>
-                            </div>
-                        </div>
-
-                        <!-- Card 3 -->
-                        <div class="campaign-tpl-card" onclick="applyCampaignTemplate('t1', this)">
-                            <div class="campaign-tpl-thumb">
-                                <div style="width:100%;height:100%;display:flex;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
-                                    <div style="width:36%;background:#162b48;padding:3px;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                                        <div style="width:14px;height:14px;border-radius:50%;border:1px solid #00c2cb;background:#334155;"></div>
-                                        <div style="width:75%;height:2px;background:#00c2cb;border-radius:1px;"></div>
-                                    </div>
-                                    <div style="width:64%;padding:4px;display:flex;flex-direction:column;gap:2px;">
-                                        <div style="width:60%;height:4px;background:#0f172a;border-radius:1px;"></div>
-                                        <div style="width:80%;height:2px;background:#94a3b8;border-radius:1px;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="campaign-tpl-name">Creative Case Study</div>
-                            <div class="campaign-tpl-tags">
-                                <span class="campaign-tag">Navy Accent</span>
-                                <span class="campaign-tag">Simple</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                    <div style="margin-top:16px;text-align:center;">
-                        <button type="button" class="btn btn-switch-view" style="width:100%;padding:11px;font-size:13px;justify-content:center;background:#ffffff;border:1px dashed var(--blue-primary);color:var(--blue-primary);font-weight:700;" onclick="switchWorkspaceView('editor')">
-                            <i class="fas fa-file-pen"></i> Open Full CV Document Editor Mode
-                        </button>
                     </div>
                 </div><!-- End #view-dashboard -->
 
+                <!-- DOCUMENTS VIEW (All | Resume | Cover Letter tabs) -->
+                <div id="view-documents" class="workspace-view">
+                    <div class="view-page-header">
+                        <div>
+                            <h1 class="view-page-title">Documents</h1>
+                            <div class="view-page-subtitle">Manage all your CVs and cover letters.</div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="openNewDocModal()">
+                            <i class="fas fa-plus"></i> Create New
+                        </button>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="docs-filter-tabs">
+                        <button type="button" class="docs-filter-btn active" id="filter-all" onclick="filterDocs('all')">All</button>
+                        <button type="button" class="docs-filter-btn" id="filter-cv" onclick="filterDocs('cv')">Resume / CV</button>
+                        <button type="button" class="docs-filter-btn" id="filter-cl" onclick="filterDocs('cover-letter')">Cover Letter</button>
+                    </div>
+
+                    <!-- Documents Table -->
+                    <div class="docs-table-wrap">
+                        <table class="docs-table" id="docs-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Created</th>
+                                    <th>Last Edited</th>
+                                    <th style="width:80px;text-align:center;">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody id="docs-table-body">
+                                <tr><td colspan="5" class="docs-table-empty"><i class="fas fa-folder-open"></i> No documents found. <button type="button" class="btn-link-blue" onclick="openNewDocModal()">Create one now</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- End #view-documents -->
+
+                <!-- SAVED DOCUMENTS VIEW (same data, different presentation) -->
+                <div id="view-saved" class="workspace-view">
+                    <div class="view-page-header">
+                        <div>
+                            <h1 class="view-page-title">Saved Documents</h1>
+                            <div class="view-page-subtitle">All your saved CVs and cover letters.</div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="openNewDocModal()">
+                            <i class="fas fa-plus"></i> Create New
+                        </button>
+                    </div>
+
+                    <!-- Filter Tabs -->
+                    <div class="docs-filter-tabs">
+                        <button type="button" class="docs-filter-btn active" id="saved-filter-all" onclick="filterSaved('all')">All</button>
+                        <button type="button" class="docs-filter-btn" id="saved-filter-cv" onclick="filterSaved('cv')">Resume / CV</button>
+                        <button type="button" class="docs-filter-btn" id="saved-filter-cl" onclick="filterSaved('cover-letter')">Cover Letter</button>
+                    </div>
+
+                    <!-- Saved Docs Table -->
+                    <div class="docs-table-wrap">
+                        <table class="docs-table" id="saved-docs-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Created</th>
+                                    <th>Last Edited</th>
+                                    <th style="width:80px;text-align:center;">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody id="saved-docs-table-body">
+                                <tr><td colspan="5" class="docs-table-empty"><i class="fas fa-bookmark"></i> No saved documents. <button type="button" class="btn-link-blue" onclick="openNewDocModal()">Create one now</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- End #view-saved -->
                 <!-- RESUMES MANAGEMENT VIEW -->
                 <div id="view-resumes" class="workspace-view">
                     <div class="workspace-breadcrumb-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -11692,6 +11904,614 @@ if (document.readyState === 'loading') {
     restoreSession();
 }
 
-    </script>
+    
+// ════════════════════════════════════════════════════════════════
+// NEW: switchView, Documents Table, Create New Modal
+// ════════════════════════════════════════════════════════════════
+
+// All registered views and their corresponding nav button IDs
+const VIEW_CONFIG = {
+    'dashboard': { view: 'view-dashboard', nav: 'hnav-dashboard', showPreview: false },
+    'documents': { view: 'view-documents', nav: 'hnav-documents', showPreview: false },
+    'editor':    { view: 'view-editor',    nav: 'hnav-profile',   showPreview: true,  showTemplate: true },
+    'cover-letter': { view: 'view-cover-letter', nav: 'hnav-profile', showPreview: true, showTemplate: false },
+    'saved':     { view: 'view-saved',     nav: 'hnav-saved',     showPreview: false },
+    'templates': { view: 'view-templates', nav: 'hnav-documents', showPreview: false },
+    'settings':  { view: 'view-settings',  nav: null,             showPreview: false },
+};
+
+function switchView(view) {
+    // Deactivate all views
+    Object.values(VIEW_CONFIG).forEach(cfg => {
+        const el = document.getElementById(cfg.view);
+        if (el) el.classList.remove('active');
+    });
+    // Deactivate all nav buttons
+    ['hnav-dashboard','hnav-documents','hnav-profile','hnav-saved'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+    });
+
+    const cfg = VIEW_CONFIG[view] || VIEW_CONFIG['dashboard'];
+    window.currentActiveView = view;
+
+    // Activate view
+    const viewEl = document.getElementById(cfg.view);
+    if (viewEl) viewEl.classList.add('active');
+
+    // Activate nav
+    if (cfg.nav) {
+        const navEl = document.getElementById(cfg.nav);
+        if (navEl) navEl.classList.add('active');
+    }
+
+    // Header editor controls visibility
+    const tplWrap = document.getElementById('header-template-selector-wrap');
+    const savePill = document.getElementById('header-save-pill');
+    const dlBtn = document.getElementById('btn-download-top');
+    const appLayout = document.querySelector('.app-layout');
+
+    if (tplWrap) tplWrap.style.display = cfg.showTemplate ? 'inline-flex' : 'none';
+    if (savePill) savePill.style.display = cfg.showPreview ? 'flex' : 'none';
+    if (dlBtn) dlBtn.style.display = cfg.showPreview ? 'inline-flex' : 'none';
+
+    // Show/hide preview pane
+    const previewPane = document.getElementById('preview-pane-container');
+    if (previewPane) previewPane.style.display = cfg.showPreview ? '' : 'none';
+
+    // Also update app-layout flex direction
+    if (appLayout) {
+        if (cfg.showPreview) {
+            appLayout.classList.remove('full-width-view');
+        } else {
+            appLayout.classList.add('full-width-view');
+        }
+    }
+
+    // Also switch preview between CV and cover letter
+    const cvWrapper = document.getElementById('preview-wrapper');
+    const clWrapper = document.getElementById('cover-letter-wrapper');
+    const cvDoc = document.getElementById('cv-document');
+    const clDoc = document.getElementById('cover-letter-document');
+
+    if (view === 'editor') {
+        if (cvWrapper) cvWrapper.style.display = 'block';
+        if (clWrapper) clWrapper.style.display = 'none';
+        if (cvDoc) cvDoc.style.display = 'block';
+        if (clDoc) clDoc.style.display = 'none';
+        if (typeof updateLivePreview === 'function') updateLivePreview();
+    } else if (view === 'cover-letter') {
+        if (cvWrapper) cvWrapper.style.display = 'none';
+        if (clWrapper) clWrapper.style.display = 'block';
+        if (cvDoc) cvDoc.style.display = 'none';
+        if (clDoc) clDoc.style.display = 'block';
+        if (typeof syncCoverLetterFromCV === 'function') syncCoverLetterFromCV(false);
+        if (typeof updateCoverLetterLivePreview === 'function') updateCoverLetterLivePreview();
+    } else if (view === 'documents' || view === 'saved') {
+        // Load data from backend
+        loadDocumentsTable();
+    } else if (view === 'dashboard') {
+        loadDashboardStats();
+    }
+}
+
+// Keep old switchWorkspaceView as alias for compatibility
+function switchWorkspaceView(view) { switchView(view); }
+
+// ─── Documents Table & State Lookup ──────────────────────────────
+let _allDocs = [];
+window._allDocsMap = {};
+let _docsFilter = 'all';
+let _savedFilter = 'all';
+
+async function loadDocumentsTable() {
+    try {
+        const res = await fetch(window.API_BASE + '/documents', { headers: getAuthHeaders() });
+        if (res.ok) {
+            const data = await res.json();
+            _allDocs = (data.documents || []);
+            window._allDocsMap = {};
+            _allDocs.forEach(d => { window._allDocsMap[d.id] = d; });
+            renderDocsTable(_allDocs, _docsFilter);
+            renderSavedTable(_allDocs, _savedFilter);
+        }
+    } catch(e) {
+        console.warn('Could not load documents from backend:', e.message);
+    }
+}
+
+function filterDocs(f) {
+    _docsFilter = f;
+    ['all','cv','cover-letter'].forEach(x => {
+        const btn = document.getElementById('filter-' + (x === 'cover-letter' ? 'cl' : x));
+        if (btn) btn.classList.toggle('active', x === f);
+    });
+    renderDocsTable(_allDocs, f);
+}
+
+function filterSaved(f) {
+    _savedFilter = f;
+    ['all','cv','cover-letter'].forEach(x => {
+        const btn = document.getElementById('saved-filter-' + (x === 'cover-letter' ? 'cl' : x));
+        if (btn) btn.classList.toggle('active', x === f);
+    });
+    renderSavedTable(_allDocs, f);
+}
+
+function renderDocsTable(docs, filter) {
+    const tbody = document.getElementById('docs-table-body');
+    if (!tbody) return;
+    _renderTableBody(tbody, docs, filter);
+}
+
+function renderSavedTable(docs, filter) {
+    const tbody = document.getElementById('saved-docs-table-body');
+    if (!tbody) return;
+    _renderTableBody(tbody, docs, filter);
+}
+
+function _renderTableBody(tbody, docs, filter) {
+    let filtered = docs;
+    if (filter === 'cv') filtered = docs.filter(d => d.type === 'cv');
+    if (filter === 'cover-letter') filtered = docs.filter(d => d.type === 'cover-letter');
+
+    if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="docs-table-empty"><i class="fas fa-folder-open"></i> No documents found. <button type="button" class="btn-link-blue" onclick="openNewDocModal()">Create one now</button></td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = filtered.map(doc => {
+        const isCV = doc.type === 'cv';
+        const typeBadge = isCV
+            ? '<span class="docs-type-badge docs-type-cv"><i class="fas fa-file-contract"></i> CV/Resume</span>'
+            : '<span class="docs-type-badge docs-type-cl"><i class="fas fa-envelope-open-text"></i> Cover Letter</span>';
+        const created = doc.createdAt ? new Date(doc.createdAt).toLocaleDateString() : '—';
+        const updated = doc.updatedAt ? new Date(doc.updatedAt).toLocaleDateString() : '—';
+        const title = doc.title || (isCV ? 'Untitled CV' : 'Untitled Cover Letter');
+        return `<tr onclick="openDocumentById('${doc.id}')" title="Click to edit document">
+            <td><strong>${title}</strong></td>
+            <td>${typeBadge}</td>
+            <td>${created}</td>
+            <td>${updated}</td>
+            <td style="text-align:center;">
+                <button type="button" class="docs-dl-btn" title="Download PDF"
+                    onclick="event.stopPropagation(); downloadDocById('${doc.id}', '${doc.type}')">
+                    <i class="fas fa-download"></i>
+                </button>
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function openDocumentById(id) {
+    const doc = (window._allDocsMap && window._allDocsMap[id]) ? window._allDocsMap[id] : null;
+    if (doc) {
+        openDocumentForEdit(doc);
+    }
+}
+
+async function openDocumentForEdit(doc) {
+    if (!doc || !doc.type) return;
+    if (doc.type === 'cv') {
+        if (doc.data) {
+            try { populateCVEditorFromData(doc.data); } catch(e) { console.error(e); }
+        }
+        localStorage.setItem('cv_active_id', doc.id);
+        switchView('editor');
+        showToast('CV loaded for editing');
+    } else {
+        if (doc.data) {
+            try { populateCLEditorFromData(doc.data); } catch(e) { console.error(e); }
+        }
+        localStorage.setItem('cv_active_cl_id', doc.id);
+        switchView('cover-letter');
+        showToast('Cover Letter loaded for editing');
+    }
+}
+
+function populateCVEditorFromData(data) {
+    if (!data) return;
+    const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val != null) {
+            el.value = val;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    };
+    setVal('userName', data.name || data.userName || '');
+    setVal('userTitle', data.job || data.title || data.userTitle || '');
+    if (data.title) setVal('doc-title-input', data.title);
+
+    // Apply template
+    if (data.template) {
+        const tplSel = document.getElementById('cv-template-select');
+        if (tplSel) {
+            tplSel.value = data.template;
+            if (typeof onTemplateSelectChange === 'function') onTemplateSelectChange();
+        }
+    }
+
+    // Contacts
+    if (Array.isArray(data.contacts) && data.contacts.length > 0) {
+        const contactList = document.getElementById('contact-list');
+        if (contactList) {
+            contactList.innerHTML = '';
+            data.contacts.forEach(c => {
+                const row = document.createElement('div');
+                row.className = 'row-item';
+                row.style.padding = '4px 0';
+                row.innerHTML = `
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <span class="contact-drag-handle drag-handle"><i class="fas fa-grip-vertical"></i></span>
+                        <div class="contact-type-badge">
+                            <i class="${c.icon || 'fas fa-link'}"></i>
+                        </div>
+                        <input type="hidden" class="c-icon" value="${c.icon || 'fas fa-link'}">
+                        <input type="text" class="c-val" value="${c.val || ''}" style="flex-grow:1;" oninput="updateLivePreview()">
+                        <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                    </div>
+                `;
+                contactList.appendChild(row);
+            });
+        }
+    }
+
+    // Sections
+    if (Array.isArray(data.sections) && data.sections.length > 0) {
+        const mainSec = document.getElementById('main-sections-container');
+        const sideSec = document.getElementById('side-sections-container');
+        if (mainSec) mainSec.innerHTML = '';
+        if (sideSec) sideSec.innerHTML = '';
+        data.sections.forEach(sec => {
+            if (typeof addNewSection === 'function') {
+                addNewSection(sec);
+            }
+        });
+    }
+
+    if (typeof updateLivePreview === 'function') updateLivePreview();
+}
+
+function populateCLEditorFromData(data) {
+    if (!data) return;
+    const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val != null) {
+            el.value = val;
+            el.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+    };
+    setVal('cl-company-name', data.companyName || data.recipient?.company || '');
+    setVal('cl-job-title', data.jobTitle || '');
+    setVal('cl-date', data.date || '');
+    setVal('cl-recipient-name', data.recipient?.name || '');
+    setVal('cl-recipient-title', data.recipient?.title || '');
+    setVal('cl-company-location', data.recipient?.location || '');
+    setVal('cl-sender-name', data.sender?.name || '');
+    setVal('cl-sender-role', data.sender?.role || '');
+    setVal('cl-sender-email', data.sender?.email || '');
+    setVal('cl-sender-phone', data.sender?.phone || '');
+    setVal('cl-sender-location', data.sender?.location || '');
+    setVal('cover-letter-text', data.body || data.text || '');
+    if (data.theme) {
+        setVal('cl-theme-select', data.theme);
+    }
+    if (typeof updateCoverLetterLivePreview === 'function') updateCoverLetterLivePreview();
+}
+
+async function downloadDocById(docId, type) {
+    const doc = (window._allDocsMap && window._allDocsMap[docId]) ? window._allDocsMap[docId] : null;
+    if (doc) {
+        if (type === 'cv') {
+            if (doc.data) populateCVEditorFromData(doc.data);
+            localStorage.setItem('cv_active_id', doc.id);
+            if (typeof updateLivePreview === 'function') updateLivePreview();
+            setTimeout(() => {
+                if (typeof downloadCVPdf === 'function') downloadCVPdf();
+            }, 350);
+        } else {
+            if (doc.data) populateCLEditorFromData(doc.data);
+            localStorage.setItem('cv_active_cl_id', doc.id);
+            if (typeof updateCoverLetterLivePreview === 'function') updateCoverLetterLivePreview();
+            setTimeout(() => {
+                if (typeof downloadCoverLetterPdf === 'function') downloadCoverLetterPdf();
+            }, 350);
+        }
+    } else {
+        if (type === 'cv') {
+            if (typeof downloadCVPdf === 'function') downloadCVPdf();
+        } else {
+            if (typeof downloadCoverLetterPdf === 'function') downloadCoverLetterPdf();
+        }
+    }
+}
+
+// ─── Dashboard Stats ─────────────────────────────────────────────
+async function loadDashboardStats() {
+    try {
+        const res = await fetch(window.API_BASE + '/documents', { headers: getAuthHeaders() });
+        if (res.ok) {
+            const data = await res.json();
+            const cvCount = data.cvCount || 0;
+            const clCount = data.coverLetterCount || 0;
+            const el1 = document.getElementById('stat-cv-count');
+            const el2 = document.getElementById('stat-cl-count');
+            if (el1) el1.textContent = cvCount;
+            if (el2) el2.textContent = clCount;
+
+            // Render recent documents (last 3)
+            _allDocs = data.documents || [];
+            renderDashRecentDocs(_allDocs.slice(0, 3));
+        }
+    } catch(e) {
+        console.warn('Dashboard stats offline');
+    }
+}
+
+function renderDashRecentDocs(docs) {
+    const container = document.getElementById('dash-recent-docs');
+    if (!container) return;
+    if (!docs || !docs.length) {
+        container.innerHTML = '<div class="dash-empty-state"><i class="fas fa-folder-open"></i><div>No documents yet — create your first CV!</div><button type="button" class="btn btn-primary" onclick="openNewDocModal()" style="margin-top:12px;"><i class="fas fa-plus"></i> Create New</button></div>';
+        return;
+    }
+    container.innerHTML = docs.map(doc => {
+        const isCV = doc.type === 'cv';
+        const icon = isCV ? 'fa-file-contract' : 'fa-envelope-open-text';
+        const iconBg = isCV ? 'background:#EFF6FF;color:#2563EB' : 'background:#ECFDF5;color:#10B981';
+        const updated = doc.updatedAt ? new Date(doc.updatedAt).toLocaleDateString() : 'Recently';
+        const title = doc.title || (isCV ? 'Untitled CV' : 'Untitled Cover Letter');
+        return `<div class="dash-recent-row" onclick="openDocumentById('${doc.id}')" title="Click to edit document">
+            <div class="dash-recent-icon" style="${iconBg};"><i class="fas ${icon}"></i></div>
+            <div>
+                <div class="dash-recent-name">${title}</div>
+                <div class="dash-recent-meta">${isCV ? 'CV/Resume' : 'Cover Letter'} &bull; Last edited ${updated}</div>
+            </div>
+            <div class="dash-recent-actions">
+                <button type="button" class="docs-dl-btn" onclick="event.stopPropagation(); downloadDocById('${doc.id}','${doc.type}')" title="Download PDF">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ─── Create New Document Modal ────────────────────────────────────
+let _selectedDocType = null;
+let _selectedTemplate = null;
+
+const TEMPLATES = [
+    { id: 'default', name: 'Default ATS' },
+    { id: 't1', name: 'Dark Left Bar' },
+    { id: 't2', name: 'Center Header' },
+    { id: 't3', name: 'Dark Full Header' },
+    { id: 't4', name: 'Left Photo Card' },
+    { id: 't5', name: 'Wide Center Header' },
+    { id: 't6', name: 'City Background' },
+    { id: 't7', name: 'Teal Modern Executive' },
+    { id: 't8', name: 'ARYA Mitchell' },
+    { id: 't9', name: 'Arya Executive' },
+    { id: 't10', name: 'Modern Navy-Teal Wave' },
+];
+
+const CL_THEMES = [
+    { id: 'executive', name: 'Executive' },
+    { id: 'modern', name: 'Modern' },
+    { id: 'classic', name: 'Classic' },
+    { id: 'minimal', name: 'Minimal' },
+];
+
+function openNewDocModal(preselect) {
+    _selectedDocType = preselect || null;
+    _selectedTemplate = null;
+    // Reset step 1
+    ['type-card-cv','type-card-cl'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('selected');
+    });
+    const nextBtn = document.getElementById('modal-next-btn');
+    if (nextBtn) { nextBtn.disabled = true; nextBtn.style.opacity = '0.5'; }
+    // Show step 1
+    document.getElementById('modal-step-1').classList.add('active');
+    document.getElementById('modal-step-2').classList.remove('active');
+    // Open modal
+    document.getElementById('new-doc-modal').classList.add('open');
+    // If preselect provided, auto-select
+    if (preselect) selectDocType(preselect);
+}
+
+function closeNewDocModal() {
+    document.getElementById('new-doc-modal').classList.remove('open');
+}
+
+function selectDocType(type) {
+    _selectedDocType = type;
+    ['type-card-cv','type-card-cl'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('selected');
+    });
+    const target = type === 'cv' ? 'type-card-cv' : 'type-card-cl';
+    const el = document.getElementById(target);
+    if (el) el.classList.add('selected');
+    const nextBtn = document.getElementById('modal-next-btn');
+    if (nextBtn) { nextBtn.disabled = false; nextBtn.style.opacity = '1'; }
+}
+
+function goModalStep1() {
+    document.getElementById('modal-step-1').classList.add('active');
+    document.getElementById('modal-step-2').classList.remove('active');
+}
+
+function goModalStep2() {
+    if (!_selectedDocType) return;
+    document.getElementById('modal-step-1').classList.remove('active');
+    document.getElementById('modal-step-2').classList.add('active');
+
+    const label = document.getElementById('modal-step2-label');
+    if (label) label.textContent = _selectedDocType === 'cv' ? 'Choose a CV Template' : 'Choose a Cover Letter Theme';
+
+    const grid = document.getElementById('modal-template-grid');
+    if (!grid) return;
+
+    const items = _selectedDocType === 'cv' ? TEMPLATES : CL_THEMES;
+    _selectedTemplate = items[0].id;
+
+    grid.innerHTML = items.map(t => `
+        <div class="modal-tpl-card${t.id === _selectedTemplate ? ' selected' : ''}" id="mtpl-${t.id}" onclick="selectModalTemplate('${t.id}')">
+            <div class="modal-tpl-thumb"><i class="fas fa-file-alt"></i></div>
+            <div class="modal-tpl-name">${t.name}</div>
+        </div>
+    `).join('');
+}
+
+function selectModalTemplate(id) {
+    _selectedTemplate = id;
+    document.querySelectorAll('.modal-tpl-card').forEach(c => c.classList.remove('selected'));
+    const el = document.getElementById('mtpl-' + id);
+    if (el) el.classList.add('selected');
+}
+
+async function createNewDocFromModal() {
+    if (!_selectedDocType) return;
+    const template = _selectedTemplate || 'default';
+    const type = _selectedDocType;
+
+    closeNewDocModal();
+
+    const activeName = (window.appCurrentUser && window.appCurrentUser.name) ? window.appCurrentUser.name : 'Telaynew Ambachew';
+    const effectiveUserId = (window.appCurrentUser && window.appCurrentUser.id) ? window.appCurrentUser.id : 'guest';
+
+    try {
+        const payload = type === 'cv'
+            ? { title: activeName + ' - CV', template, userId: effectiveUserId, name: activeName, job: 'Full-Stack Developer' }
+            : { title: activeName + ' - Cover Letter', theme: template, userId: effectiveUserId, sender: { name: activeName } };
+
+        const endpoint = type === 'cv' ? '/cv/save' : '/cover-letter/save';
+        const res = await fetch(window.API_BASE + endpoint, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            const docId = data.document?._id || data.cv?._id || data.coverLetter?._id;
+            if (docId) {
+                localStorage.setItem(type === 'cv' ? 'cv_active_id' : 'cv_active_cl_id', docId);
+            }
+            showToast(type === 'cv' ? 'New CV created and saved!' : 'New Cover Letter created and saved!');
+            loadDocumentsTable();
+        }
+    } catch(e) {
+        showToast('Could not reach backend — opening editor locally.', 'warn');
+    }
+
+    // Apply template and switch
+    if (type === 'cv') {
+        const tplSel = document.getElementById('cv-template-select');
+        if (tplSel && template) {
+            tplSel.value = template;
+            if (typeof onTemplateSelectChange === 'function') onTemplateSelectChange();
+        }
+        switchView('editor');
+    } else {
+        const themeEl = document.getElementById('cl-theme-select');
+        if (themeEl && template) themeEl.value = template;
+        switchView('cover-letter');
+    }
+}
+
+// ─── Patch applyAuthenticatedUI to also update new nav ─────────────
+(function() {
+const _orig = window.applyAuthenticatedUI;
+window.applyAuthenticatedUI = function applyAuthenticatedUI(user) {
+    if (typeof _orig === 'function') _orig(user);
+    // Update new header elements
+    if (user) {
+        const initials = user.initials || (user.name ? user.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase() : 'TA');
+        const el = document.getElementById('header-user-initials');
+        if (el) el.textContent = initials;
+        const nameEl = document.getElementById('header-user-name');
+        if (nameEl) nameEl.textContent = (user.name || 'Telaynew').split(' ')[0];
+        const ddName = document.getElementById('dropdown-user-name');
+        if (ddName) ddName.textContent = user.name || 'Telaynew Ambachew';
+        const ddEmail = document.getElementById('dropdown-user-email');
+        if (ddEmail) ddEmail.textContent = user.email || 'telaynew11@gmail.com';
+        const welcomeEl = document.getElementById('dash-welcome-name');
+        if (welcomeEl) welcomeEl.textContent = 'Welcome back, ' + (user.name || 'Telaynew') + '!';
+        // Switch user button
+        const signupBtn = document.getElementById('btn-header-signup');
+        const userBtn = document.getElementById('btn-header-user');
+        if (signupBtn) signupBtn.style.display = 'none';
+        if (userBtn) userBtn.style.display = 'flex';
+    }
+    // Show dashboard by default after login
+    switchView('dashboard');
+    loadDashboardStats();
+};
+})();
+
+// Initialize on load: also patch loadUserDocumentsFromBackend
+(function() {
+const _orig2 = window.loadUserDocumentsFromBackend;
+window.loadUserDocumentsFromBackend = function loadUserDocumentsFromBackend() {
+    if (typeof _orig2 === 'function') _orig2();
+    loadDashboardStats();
+    if (window.currentActiveView === 'documents' || window.currentActiveView === 'saved') {
+        loadDocumentsTable();
+    }
+};
+})();
+
+// Initial view based on auth state
+document.addEventListener('DOMContentLoaded', function() {
+    // On fresh load, dashboard will be shown via restoreSession -> applyAuthenticatedUI
+});
+
+</script>
+
+    <!-- ═══ CREATE NEW DOCUMENT MODAL ═══ -->
+    <div class="modal-overlay" id="new-doc-modal" onclick="if(event.target===this)closeNewDocModal()">
+        <div class="modal-box">
+            <div class="modal-title">Create New Document</div>
+            <div class="modal-subtitle">Choose what you'd like to create</div>
+
+            <!-- Step 1: Type -->
+            <div class="modal-step active" id="modal-step-1">
+                <div class="modal-type-grid">
+                    <div class="modal-type-card" id="type-card-cv" onclick="selectDocType('cv')">
+                        <i class="fas fa-file-contract"></i>
+                        <div class="tc-label">CV / Resume</div>
+                        <div class="tc-desc">Professional work history & skills</div>
+                    </div>
+                    <div class="modal-type-card" id="type-card-cl" onclick="selectDocType('cover-letter')">
+                        <i class="fas fa-envelope-open-text"></i>
+                        <div class="tc-label">Cover Letter</div>
+                        <div class="tc-desc">Compelling application letter</div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-nav-slate" onclick="closeNewDocModal()">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="modal-next-btn" onclick="goModalStep2()" disabled style="opacity:0.5;">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Template -->
+            <div class="modal-step" id="modal-step-2">
+                <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:12px;" id="modal-step2-label">Choose a Template</div>
+                <div class="modal-template-grid" id="modal-template-grid">
+                    <!-- populated by JS -->
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-nav-slate" onclick="goModalStep1()"><i class="fas fa-arrow-left"></i> Back</button>
+                    <button type="button" class="btn btn-primary" id="modal-create-btn" onclick="createNewDocFromModal()">
+                        <i class="fas fa-plus"></i> Create Document
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

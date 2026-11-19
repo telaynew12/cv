@@ -1,0 +1,4 @@
+
+*.log
+server.log
+server-err.log
