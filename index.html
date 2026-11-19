@@ -5004,13 +5004,7 @@ body {
 
         <!-- New Top Header Bar -->
         <header class="app-header" id="app-header">
-            <!-- Logo -->
-            <div class="header-logo">
-                <i class="fas fa-file-contract"></i>
-                <span>CVForge</span>
-            </div>
-
-            <!-- Main Nav Tabs -->
+            <!-- Main Nav Tabs: Dashboard & Documents only -->
             <nav class="header-main-nav" id="header-main-nav">
                 <button type="button" class="header-nav-btn active" id="hnav-dashboard" onclick="switchView('dashboard')">
                     <i class="fas fa-house"></i> Dashboard
@@ -5018,54 +5012,18 @@ body {
                 <button type="button" class="header-nav-btn" id="hnav-documents" onclick="switchView('documents')">
                     <i class="fas fa-folder-open"></i> Documents
                 </button>
-                <button type="button" class="header-nav-btn" id="hnav-profile" onclick="switchView('editor')">
-                    <i class="fas fa-user-pen"></i> Profile
-                </button>
-                <button type="button" class="header-nav-btn" id="hnav-saved" onclick="switchView('saved')">
-                    <i class="fas fa-bookmark"></i> Saved Documents
-                </button>
             </nav>
 
-            <!-- Right: Template selector (only in editor/cover-letter) + actions -->
+            <!-- Right: Profile Icon Only -->
             <div class="header-actions">
-                <!-- Template Selector (shown only in editor view) -->
-                <div class="header-template-selector" id="header-template-selector-wrap" style="display:none;">
-                    <i class="fas fa-palette"></i>
-                    <select id="cv-template-select" onchange="onTemplateSelectChange()">
-                        <option value="default">Default ATS</option>
-                        <option value="t1">Design 1 - Dark Left Bar</option>
-                        <option value="t2">Design 2 - Center Header</option>
-                        <option value="t3">Design 3 - Dark Full Header</option>
-                        <option value="t4">Design 4 - Left Photo Card</option>
-                        <option value="t5">Design 5 - Wide Center Header</option>
-                        <option value="t6">Design 6 - City Background</option>
-                        <option value="t7">Design 7 - Teal Modern Executive</option>
-                        <option value="t8" selected>Design 8 - ARYA Mitchell</option>
-                        <option value="t9">Design 9 - Arya Executive</option>
-                        <option value="t10">Design 10 - Modern Navy-Teal Wave</option>
-                    </select>
-                </div>
-                <!-- Save pill (shown in editor/cover-letter) -->
-                <div class="save-status-pill" id="header-save-pill" style="display:none;">
-                    <span class="save-dot"></span>
-                    <span id="save-status-text">Saved</span>
-                </div>
-                <!-- Download (shown in editor/cover-letter) -->
-                <button type="button" class="btn btn-download-green" id="btn-download-top" onclick="downloadActiveDocPdf()" style="display:none;">
-                    <i class="fas fa-download"></i> <span>Download PDF</span>
-                </button>
-
-                <!-- User area -->
                 <div style="position:relative;" id="header-user-wrapper">
-                    <!-- Guest: Sign Up button -->
-                    <button type="button" class="btn btn-primary" id="btn-header-signup" onclick="showAuthOverlay()" style="font-size:13px;padding:7px 14px;" title="Sign up to save your documents">
-                        <i class="fas fa-user-plus"></i> Sign Up
+                    <!-- Guest: Profile Icon Button -->
+                    <button type="button" class="header-user-btn" id="btn-header-signup" onclick="showAuthOverlay()" title="Sign In / Register">
+                        <div class="header-user-initials" style="background:#f1f5f9;color:#64748b;"><i class="fas fa-user"></i></div>
                     </button>
-                    <!-- Authenticated: User avatar+name button -->
+                    <!-- Authenticated: User Avatar Icon Button -->
                     <button type="button" class="header-user-btn" id="btn-header-user" onclick="toggleUserDropdown()" style="display:none;" title="Account menu">
                         <div class="header-user-initials" id="header-user-initials">TA</div>
-                        <span id="header-user-name">Telaynew</span>
-                        <i class="fas fa-chevron-down" style="font-size:10px;color:#94a3b8;"></i>
                     </button>
                     <!-- Dropdown -->
                     <div class="user-dropdown" id="user-dropdown">
@@ -5081,6 +5039,9 @@ body {
                         </div>
                         <div class="user-dropdown-item" onclick="switchView('editor'); closeUserDropdown();">
                             <i class="fas fa-user-pen"></i> Profile / Edit CV
+                        </div>
+                        <div class="user-dropdown-item" onclick="switchView('saved'); closeUserDropdown();">
+                            <i class="fas fa-bookmark"></i> Saved Documents
                         </div>
                         <div class="user-dropdown-sep"></div>
                         <div class="user-dropdown-item danger" onclick="handleSignOut(); closeUserDropdown();">
@@ -5512,6 +5473,41 @@ body {
 
                 <!-- 2. CV DOCUMENT EDITOR VIEW (Active on "New CV", Wizard Completion, or Editor Mode) -->
                 <div id="view-editor" class="workspace-view">
+
+                    <!-- Editor Top Bar: Template, Title, Save Status, Download PDF -->
+                    <div class="editor-top-controls" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+                        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:280px;">
+                            <div class="doc-name-group" id="header-doc-name-group" style="display:flex;align-items:center;gap:8px;">
+                                <input type="text" id="doc-title-input" class="doc-title-input" value="TELAYNEW AMBACHEW - CV" onchange="showToast('Document renamed')" style="font-size:14px;font-weight:700;color:#0f172a;border:1px solid #e2e8f0;background:#f8fafc;padding:6px 12px;border-radius:8px;max-width:280px;">
+                            </div>
+                            <!-- Template Selector -->
+                            <div class="header-template-selector" id="editor-template-selector-wrap" style="display:inline-flex;align-items:center;gap:7px;padding:6px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                                <i class="fas fa-palette" style="color:#2563eb;"></i>
+                                <select id="cv-template-select" onchange="onTemplateSelectChange()" style="border:none;background:transparent;font-size:13px;font-weight:600;color:#334155;cursor:pointer;outline:none;">
+                                    <option value="default">Default ATS</option>
+                                    <option value="t1">Design 1 - Dark Left Bar</option>
+                                    <option value="t2">Design 2 - Center Header</option>
+                                    <option value="t3">Design 3 - Dark Full Header</option>
+                                    <option value="t4">Design 4 - Left Photo Card</option>
+                                    <option value="t5">Design 5 - Wide Center Header</option>
+                                    <option value="t6">Design 6 - City Background</option>
+                                    <option value="t7">Design 7 - Teal Modern Executive</option>
+                                    <option value="t8" selected>Design 8 - ARYA Mitchell</option>
+                                    <option value="t9">Design 9 - Arya Executive</option>
+                                    <option value="t10">Design 10 - Modern Navy-Teal Wave</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <div class="save-status-pill" id="header-save-pill" style="font-size:12px;">
+                                <span class="save-dot"></span>
+                                <span id="save-status-text">Saved</span>
+                            </div>
+                            <button type="button" class="btn btn-download-green" id="btn-download-top" onclick="downloadActiveDocPdf()" style="font-size:13px;padding:7px 14px;">
+                                <i class="fas fa-download"></i> <span>Download PDF</span>
+                            </button>
+                        </div>
+                    </div>
 
                     <!-- Editor Breadcrumb & Mode Switcher -->
                     <div class="workspace-breadcrumb-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
@@ -11740,7 +11736,7 @@ function applyAuthenticatedUI(userData) {
     pills.forEach(pill => {
         const txt = pill.querySelector('span:last-child');
         pill.classList.remove('saving','unsaved');
-        if (txt) txt.textContent = 'Saved to your account (MongoDB)';
+        if (txt) txt.textContent = 'Saved';
     });
 }
 
@@ -11913,9 +11909,9 @@ if (document.readyState === 'loading') {
 const VIEW_CONFIG = {
     'dashboard': { view: 'view-dashboard', nav: 'hnav-dashboard', showPreview: false },
     'documents': { view: 'view-documents', nav: 'hnav-documents', showPreview: false },
-    'editor':    { view: 'view-editor',    nav: 'hnav-profile',   showPreview: true,  showTemplate: true },
-    'cover-letter': { view: 'view-cover-letter', nav: 'hnav-profile', showPreview: true, showTemplate: false },
-    'saved':     { view: 'view-saved',     nav: 'hnav-saved',     showPreview: false },
+    'editor':    { view: 'view-editor',    nav: null,             showPreview: true },
+    'cover-letter': { view: 'view-cover-letter', nav: null,       showPreview: true },
+    'saved':     { view: 'view-saved',     nav: 'hnav-documents', showPreview: false },
     'templates': { view: 'view-templates', nav: 'hnav-documents', showPreview: false },
     'settings':  { view: 'view-settings',  nav: null,             showPreview: false },
 };
@@ -11926,8 +11922,8 @@ function switchView(view) {
         const el = document.getElementById(cfg.view);
         if (el) el.classList.remove('active');
     });
-    // Deactivate all nav buttons
-    ['hnav-dashboard','hnav-documents','hnav-profile','hnav-saved'].forEach(id => {
+    // Deactivate header nav buttons (only dashboard and documents)
+    ['hnav-dashboard','hnav-documents'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.remove('active');
     });
@@ -11944,16 +11940,6 @@ function switchView(view) {
         const navEl = document.getElementById(cfg.nav);
         if (navEl) navEl.classList.add('active');
     }
-
-    // Header editor controls visibility
-    const tplWrap = document.getElementById('header-template-selector-wrap');
-    const savePill = document.getElementById('header-save-pill');
-    const dlBtn = document.getElementById('btn-download-top');
-    const appLayout = document.querySelector('.app-layout');
-
-    if (tplWrap) tplWrap.style.display = cfg.showTemplate ? 'inline-flex' : 'none';
-    if (savePill) savePill.style.display = cfg.showPreview ? 'flex' : 'none';
-    if (dlBtn) dlBtn.style.display = cfg.showPreview ? 'inline-flex' : 'none';
 
     // Show/hide preview pane
     const previewPane = document.getElementById('preview-pane-container');
