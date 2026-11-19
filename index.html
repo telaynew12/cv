@@ -4508,35 +4508,128 @@ label,
     </style>
     <!-- ═══ NEW NAV-HEADER & VIEW STYLES ═══ -->
     <style>
-/* ─── RESET sidebar-dependent layout ─── */
-.app-layout {
-    display: flex;
-    flex: 1;
-    height: calc(100vh - 60px);
-    overflow: hidden;
+/* ─── SCROLL & FULL-WIDTH / TWO-PANEL LAYOUT ARCHITECTURE ─── */
+html {
+    min-height: 100%;
 }
-/* Body uses full-width app-main-content, no sidebar offset */
+
 body {
-    overflow: hidden;
+    min-height: 100vh;
+    height: auto !important;
+    margin: 0;
+    padding: 0;
+    background: var(--canvas-bg, #F8F9FA);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-primary, #111827);
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto !important; /* Full window scroll */
+    -webkit-font-smoothing: antialiased;
 }
+
 .app-main-content {
-    flex: 1;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
     min-width: 0;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh;
+    height: auto !important;
+    overflow-x: hidden;
+    overflow-y: visible !important;
     background: var(--canvas-bg, #F8F9FA);
 }
 
-/* Editor container scrollable */
+/* ─── Two-Panel Editor View (Left Form + Right Sticky Preview) ─── */
+.app-layout {
+    display: grid !important;
+    grid-template-columns: minmax(460px, 1fr) 520px !important;
+    gap: 32px !important;
+    padding: 24px 32px 80px 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: #F8F9FA !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: calc(100vh - 60px) !important;
+    overflow: visible !important;
+}
+
 .editor-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 32px 32px 60px;
-    min-height: 0;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 860px !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ─── Full Width Views (Dashboard, Documents, Saved Documents) ─── */
+.app-layout.full-width-view {
+    display: block !important;
+    max-width: 1240px !important;
+    margin: 0 auto !important;
+    padding: 28px 32px 80px 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-height: calc(100vh - 60px) !important;
+    overflow: visible !important;
+}
+
+.app-layout.full-width-view .editor-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.app-layout.full-width-view .preview-pane {
+    display: none !important;
+}
+
+/* ─── Right Sticky Live Document Preview ─── */
+.preview-pane {
+    width: 520px !important;
+    min-width: 520px !important;
+    max-width: 520px !important;
+    position: sticky !important;
+    top: 76px !important;
+    height: calc(100vh - 96px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: transparent !important;
+    overflow: hidden !important;
+    z-index: 10;
+}
+
+.preview-viewport {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 4px 10px 40px 10px !important;
+}
+
+@media (max-width: 1080px) {
+    .app-layout {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        padding: 16px 20px 60px !important;
+    }
+    .preview-pane {
+        position: static !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        height: 640px !important;
+    }
 }
 
 /* ─── NEW HEADER ─── */
@@ -4639,13 +4732,7 @@ body {
 .workspace-view { display: none; }
 .workspace-view.active { display: block; }
 
-/* Editor container scrollable */
-.editor-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 32px 32px 60px;
-    min-height: 0;
-}
+/* editor-container rule consolidated above */
 
 /* ─── VIEW PAGE HEADER ─── */
 .view-page-header {
