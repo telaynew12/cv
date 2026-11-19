@@ -1,4 +1,18 @@
+﻿# Compiled output
+/dist
+/node_modules
 
+# Logs
+logs
 *.log
 server.log
 server-err.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables (keep your actual .env secret)
+.env
+.env.local
+.env.production

@@ -31,7 +31,7 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(port);
+  await app.listen(port, '0.0.0.0');
   logger.log(`=======================================================`);
   logger.log(`🚀 CVForge NestJS Backend is running on: http://localhost:${port}/api`);
   logger.log(`📦 MongoDB Database: "${configService.get<string>('database.dbName')}"`);
