@@ -5474,52 +5474,24 @@ body {
                 <!-- 2. CV DOCUMENT EDITOR VIEW (Active on "New CV", Wizard Completion, or Editor Mode) -->
                 <div id="view-editor" class="workspace-view">
 
-                    <!-- Editor Top Bar: Template, Title, Save Status, Download PDF -->
-                    <div class="editor-top-controls" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.04);">
-                        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:280px;">
-                            <div class="doc-name-group" id="header-doc-name-group" style="display:flex;align-items:center;gap:8px;">
-                                <input type="text" id="doc-title-input" class="doc-title-input" value="TELAYNEW AMBACHEW - CV" onchange="showToast('Document renamed')" style="font-size:14px;font-weight:700;color:#0f172a;border:1px solid #e2e8f0;background:#f8fafc;padding:6px 12px;border-radius:8px;max-width:280px;">
-                            </div>
-                            <!-- Template Selector -->
-                            <div class="header-template-selector" id="editor-template-selector-wrap" style="display:inline-flex;align-items:center;gap:7px;padding:6px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
-                                <i class="fas fa-palette" style="color:#2563eb;"></i>
-                                <select id="cv-template-select" onchange="onTemplateSelectChange()" style="border:none;background:transparent;font-size:13px;font-weight:600;color:#334155;cursor:pointer;outline:none;">
-                                    <option value="default">Default ATS</option>
-                                    <option value="t1">Design 1 - Dark Left Bar</option>
-                                    <option value="t2">Design 2 - Center Header</option>
-                                    <option value="t3">Design 3 - Dark Full Header</option>
-                                    <option value="t4">Design 4 - Left Photo Card</option>
-                                    <option value="t5">Design 5 - Wide Center Header</option>
-                                    <option value="t6">Design 6 - City Background</option>
-                                    <option value="t7">Design 7 - Teal Modern Executive</option>
-                                    <option value="t8" selected>Design 8 - ARYA Mitchell</option>
-                                    <option value="t9">Design 9 - Arya Executive</option>
-                                    <option value="t10">Design 10 - Modern Navy-Teal Wave</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:10px;">
-                            <div class="save-status-pill" id="header-save-pill" style="font-size:12px;">
-                                <span class="save-dot"></span>
-                                <span id="save-status-text">Saved</span>
-                            </div>
-                            <button type="button" class="btn btn-download-green" id="btn-download-top" onclick="downloadActiveDocPdf()" style="font-size:13px;padding:7px 14px;">
-                                <i class="fas fa-download"></i> <span>Download PDF</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Editor Breadcrumb & Mode Switcher -->
-                    <div class="workspace-breadcrumb-row" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                        <div style="display:flex;align-items:center;gap:10px;">
-                            <span class="crumb-name" id="editor-crumb-name">TELAYNEW AMBACHEW</span>
-                            <span class="crumb-sep">/</span>
-                            <span class="crumb-section">CV Document Editor</span>
-                            <span class="editor-mode-badge"><i class="fas fa-circle-dot"></i> Live Editing</span>
-                        </div>
-                        <button type="button" class="btn btn-switch-view" onclick="switchWorkspaceView('dashboard')">
-                            <i class="fas fa-house"></i> Dashboard
-                        </button>
+                    <!-- Hidden state elements preserved for scripts -->
+                    <div style="display:none;" id="hidden-cv-controls" aria-hidden="true">
+                        <input type="hidden" id="doc-title-input" value="TELAYNEW AMBACHEW - CV">
+                        <select id="cv-template-select">
+                            <option value="default">Default ATS</option>
+                            <option value="t1">Design 1 - Dark Left Bar</option>
+                            <option value="t2">Design 2 - Center Header</option>
+                            <option value="t3">Design 3 - Dark Full Header</option>
+                            <option value="t4">Design 4 - Left Photo Card</option>
+                            <option value="t5">Design 5 - Wide Center Header</option>
+                            <option value="t6">Design 6 - City Background</option>
+                            <option value="t7">Design 7 - Teal Modern Executive</option>
+                            <option value="t8" selected>Design 8 - ARYA Mitchell</option>
+                            <option value="t9">Design 9 - Arya Executive</option>
+                            <option value="t10">Design 10 - Modern Navy-Teal Wave</option>
+                        </select>
+                        <div id="header-save-pill"><span class="save-dot"></span><span id="save-status-text">Saved</span></div>
+                        <button type="button" id="btn-download-top" onclick="downloadActiveDocPdf()"></button>
                     </div>
 
                     <!-- Main Header (Contact Info) Card -->
