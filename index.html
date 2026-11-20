@@ -1,10 +1,48 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Studio - Professional Document Editor</title>
+    <title>CVForge – Free Online CV &amp; Resume Builder (ATS Templates &amp; PDF)</title>
+    <meta name="description" content="Create, design, and download a professional CV and cover letter for free with CVForge. Choose from 10+ ATS-friendly templates, check job match scores, and export watermark-free PDFs.">
+    <meta name="keywords" content="free CV builder, online resume maker, ATS resume templates, free cover letter generator, PDF CV maker, CVForge">
+    <link rel="canonical" href="https://ethpro.online">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ethpro.online">
+    <meta property="og:title" content="CVForge – Free Online CV &amp; Resume Builder (ATS Templates &amp; PDF)">
+    <meta property="og:description" content="Create, design, and download a professional CV and cover letter for free with CVForge. Choose from 10+ ATS-friendly templates, check job match scores, and export watermark-free PDFs.">
+    <meta property="og:site_name" content="CVForge">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ethpro.online">
+    <meta name="twitter:title" content="CVForge – Free Online CV &amp; Resume Builder (ATS Templates &amp; PDF)">
+    <meta name="twitter:description" content="Create, design, and download a professional CV and cover letter for free with CVForge. 10+ ATS templates, free PDF download.">
+
+    <!-- Schema.org WebApplication JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CVForge",
+      "url": "https://ethpro.online",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "Free online CV and resume builder with 10+ ATS-optimized templates, cover letter creator, and instant PDF download without watermarks."
+    }
+    </script>
+
+    <!-- Google Identity Services (OAuth 2.0) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <!-- Modern Inter Typography & FontAwesome 6 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1352,6 +1390,49 @@ body {
 
 .editor-card.is-collapsed .header-card-body {
     display: none;
+}
+.editor-card.is-collapsed {
+    padding-bottom: 16px;
+}
+.editor-card.is-collapsed .card-header-line {
+    margin-bottom: 0;
+}
+
+/* CV Editor Top Actions Bar & Collapse All Toggle */
+.cv-editor-actions-bar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.btn-collapse-toggle-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    transition: all 0.18s ease;
+}
+.btn-collapse-toggle-all:hover {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #94a3b8;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+}
+.btn-collapse-toggle-all:active {
+    transform: translateY(1px);
+}
+.btn-collapse-toggle-all i {
+    font-size: 13px;
+    color: #2563eb;
+    transition: transform 0.2s ease;
 }
 
 /* Two Columns Section Grid */
@@ -3958,6 +4039,130 @@ textarea.r-bullets {
     color: #64748b;
 }
 
+/* ── Master Profile Management Styling ── */
+.profile-layout-container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+.profile-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+}
+.profile-card-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.profile-entry-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px 18px;
+    position: relative;
+    transition: border-color 0.15s ease;
+}
+.profile-entry-box:hover {
+    border-color: #cbd5e1;
+}
+.btn-remove-entry {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #ef4444;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.15s ease;
+}
+.btn-remove-entry:hover {
+    background: #ef4444;
+    color: #ffffff;
+}
+.btn-profile-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #2563eb;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.btn-profile-add:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+.skill-pill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+    border-radius: 20px;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+.skill-pill-remove {
+    cursor: pointer;
+    color: #3b82f6;
+    font-size: 14px;
+    line-height: 1;
+    display: inline-block;
+    transition: color 0.15s ease;
+}
+.skill-pill-remove:hover {
+    color: #ef4444;
+}
+.btn-import-profile-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e40af;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(37, 99, 235, 0.06);
+    transition: all 0.15s ease;
+}
+.btn-import-profile-toggle:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+    color: #1d4ed8;
+}
+
 /* ── Save status pill enhancements ── */
 .save-status-pill {
     display: inline-flex;
@@ -4976,6 +5181,8 @@ body {
     display: flex; gap: 10px; justify-content: flex-end;
 }
 </style>
+    <!-- Dynamic Environment Config: loads window.API_BASE from .env -->
+    <script src="config.js"></script>
 </head>
 
 <body>
@@ -5026,9 +5233,9 @@ body {
             </div>
 
             <!-- Google Auth -->
-            <button type="button" class="auth-social-btn" onclick="handleSocialAuth('google')">
+            <button type="button" class="auth-social-btn" id="btn-google-auth-overlay" onclick="handleSocialAuth('google')">
                 <svg width="18" height="18" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.3 9 3.4l6.7-6.7C35.6 2.4 30.1 0 24 0 14.7 0 6.9 5.5 3.1 13.5l7.8 6C13 13 18.1 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.7-.2-3.3-.5-4.9H24v9.3h12.7c-.6 3.1-2.3 5.7-4.9 7.5l7.6 5.9c4.4-4.1 7.1-10.1 7.1-17.8z"/><path fill="#FBBC05" d="M10.9 28.5A14.3 14.3 0 0 1 9.5 24c0-1.6.3-3.1.8-4.5l-7.8-6A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.5 10.8l8.4-6.3z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15.1-5.5l-7.6-5.9c-2 1.4-4.6 2.2-7.5 2.2-5.9 0-10.9-4-12.7-9.3l-8.4 6.3C6.9 42.5 14.7 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-                Continue with Google
+                <span class="g-btn-text">Continue with Google</span>
             </button>
 
             <div class="auth-divider">or</div>
@@ -5118,6 +5325,9 @@ body {
                             <div class="user-dropdown-name" id="dropdown-user-name">Telaynew Ambachew</div>
                             <div class="user-dropdown-email" id="dropdown-user-email">telaynew11@gmail.com</div>
                         </div>
+                        <div class="user-dropdown-item" onclick="switchView('profile'); closeUserDropdown();">
+                            <i class="fas fa-id-badge" style="color:#2563eb;"></i> My Profile
+                        </div>
                         <div class="user-dropdown-item" onclick="switchView('dashboard'); closeUserDropdown();">
                             <i class="fas fa-house"></i> Dashboard
                         </div>
@@ -5125,10 +5335,10 @@ body {
                             <i class="fas fa-folder-open"></i> Documents
                         </div>
                         <div class="user-dropdown-item" onclick="switchView('editor'); closeUserDropdown();">
-                            <i class="fas fa-user-pen"></i> Profile / Edit CV
+                            <i class="fas fa-file-invoice"></i> CV Document Editor
                         </div>
-                        <div class="user-dropdown-item" onclick="switchView('saved'); closeUserDropdown();">
-                            <i class="fas fa-bookmark"></i> Saved Documents
+                        <div class="user-dropdown-item" onclick="switchView('cover-letter'); closeUserDropdown();">
+                            <i class="fas fa-envelope-open-text"></i> Cover Letter Editor
                         </div>
                         <div class="user-dropdown-sep"></div>
                         <div class="user-dropdown-item danger" onclick="handleSignOut(); closeUserDropdown();">
@@ -5219,10 +5429,10 @@ body {
                             <div class="dash-qa-label">New Cover Letter</div>
                             <div class="dash-qa-desc">Write a compelling letter</div>
                         </div>
-                        <div class="dash-qa-card" onclick="switchView('editor')">
-                            <div class="dash-qa-icon" style="background:#F5F3FF;color:#7C3AED;"><i class="fas fa-user-pen"></i></div>
-                            <div class="dash-qa-label">Edit Profile</div>
-                            <div class="dash-qa-desc">Update your information</div>
+                        <div class="dash-qa-card" onclick="switchView('profile')">
+                            <div class="dash-qa-icon" style="background:#F5F3FF;color:#7C3AED;"><i class="fas fa-id-badge"></i></div>
+                            <div class="dash-qa-label">Master Profile</div>
+                            <div class="dash-qa-desc">Career vault to auto-fill CVs</div>
                         </div>
                         <div class="dash-qa-card" onclick="switchView('saved')">
                             <div class="dash-qa-icon" style="background:#FFF7ED;color:#EA580C;"><i class="fas fa-bookmark"></i></div>
@@ -5558,6 +5768,183 @@ body {
                     </div>
                 </div>
 
+                <!-- MASTER CAREER PROFILE VIEW (Central profile database to store & extract information into CVs) -->
+                <div id="view-profile" class="workspace-view">
+                    <!-- Profile Header & Quick Actions -->
+                    <div class="view-page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+                        <div>
+                            <div class="workspace-breadcrumb-row" style="margin-bottom:6px;">
+                                <span class="crumb-name" id="prof-crumb-name">Telaynew Ambachew</span>
+                                <span class="crumb-sep">/</span>
+                                <span class="crumb-section">Master Career Profile</span>
+                            </div>
+                            <h1 class="view-page-title" style="margin-bottom:6px;">Master Career Profile</h1>
+                            <div class="view-page-subtitle" style="max-width:620px;">
+                                Your master career database. Update your work history, skills, and contact details here to extract and build tailored CVs anytime.
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+                            <button type="button" class="btn btn-outline" onclick="saveMasterProfile()" style="padding:9px 16px;font-weight:600;display:inline-flex;align-items:center;gap:7px;">
+                                <i class="fas fa-floppy-disk"></i> Save Profile
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="buildCVFromMasterProfile()" style="padding:9px 18px;font-weight:700;display:inline-flex;align-items:center;gap:8px;background:#2563eb;color:#ffffff;box-shadow:0 2px 8px rgba(37,99,235,0.25);">
+                                <i class="fas fa-wand-magic-sparkles"></i> Build CV from Profile
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="profile-layout-container">
+                        <!-- 1. PERSONAL INFORMATION & SUMMARY -->
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <div class="profile-card-title">
+                                    <i class="fas fa-user-circle" style="color:#2563eb;"></i> Personal Details &amp; Professional Summary
+                                </div>
+                                <span style="font-size:12px;color:#64748b;font-weight:500;">Core Identity</span>
+                            </div>
+
+                            <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;margin-bottom:20px;">
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+                                    <div class="photo-preview-box" onclick="document.getElementById('profilePhotoInput').click()" style="width:84px;height:84px;border-radius:50%;border:2px dashed #2563eb;background:#eff6ff;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;position:relative;box-shadow:0 2px 8px rgba(37,99,235,0.15);">
+                                        <img id="prof-photo-img" src="" alt="Profile Photo" style="width:100%;height:100%;object-fit:cover;display:none;">
+                                        <div id="prof-photo-placeholder" style="text-align:center;color:#2563eb;">
+                                            <i class="fas fa-camera" style="font-size:22px;"></i>
+                                            <div style="font-size:9px;font-weight:700;margin-top:4px;">PHOTO</div>
+                                        </div>
+                                    </div>
+                                    <input type="file" id="profilePhotoInput" accept="image/*" onchange="handleProfilePhotoUpload(event)" style="display:none;">
+                                    <button type="button" onclick="document.getElementById('profilePhotoInput').click()" style="background:none;border:none;color:#2563eb;font-size:12px;font-weight:600;cursor:pointer;padding:0;">Change Photo</button>
+                                </div>
+
+                                <div style="flex:1;min-width:260px;display:flex;flex-direction:column;gap:14px;">
+                                    <div class="cl-form-row">
+                                        <div class="cl-form-group">
+                                            <label>Full Name</label>
+                                            <input type="text" id="prof-full-name" placeholder="e.g. Telaynew Ambachew" value="Telaynew Ambachew">
+                                        </div>
+                                        <div class="cl-form-group">
+                                            <label>Professional Job Title</label>
+                                            <input type="text" id="prof-job-title" placeholder="e.g. Senior Software Engineer" value="Senior Software Engineer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cl-form-group">
+                                <label>Executive Summary / Bio (Extracted into CV Summary)</label>
+                                <textarea id="prof-summary" rows="4" style="width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:8px;font-family:inherit;font-size:13.5px;color:#1e293b;resize:vertical;" placeholder="Write a summary of your professional background, expertise, and what sets you apart...">Dedicated and results-oriented Software Engineer with extensive experience in architecting scalable web applications, RESTful APIs, distributed microservices, and database systems. Proven track record in full-stack development, cloud deployment, and system reliability.</textarea>
+                            </div>
+                        </div>
+
+                        <!-- 2. CONTACT DETAILS -->
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <div class="profile-card-title">
+                                    <i class="fas fa-address-book" style="color:#2563eb;"></i> Contact &amp; Social Links
+                                </div>
+                                <span style="font-size:12px;color:#64748b;font-weight:500;">Extracted into CV Contacts</span>
+                            </div>
+                            <div class="cl-form-row">
+                                <div class="cl-form-group">
+                                    <label><i class="fas fa-envelope" style="color:#64748b;margin-right:4px;"></i> Email Address</label>
+                                    <input type="email" id="prof-email" placeholder="you@example.com" value="telaynew11@gmail.com">
+                                </div>
+                                <div class="cl-form-group">
+                                    <label><i class="fas fa-phone" style="color:#64748b;margin-right:4px;"></i> Phone Number</label>
+                                    <input type="tel" id="prof-phone" placeholder="+251 91 234 5678" value="+251963391736">
+                                </div>
+                            </div>
+                            <div class="cl-form-row" style="margin-top:12px;">
+                                <div class="cl-form-group">
+                                    <label><i class="fas fa-location-dot" style="color:#64748b;margin-right:4px;"></i> Location (City, Country)</label>
+                                    <input type="text" id="prof-location" placeholder="e.g. Addis Ababa, Ethiopia" value="Addis Ababa, Ethiopia">
+                                </div>
+                                <div class="cl-form-group">
+                                    <label><i class="fab fa-linkedin" style="color:#0077b5;margin-right:4px;"></i> LinkedIn Profile</label>
+                                    <input type="text" id="prof-linkedin" placeholder="linkedin.com/in/username" value="linkedin.com/in/telaynew">
+                                </div>
+                            </div>
+                            <div class="cl-form-row" style="margin-top:12px;">
+                                <div class="cl-form-group">
+                                    <label><i class="fab fa-github" style="color:#181717;margin-right:4px;"></i> GitHub Profile</label>
+                                    <input type="text" id="prof-github" placeholder="github.com/username" value="github.com/telaynew12">
+                                </div>
+                                <div class="cl-form-group">
+                                    <label><i class="fas fa-globe" style="color:#2563eb;margin-right:4px;"></i> Portfolio / Website</label>
+                                    <input type="text" id="prof-website" placeholder="https://yourportfolio.com" value="https://ethpro.online">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. WORK EXPERIENCE HISTORY -->
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <div class="profile-card-title">
+                                    <i class="fas fa-briefcase" style="color:#2563eb;"></i> Master Work Experience
+                                </div>
+                                <button type="button" class="btn-profile-add" onclick="addProfileExperience()">
+                                    <i class="fas fa-plus"></i> Add Experience
+                                </button>
+                            </div>
+                            <div id="prof-experience-list" style="display:flex;flex-direction:column;gap:14px;">
+                                <!-- Dynamically populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- 4. EDUCATION & QUALIFICATIONS -->
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <div class="profile-card-title">
+                                    <i class="fas fa-graduation-cap" style="color:#2563eb;"></i> Master Education &amp; Degrees
+                                </div>
+                                <button type="button" class="btn-profile-add" onclick="addProfileEducation()">
+                                    <i class="fas fa-plus"></i> Add Education
+                                </button>
+                            </div>
+                            <div id="prof-education-list" style="display:flex;flex-direction:column;gap:14px;">
+                                <!-- Dynamically populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- 5. SKILLS & COMPETENCIES -->
+                        <div class="profile-card">
+                            <div class="profile-card-header">
+                                <div class="profile-card-title">
+                                    <i class="fas fa-tools" style="color:#2563eb;"></i> Master Skills &amp; Competencies
+                                </div>
+                                <span style="font-size:12px;color:#64748b;">Pushed to CV Skills section</span>
+                            </div>
+
+                            <div style="display:flex;gap:10px;margin-bottom:14px;">
+                                <input type="text" id="prof-skill-input" placeholder="Type a skill (e.g. Docker, Python, React) and press Enter or Add" style="flex:1;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13.5px;" onkeydown="if(event.key==='Enter'){event.preventDefault();addProfileSkill();}">
+                                <button type="button" class="btn btn-secondary" onclick="addProfileSkill()" style="padding:8px 16px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:8px;font-weight:600;cursor:pointer;">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+
+                            <div id="prof-skills-container" style="display:flex;flex-wrap:wrap;gap:8px;min-height:38px;">
+                                <!-- Skills tags populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- BOTTOM ACTION BAR -->
+                        <div style="display:flex;justify-content:space-between;align-items:center;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:20px 24px;box-shadow:0 1px 3px rgba(0,0,0,0.05);margin-top:24px;flex-wrap:wrap;gap:14px;">
+                            <div>
+                                <div style="font-size:14px;font-weight:700;color:#0f172a;">Ready to extract into your CV?</div>
+                                <div style="font-size:12.5px;color:#64748b;">Extracting transfers your profile data directly into the CV Document Editor without overwriting your preferred layout template.</div>
+                            </div>
+                            <div style="display:flex;gap:10px;align-items:center;">
+                                <button type="button" class="btn btn-outline" onclick="saveMasterProfile()" style="padding:10px 18px;font-weight:600;">
+                                    <i class="fas fa-floppy-disk"></i> Save Profile
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="buildCVFromMasterProfile()" style="padding:10px 22px;font-weight:700;display:inline-flex;align-items:center;gap:8px;">
+                                    <i class="fas fa-wand-magic-sparkles"></i> Build CV from Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 2. CV DOCUMENT EDITOR VIEW (Active on "New CV", Wizard Completion, or Editor Mode) -->
                 <div id="view-editor" class="workspace-view">
 
@@ -5579,6 +5966,17 @@ body {
                         </select>
                         <div id="header-save-pill"><span class="save-dot"></span><span id="save-status-text">Saved</span></div>
                         <button type="button" id="btn-download-top" onclick="downloadActiveDocPdf()"></button>
+                    </div>
+
+                    <!-- Editor Actions Toolbar: Auto-fill from Profile & Collapse/Expand All -->
+                    <div class="cv-editor-actions-bar" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:10px;flex-wrap:wrap;">
+                        <button type="button" class="btn-import-profile-toggle" onclick="buildCVFromMasterProfile()" title="Import career details from your Master Profile">
+                            <i class="fas fa-wand-magic-sparkles" style="color:#2563eb;"></i> Auto-fill from Profile
+                        </button>
+                        <button type="button" class="btn-collapse-toggle-all" id="btn-collapse-all" onclick="toggleCollapseAll()" title="Collapse all CV sections">
+                            <i class="fas fa-angles-up" id="btn-collapse-all-icon"></i>
+                            <span id="collapse-toggle-text">Collapse All</span>
+                        </button>
                     </div>
 
                     <!-- Main Header (Contact Info) Card -->
@@ -6292,14 +6690,14 @@ body {
                     <p class="auth-subheading">Start building your CV in under a minute.</p>
 
                     <!-- Google Auth Button -->
-                    <button type="button" class="auth-btn-google" onclick="handleSocialAuth('Google')">
+                    <button type="button" class="auth-btn-google" id="btn-google-auth-signup" onclick="handleSocialAuth('google')">
                         <svg width="18" height="18" viewBox="0 0 24 24" style="margin-right:8px;">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                         </svg>
-                        Continue with Google
+                        <span class="g-btn-text">Continue with Google</span>
                     </button>
 
                     <!-- Divider -->
@@ -6808,6 +7206,30 @@ body {
             updateLivePreview();
         }
 
+        // Dynamically update Collapse All / Expand All button label and icon
+        function updateCollapseAllButtonState() {
+            const allCards = Array.from(document.querySelectorAll('#header-editor-card, .section-box'));
+            if (allCards.length === 0) return;
+
+            // Check if every card is currently collapsed
+            const allAreCollapsed = allCards.every(c => c.classList.contains('is-collapsed'));
+
+            const btnText = document.getElementById('collapse-toggle-text');
+            const btnIcon = document.getElementById('btn-collapse-all-icon');
+            const btn = document.getElementById('btn-collapse-all');
+
+            if (allAreCollapsed) {
+                if (btnText) btnText.textContent = 'Expand All';
+                if (btnIcon) btnIcon.className = 'fas fa-angles-down';
+                if (btn) btn.setAttribute('title', 'Expand all CV sections');
+            } else {
+                // If even one is not collapsed, display "Collapse All"
+                if (btnText) btnText.textContent = 'Collapse All';
+                if (btnIcon) btnIcon.className = 'fas fa-angles-up';
+                if (btn) btn.setAttribute('title', 'Collapse all CV sections');
+            }
+        }
+
         // Toggle Collapse for a single section
         function toggleCollapseSection(id) {
             const sec = document.querySelector(`.section-box[data-id="${id}"]`);
@@ -6817,6 +7239,7 @@ body {
             if (icon) {
                 icon.className = sec.classList.contains('is-collapsed') ? 'fas fa-angle-right collapse-icon' : 'fas fa-angle-down collapse-icon';
             }
+            updateCollapseAllButtonState();
         }
 
         // Toggle Collapse for Main Header
@@ -6828,38 +7251,31 @@ body {
             if (icon) {
                 icon.className = card.classList.contains('is-collapsed') ? 'fas fa-angle-right collapse-icon' : 'fas fa-angle-down collapse-icon';
             }
+            updateCollapseAllButtonState();
         }
 
         // Toggle Collapse for All sections (including header)
+        // If all are currently collapsed -> expand all; otherwise -> collapse all
         function toggleCollapseAll() {
-            allCollapsed = !allCollapsed;
-            document.querySelectorAll('.section-box').forEach(sec => {
-                if (allCollapsed) {
-                    sec.classList.add('is-collapsed');
-                    const icon = sec.querySelector('.collapse-icon');
+            const allCards = Array.from(document.querySelectorAll('#header-editor-card, .section-box'));
+            if (allCards.length === 0) return;
+
+            const allAreCollapsed = allCards.every(c => c.classList.contains('is-collapsed'));
+            const shouldCollapse = !allAreCollapsed;
+
+            allCards.forEach(card => {
+                if (shouldCollapse) {
+                    card.classList.add('is-collapsed');
+                    const icon = card.querySelector('.collapse-icon');
                     if (icon) icon.className = 'fas fa-angle-right collapse-icon';
                 } else {
-                    sec.classList.remove('is-collapsed');
-                    const icon = sec.querySelector('.collapse-icon');
+                    card.classList.remove('is-collapsed');
+                    const icon = card.querySelector('.collapse-icon');
                     if (icon) icon.className = 'fas fa-angle-down collapse-icon';
                 }
             });
 
-            // Also collapse / expand Main Header
-            const headerCard = document.getElementById('header-editor-card');
-            if (headerCard) {
-                if (allCollapsed) {
-                    headerCard.classList.add('is-collapsed');
-                    const icon = headerCard.querySelector('.collapse-icon');
-                    if (icon) icon.className = 'fas fa-angle-right collapse-icon';
-                } else {
-                    headerCard.classList.remove('is-collapsed');
-                    const icon = headerCard.querySelector('.collapse-icon');
-                    if (icon) icon.className = 'fas fa-angle-down collapse-icon';
-                }
-            }
-
-            document.getElementById('collapse-toggle-text').innerText = allCollapsed ? 'Expand Cards' : 'Collapse Cards';
+            updateCollapseAllButtonState();
         }
 
         // Move Section Up button
@@ -6931,6 +7347,7 @@ body {
                 sec.remove();
                 updateAllOrders();
                 updateLivePreview();
+                updateCollapseAllButtonState();
                 showToast("Section deleted");
             }
         }
@@ -9842,6 +10259,7 @@ function downloadCVPdf() {
             if (mainContainer.children.length > 0 || sideContainer.children.length > 0) {
                 updateAllOrders();
                 updateLivePreview();
+                if (typeof updateCollapseAllButtonState === 'function') updateCollapseAllButtonState();
                 return;
             }
 
@@ -9856,6 +10274,7 @@ function downloadCVPdf() {
             updateAllOrders();
             updatePhotoEditorUI();
             updateLivePreview();
+            if (typeof updateCollapseAllButtonState === 'function') updateCollapseAllButtonState();
         }
 
         // Run initialization immediately if DOM is ready, or on DOMContentLoaded
@@ -10378,15 +10797,17 @@ function handleSignupSubmit() {
 }
 
 function handleSocialAuth(provider) {
-    closeSignupPage();
-    switchWorkspaceView('dashboard');
-    showToast(`Connected with ${provider}! Welcome to CVForge.`);
+    if (typeof initiateGoogleSignIn === 'function') {
+        initiateGoogleSignIn();
+    }
 }
 
 function handleLoginClick() {
     closeSignupPage();
-    switchWorkspaceView('dashboard');
-    showToast("Logged in successfully as Telaynew Ambachew.");
+    showAuthOverlay();
+    if (typeof switchAuthTab === 'function') {
+        switchAuthTab('login');
+    }
 }
 
 function handleSignOut() {
@@ -11488,11 +11909,21 @@ function triggerAutoSave() {
 
 // ── Backend API Integration & State Persistence ─────────────────────────
 // Auto-detect environment: localhost uses local NestJS, production uses deployed backend URL
-window.API_BASE = window.API_BASE || localStorage.getItem('cv_api_base') || (
+function normalizeApiBase(url) {
+    if (!url) return 'http://localhost:3000/api';
+    url = url.trim().replace(/\/+$/, '');
+    if (!url.endsWith('/api')) {
+        url += '/api';
+    }
+    return url;
+}
+window.API_BASE = normalizeApiBase(window.API_BASE || localStorage.getItem('cv_api_base') || (
     window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:'
         ? 'http://localhost:3000/api'
         : (window.location.origin + '/api')
-);
+));
+var API_BASE = window.API_BASE;
+console.log('[API] Active Backend URL:', window.API_BASE);
 let authToken = localStorage.getItem('cv_jwt_token') || null;
 
 function getAuthHeaders() {
@@ -11946,25 +12377,656 @@ function handleSignOut() {
     showAuthOverlay();
 }
 
-function handleSocialAuth(provider) {
-    const mockUser = {
-        id: 'google_mock_' + Date.now(),
-        name: 'Telaynew Ambachew',
-        email: 'telaynew11@gmail.com',
-        initials: 'TA'
+// ── Google OAuth 2.0 (Google Identity Services) ────────────────────────
+let googleAuthInitialized = false;
+
+function initGoogleOAuth() {
+    const clientId = window.GOOGLE_CLIENT_ID || '918237465012-sampleclientid.apps.googleusercontent.com';
+    if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+        return false;
+    }
+    if (googleAuthInitialized) return true;
+
+    try {
+        window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: handleGoogleCredentialResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true
+        });
+        googleAuthInitialized = true;
+
+        // Render hidden button container for programmatic trigger
+        let hiddenBtnContainer = document.getElementById('g_id_signin_hidden');
+        if (!hiddenBtnContainer) {
+            hiddenBtnContainer = document.createElement('div');
+            hiddenBtnContainer.id = 'g_id_signin_hidden';
+            hiddenBtnContainer.style.position = 'fixed';
+            hiddenBtnContainer.style.top = '-9999px';
+            hiddenBtnContainer.style.left = '-9999px';
+            hiddenBtnContainer.style.width = '1px';
+            hiddenBtnContainer.style.height = '1px';
+            hiddenBtnContainer.style.opacity = '0.01';
+            hiddenBtnContainer.style.pointerEvents = 'none';
+            document.body.appendChild(hiddenBtnContainer);
+        }
+        window.google.accounts.id.renderButton(hiddenBtnContainer, {
+            type: 'standard',
+            theme: 'outline',
+            size: 'large'
+        });
+        return true;
+    } catch (err) {
+        console.warn('Google Identity Services initialization warning:', err);
+        return false;
+    }
+}
+
+function setGoogleButtonsLoading(isLoading) {
+    const btnIds = ['btn-google-auth-overlay', 'btn-google-auth-signup'];
+    btnIds.forEach(id => {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        btn.disabled = isLoading;
+        const textSpan = btn.querySelector('.g-btn-text');
+        if (isLoading) {
+            if (textSpan) {
+                if (!textSpan.dataset.originalText) textSpan.dataset.originalText = textSpan.textContent;
+                textSpan.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i> Connecting to Google…';
+            }
+        } else {
+            if (textSpan && textSpan.dataset.originalText) {
+                textSpan.textContent = textSpan.dataset.originalText;
+            }
+        }
+    });
+}
+
+function initiateGoogleSignIn() {
+    setGoogleButtonsLoading(true);
+
+    const resetSafetyTimer = setTimeout(() => {
+        setGoogleButtonsLoading(false);
+    }, 15000);
+
+    const tryLaunch = () => {
+        if (!googleAuthInitialized) {
+            initGoogleOAuth();
+        }
+
+        // Programmatic trigger via rendered hidden button
+        const renderedBtn = document.querySelector('#g_id_signin_hidden div[role=button]');
+        if (renderedBtn) {
+            renderedBtn.click();
+            return;
+        }
+
+        // Fallback: prompt One Tap
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+            window.google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    clearTimeout(resetSafetyTimer);
+                    setGoogleButtonsLoading(false);
+                    const cId = window.GOOGLE_CLIENT_ID || '';
+                    if (!cId || cId.includes('sampleclientid') || cId.includes('your_google_client_id')) {
+                        showToast('Google OAuth: set your real GOOGLE_CLIENT_ID in .env or Google Cloud Console.');
+                    } else {
+                        showToast('Please allow popups / cookies for Google Sign-In.');
+                    }
+                }
+            });
+        } else {
+            clearTimeout(resetSafetyTimer);
+            setGoogleButtonsLoading(false);
+            showToast('Google Sign-In is temporarily unreachable. Please check your connection.');
+        }
     };
-    signInUser(mockUser);
-    showToast('Signed in with ' + (provider === 'google' ? 'Google' : provider) + ' successfully!');
+
+    if (window.google && window.google.accounts && window.google.accounts.id) {
+        tryLaunch();
+    } else {
+        let attempts = 0;
+        const checkInterval = setInterval(() => {
+            attempts++;
+            if (window.google && window.google.accounts && window.google.accounts.id) {
+                clearInterval(checkInterval);
+                tryLaunch();
+            } else if (attempts > 12) {
+                clearInterval(checkInterval);
+                clearTimeout(resetSafetyTimer);
+                setGoogleButtonsLoading(false);
+                showToast('Google sign-in script could not be loaded.');
+            }
+        }, 200);
+    }
+}
+
+function handleSocialAuth(provider) {
+    if (!provider || provider.toLowerCase() !== 'google') {
+        showToast('Authentication with ' + provider + ' is coming soon!');
+        return;
+    }
+    initiateGoogleSignIn();
+}
+
+async function handleGoogleCredentialResponse(response) {
+    if (!response || !response.credential) {
+        setGoogleButtonsLoading(false);
+        showToast('Google sign-in was cancelled or failed.');
+        return;
+    }
+
+    setGoogleButtonsLoading(true);
+
+    try {
+        const res = await fetch(`${API_BASE}/auth/google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ idToken: response.credential })
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            const token = data.access_token || data.token;
+            if (token) {
+                authToken = token;
+                localStorage.setItem('cv_jwt_token', token);
+            }
+
+            if (data.user) {
+                signInUser(data.user);
+                if (data.user.picture) {
+                    if (typeof masterProfile !== 'undefined') {
+                        masterProfile.photo = data.user.picture;
+                        try { localStorage.setItem('cv_master_profile', JSON.stringify(masterProfile)); } catch(e){}
+                    }
+                    const headerInitials = document.getElementById('header-user-initials');
+                    if (headerInitials) {
+                        headerInitials.innerHTML = `<img src="${data.user.picture}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Avatar">`;
+                    }
+                }
+            }
+
+            // Close any open auth modals
+            hideAuthOverlay();
+            closeSignupPage();
+
+            // Redirect / switch to Dashboard
+            switchView('dashboard');
+            if (typeof loadDashboardStats === 'function') loadDashboardStats();
+            if (typeof loadUserDocumentsFromBackend === 'function') loadUserDocumentsFromBackend();
+
+            showToast(`Welcome, ${data.user?.name || 'User'}! Connected with Google. ✨`);
+        } else {
+            const errData = await res.json().catch(() => ({}));
+            showToast(errData.message || 'Google authentication failed on server.');
+        }
+    } catch (netErr) {
+        console.error('Google Auth Network Error:', netErr);
+        showToast('Network error while connecting to authentication server.');
+    } finally {
+        setGoogleButtonsLoading(false);
+    }
 }
 
 // ── Init ──────────────────────────────────────────────────────────────
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', restoreSession);
-} else {
+function initAppAuth() {
     restoreSession();
+    initMasterProfile();
+    initGoogleOAuth();
 }
 
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAppAuth);
+} else {
+    initAppAuth();
+}
+window.addEventListener('load', () => {
+    initGoogleOAuth();
+});
+
     
+// ══════════════════════════════════════════════════════════════════════════
+// MASTER CAREER PROFILE (Central database to store & extract into CVs)
+// ══════════════════════════════════════════════════════════════════════════
+
+let masterProfile = {
+    name: "Telaynew Ambachew",
+    title: "Senior Software Engineer",
+    summary: "Dedicated and results-oriented Software Engineer with extensive experience in architecting scalable web applications, RESTful APIs, distributed microservices, and database systems. Proven track record in full-stack development, cloud deployment, and system reliability.",
+    email: "telaynew11@gmail.com",
+    phone: "+251963391736",
+    location: "Addis Ababa, Ethiopia",
+    linkedin: "linkedin.com/in/telaynew",
+    github: "github.com/telaynew12",
+    website: "https://ethpro.online",
+    photo: "",
+    experiences: [
+        {
+            title: "Senior Software Engineer",
+            company: "Ethiopian Electric Power (EEP)",
+            period: "2022 - Present",
+            location: "Addis Ababa, Ethiopia",
+            description: "Lead developer on corporate enterprise applications, architecting microservices, implementing automated deployment pipelines, and managing high-throughput MongoDB and SQL clusters."
+        },
+        {
+            title: "Full-Stack Web Developer",
+            company: "Tech Solutions Inc.",
+            period: "2019 - 2022",
+            location: "Addis Ababa, Ethiopia",
+            description: "Developed and maintained full-stack web applications using Node.js, NestJS, and React. Optimized query performance and improved system response time by 40%."
+        }
+    ],
+    educations: [
+        {
+            degree: "B.Sc. in Computer Science & Information Technology",
+            school: "Addis Ababa University",
+            period: "2015 - 2019",
+            details: "Graduated with High Honors. Focused on Software Engineering, Distributed Systems, and Database Management."
+        }
+    ],
+    skills: ["JavaScript", "TypeScript", "Node.js", "NestJS", "React", "MongoDB", "PostgreSQL", "Docker", "REST APIs", "Git & CI/CD", "Cloud Deployment"]
+};
+
+function initMasterProfile() {
+    try {
+        const saved = localStorage.getItem('cv_master_profile');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            masterProfile = Object.assign(masterProfile, parsed);
+        }
+    } catch (e) {
+        console.error("Error reading master profile from localStorage:", e);
+    }
+    populateProfileUI();
+}
+
+function populateProfileUI() {
+    const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el && val != null) el.value = val;
+    };
+    setVal('prof-full-name', masterProfile.name || '');
+    setVal('prof-job-title', masterProfile.title || '');
+    setVal('prof-summary', masterProfile.summary || '');
+    setVal('prof-email', masterProfile.email || '');
+    setVal('prof-phone', masterProfile.phone || '');
+    setVal('prof-location', masterProfile.location || '');
+    setVal('prof-linkedin', masterProfile.linkedin || '');
+    setVal('prof-github', masterProfile.github || '');
+    setVal('prof-website', masterProfile.website || '');
+
+    const crumb = document.getElementById('prof-crumb-name');
+    if (crumb) crumb.textContent = masterProfile.name || 'My Profile';
+
+    if (masterProfile.photo) {
+        const img = document.getElementById('prof-photo-img');
+        const placeholder = document.getElementById('prof-photo-placeholder');
+        if (img) { img.src = masterProfile.photo; img.style.display = 'block'; }
+        if (placeholder) placeholder.style.display = 'none';
+    }
+
+    renderProfileExperiences();
+    renderProfileEducations();
+    renderProfileSkills();
+}
+
+function renderProfileExperiences() {
+    const list = document.getElementById('prof-experience-list');
+    if (!list) return;
+    list.innerHTML = '';
+    (masterProfile.experiences || []).forEach((exp, idx) => {
+        const div = document.createElement('div');
+        div.className = 'profile-entry-box';
+        div.innerHTML = `
+            <button type="button" class="btn-remove-entry" onclick="removeProfileExperience(${idx})" title="Delete entry">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <div class="cl-form-row">
+                <div class="cl-form-group">
+                    <label>Job Title / Role</label>
+                    <input type="text" class="prof-exp-title" value="${exp.title || ''}" placeholder="e.g. Senior Software Engineer">
+                </div>
+                <div class="cl-form-group">
+                    <label>Company / Organization</label>
+                    <input type="text" class="prof-exp-company" value="${exp.company || ''}" placeholder="e.g. Ethiopian Electric Power">
+                </div>
+            </div>
+            <div class="cl-form-row" style="margin-top:10px;">
+                <div class="cl-form-group">
+                    <label>Period / Dates</label>
+                    <input type="text" class="prof-exp-period" value="${exp.period || ''}" placeholder="e.g. 2022 - Present">
+                </div>
+                <div class="cl-form-group">
+                    <label>Location</label>
+                    <input type="text" class="prof-exp-location" value="${exp.location || ''}" placeholder="e.g. Addis Ababa, Ethiopia">
+                </div>
+            </div>
+            <div class="cl-form-group" style="margin-top:10px;">
+                <label>Key Responsibilities & Achievements</label>
+                <textarea rows="3" class="prof-exp-desc" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:6px;font-family:inherit;font-size:13px;resize:vertical;" placeholder="Describe your duties, impact, tools used...">${exp.description || ''}</textarea>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+function addProfileExperience() {
+    gatherProfileExperiencesFromDOM();
+    if (!masterProfile.experiences) masterProfile.experiences = [];
+    masterProfile.experiences.unshift({
+        title: "",
+        company: "",
+        period: "Present",
+        location: "",
+        description: ""
+    });
+    renderProfileExperiences();
+}
+
+function removeProfileExperience(idx) {
+    gatherProfileExperiencesFromDOM();
+    masterProfile.experiences.splice(idx, 1);
+    renderProfileExperiences();
+}
+
+function gatherProfileExperiencesFromDOM() {
+    const list = document.getElementById('prof-experience-list');
+    if (!list) return;
+    const boxes = list.querySelectorAll('.profile-entry-box');
+    masterProfile.experiences = Array.from(boxes).map(box => ({
+        title: (box.querySelector('.prof-exp-title')?.value || '').trim(),
+        company: (box.querySelector('.prof-exp-company')?.value || '').trim(),
+        period: (box.querySelector('.prof-exp-period')?.value || '').trim(),
+        location: (box.querySelector('.prof-exp-location')?.value || '').trim(),
+        description: (box.querySelector('.prof-exp-desc')?.value || '').trim()
+    }));
+}
+
+function renderProfileEducations() {
+    const list = document.getElementById('prof-education-list');
+    if (!list) return;
+    list.innerHTML = '';
+    (masterProfile.educations || []).forEach((edu, idx) => {
+        const div = document.createElement('div');
+        div.className = 'profile-entry-box';
+        div.innerHTML = `
+            <button type="button" class="btn-remove-entry" onclick="removeProfileEducation(${idx})" title="Delete entry">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+            <div class="cl-form-row">
+                <div class="cl-form-group">
+                    <label>Degree / Field of Study</label>
+                    <input type="text" class="prof-edu-degree" value="${edu.degree || ''}" placeholder="e.g. B.Sc. in Computer Science">
+                </div>
+                <div class="cl-form-group">
+                    <label>Institution / University</label>
+                    <input type="text" class="prof-edu-school" value="${edu.school || ''}" placeholder="e.g. Addis Ababa University">
+                </div>
+            </div>
+            <div class="cl-form-row" style="margin-top:10px;">
+                <div class="cl-form-group">
+                    <label>Graduation Year / Period</label>
+                    <input type="text" class="prof-edu-period" value="${edu.period || ''}" placeholder="e.g. 2015 - 2019">
+                </div>
+                <div class="cl-form-group">
+                    <label>Honors / Highlights / GPA</label>
+                    <input type="text" class="prof-edu-details" value="${edu.details || ''}" placeholder="e.g. Graduated with Honors">
+                </div>
+            </div>
+        `;
+        list.appendChild(div);
+    });
+}
+
+function addProfileEducation() {
+    gatherProfileEducationsFromDOM();
+    if (!masterProfile.educations) masterProfile.educations = [];
+    masterProfile.educations.unshift({
+        degree: "",
+        school: "",
+        period: "",
+        details: ""
+    });
+    renderProfileEducations();
+}
+
+function removeProfileEducation(idx) {
+    gatherProfileEducationsFromDOM();
+    masterProfile.educations.splice(idx, 1);
+    renderProfileEducations();
+}
+
+function gatherProfileEducationsFromDOM() {
+    const list = document.getElementById('prof-education-list');
+    if (!list) return;
+    const boxes = list.querySelectorAll('.profile-entry-box');
+    masterProfile.educations = Array.from(boxes).map(box => ({
+        degree: (box.querySelector('.prof-edu-degree')?.value || '').trim(),
+        school: (box.querySelector('.prof-edu-school')?.value || '').trim(),
+        period: (box.querySelector('.prof-edu-period')?.value || '').trim(),
+        details: (box.querySelector('.prof-edu-details')?.value || '').trim()
+    }));
+}
+
+function renderProfileSkills() {
+    const container = document.getElementById('prof-skills-container');
+    if (!container) return;
+    container.innerHTML = '';
+    (masterProfile.skills || []).forEach((skill, idx) => {
+        const span = document.createElement('span');
+        span.className = 'skill-pill-tag';
+        span.innerHTML = `
+            <span>${skill}</span>
+            <span class="skill-pill-remove" onclick="removeProfileSkill(${idx})" title="Remove skill">&times;</span>
+        `;
+        container.appendChild(span);
+    });
+}
+
+function addProfileSkill() {
+    const input = document.getElementById('prof-skill-input');
+    if (!input) return;
+    const val = input.value.trim();
+    if (!val) return;
+    const parts = val.split(',').map(s => s.trim()).filter(Boolean);
+    if (!masterProfile.skills) masterProfile.skills = [];
+    parts.forEach(p => {
+        if (!masterProfile.skills.includes(p)) {
+            masterProfile.skills.push(p);
+        }
+    });
+    input.value = '';
+    renderProfileSkills();
+}
+
+function removeProfileSkill(idx) {
+    masterProfile.skills.splice(idx, 1);
+    renderProfileSkills();
+}
+
+function handleProfilePhotoUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+        masterProfile.photo = evt.target.result;
+        const img = document.getElementById('prof-photo-img');
+        const placeholder = document.getElementById('prof-photo-placeholder');
+        if (img) { img.src = masterProfile.photo; img.style.display = 'block'; }
+        if (placeholder) placeholder.style.display = 'none';
+        showToast("Profile photo uploaded");
+    };
+    reader.readAsDataURL(file);
+}
+
+function saveMasterProfile(silent = false) {
+    const getVal = (id) => (document.getElementById(id)?.value || '').trim();
+    masterProfile.name = getVal('prof-full-name') || masterProfile.name;
+    masterProfile.title = getVal('prof-job-title') || masterProfile.title;
+    masterProfile.summary = getVal('prof-summary') || masterProfile.summary;
+    masterProfile.email = getVal('prof-email') || masterProfile.email;
+    masterProfile.phone = getVal('prof-phone') || masterProfile.phone;
+    masterProfile.location = getVal('prof-location') || masterProfile.location;
+    masterProfile.linkedin = getVal('prof-linkedin') || masterProfile.linkedin;
+    masterProfile.github = getVal('prof-github') || masterProfile.github;
+    masterProfile.website = getVal('prof-website') || masterProfile.website;
+
+    gatherProfileExperiencesFromDOM();
+    gatherProfileEducationsFromDOM();
+
+    try {
+        localStorage.setItem('cv_master_profile', JSON.stringify(masterProfile));
+    } catch (e) {
+        console.warn("Could not write master profile to localStorage:", e);
+    }
+
+    const initials = (masterProfile.name || 'TA').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+    const dropdownName = document.getElementById('dropdown-user-name');
+    const dropdownEmail = document.getElementById('dropdown-user-email');
+    const headerInitials = document.getElementById('header-user-initials');
+    const crumb = document.getElementById('prof-crumb-name');
+    if (dropdownName) dropdownName.textContent = masterProfile.name;
+    if (dropdownEmail) dropdownEmail.textContent = masterProfile.email;
+    if (headerInitials) headerInitials.textContent = initials;
+    if (crumb) crumb.textContent = masterProfile.name;
+
+    if (!silent) showToast("Master Profile saved successfully!");
+}
+
+function buildCVFromMasterProfile() {
+    saveMasterProfile(true);
+
+    // 1. Set Name & Title in CV Editor
+    const nameInput = document.getElementById('userName');
+    const titleInput = document.getElementById('userTitle');
+    const docTitleInput = document.getElementById('doc-title-input');
+
+    if (nameInput) nameInput.value = masterProfile.name;
+    if (titleInput) titleInput.value = masterProfile.title;
+    if (docTitleInput) docTitleInput.value = masterProfile.name + ' - CV';
+
+    // 2. Set Photo in CV Editor if available
+    if (masterProfile.photo) {
+        userPhotoDataUrl = masterProfile.photo;
+        if (typeof CV_ASSETS !== 'undefined') CV_ASSETS.avatar = masterProfile.photo;
+        updatePhotoEditorUI();
+    }
+
+    // 3. Set Contacts in CV Editor
+    const contactList = document.getElementById('contact-list');
+    if (contactList) {
+        contactList.innerHTML = '';
+        const contactsToExtract = [
+            { icon: 'fas fa-phone', label: 'Phone', val: masterProfile.phone },
+            { icon: 'fas fa-envelope', label: 'Email', val: masterProfile.email },
+            { icon: 'fas fa-location-dot', label: 'Location', val: masterProfile.location },
+            { icon: 'fab fa-linkedin', label: 'LinkedIn', val: masterProfile.linkedin },
+            { icon: 'fab fa-github', label: 'GitHub', val: masterProfile.github },
+            { icon: 'fas fa-globe', label: 'Website', val: masterProfile.website }
+        ].filter(c => Boolean(c.val));
+
+        contactsToExtract.forEach(c => {
+            const row = document.createElement('div');
+            row.className = 'row-item';
+            row.style.padding = '4px 0';
+            row.innerHTML = `
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span class="contact-drag-handle drag-handle" title="Drag to reorder contact"><i class="fas fa-grip-vertical"></i></span>
+                    <div class="contact-type-badge">
+                        <i class="${c.icon}"></i>
+                        <span>${c.label}</span>
+                    </div>
+                    <input type="hidden" class="c-icon" value="${c.icon}">
+                    <input type="text" class="c-val" value="${c.val}" style="flex-grow:1;" oninput="updateLivePreview()">
+                    <button type="button" class="btn-remove-row" onclick="this.closest('.row-item').remove(); updateLivePreview();">×</button>
+                </div>
+            `;
+            contactList.appendChild(row);
+        });
+    }
+
+    // 4. Update or Populate CV Sections (Experience, Education, Skills)
+    const mainSec = document.getElementById('main-sections-container');
+    const sideSec = document.getElementById('side-sections-container');
+    if (mainSec && sideSec) {
+        mainSec.innerHTML = '';
+        sideSec.innerHTML = '';
+
+        // Add Experience section
+        if (masterProfile.experiences && masterProfile.experiences.length > 0) {
+            addNewSection({
+                title: "EXPERIENCE",
+                col: "main",
+                order: 1,
+                items: masterProfile.experiences.map((exp, idx) => ({
+                    title: exp.title,
+                    sub: exp.company + (exp.location ? ' | ' + exp.location : ''),
+                    date: exp.period,
+                    bullets: exp.description,
+                    order: idx + 1
+                }))
+            });
+        }
+
+        // Add Education section
+        if (masterProfile.educations && masterProfile.educations.length > 0) {
+            addNewSection({
+                title: "EDUCATION",
+                col: "main",
+                order: 2,
+                items: masterProfile.educations.map((edu, idx) => ({
+                    title: edu.degree,
+                    sub: edu.school,
+                    date: edu.period,
+                    bullets: edu.details,
+                    order: idx + 1
+                }))
+            });
+        }
+
+        // Add Skills section (in side column)
+        if (masterProfile.skills && masterProfile.skills.length > 0) {
+            addNewSection({
+                title: "SKILLS",
+                col: "side",
+                order: 1,
+                items: masterProfile.skills.map((s, idx) => ({
+                    title: s,
+                    sub: "",
+                    date: "",
+                    bullets: "",
+                    order: idx + 1
+                }))
+            });
+        }
+
+        // Add Summary section (in side column)
+        if (masterProfile.summary) {
+            addNewSection({
+                title: "PROFESSIONAL PROFILE",
+                col: "side",
+                order: 2,
+                items: [{
+                    title: "",
+                    sub: "",
+                    date: "",
+                    bullets: masterProfile.summary,
+                    order: 1
+                }]
+            });
+        }
+    }
+
+    updateAllOrders();
+    updateLivePreview();
+    if (typeof updateCollapseAllButtonState === 'function') updateCollapseAllButtonState();
+
+    // 5. Navigate to Editor View
+    switchView('editor');
+    showToast("CV successfully built with information extracted from your Profile!");
+}
+
 // ════════════════════════════════════════════════════════════════
 // NEW: switchView, Documents Table, Create New Modal
 // ════════════════════════════════════════════════════════════════
@@ -11977,6 +13039,7 @@ const VIEW_CONFIG = {
     'cover-letter': { view: 'view-cover-letter', nav: null,       showPreview: true },
     'saved':     { view: 'view-saved',     nav: 'hnav-documents', showPreview: false },
     'templates': { view: 'view-templates', nav: 'hnav-documents', showPreview: false },
+    'profile':   { view: 'view-profile',   nav: null,             showPreview: false },
     'settings':  { view: 'view-settings',  nav: null,             showPreview: false },
 };
 
@@ -12010,6 +13073,7 @@ function switchView(view) {
     if (previewPane) previewPane.style.display = cfg.showPreview ? '' : 'none';
 
     // Also update app-layout flex direction
+    const appLayout = document.querySelector('.app-layout');
     if (appLayout) {
         if (cfg.showPreview) {
             appLayout.classList.remove('full-width-view');
@@ -12042,6 +13106,8 @@ function switchView(view) {
         loadDocumentsTable();
     } else if (view === 'dashboard') {
         loadDashboardStats();
+    } else if (view === 'profile') {
+        if (typeof initMasterProfile === 'function') initMasterProfile();
     }
 }
 
@@ -12217,6 +13283,7 @@ function populateCVEditorFromData(data) {
                 addNewSection(sec);
             }
         });
+        if (typeof updateCollapseAllButtonState === 'function') updateCollapseAllButtonState();
     }
 
     if (typeof updateLivePreview === 'function') updateLivePreview();

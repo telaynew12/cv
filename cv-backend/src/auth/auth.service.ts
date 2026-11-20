@@ -1,16 +1,31 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { OAuth2Client } from 'google-auth-library';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
+  private googleClient: OAuth2Client;
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    const clientId =
+      this.configService.get<string>('GOOGLE_CLIENT_ID') ||
+      process.env.GOOGLE_CLIENT_ID ||
+      '';
+    this.googleClient = new OAuth2Client(clientId);
+  }
 
   private computeInitials(name: string): string {
     return name
@@ -46,6 +61,7 @@ export class AuthService {
 
     return {
       message: 'Account created successfully',
+      access_token: token,
       token,
       user: {
         id: user._id.toString(),
@@ -63,6 +79,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password credentials.');
     }
 
+    if (!user.password) {
+      throw new UnauthorizedException(
+        'This account was created using Google Sign-In. Please click "Continue with Google".',
+      );
+    }
+
     const isMatch = await bcrypt.compare(loginDto.password, user.password);
     if (!isMatch) {
       throw new UnauthorizedException('Invalid email or password credentials.');
@@ -78,15 +100,113 @@ export class AuthService {
 
     return {
       message: 'Logged in successfully',
+      access_token: token,
       token,
       user: {
         id: user._id.toString(),
         name: user.name,
         email: user.email,
         initials: user.initials,
+        picture: user.picture || user.avatar,
+        avatar: user.avatar || user.picture,
+        role: user.role,
+      },
+    };
+  }
+
+  async authenticateWithGoogle(idToken: string) {
+    if (!idToken) {
+      throw new UnauthorizedException('Google ID token is required');
+    }
+
+    const clientId =
+      this.configService.get<string>('GOOGLE_CLIENT_ID') ||
+      process.env.GOOGLE_CLIENT_ID ||
+      '';
+
+    let payload: any;
+    try {
+      const ticket = await this.googleClient.verifyIdToken({
+        idToken,
+        audience: clientId || undefined,
+      });
+      payload = ticket.getPayload();
+    } catch (err: any) {
+      // In development / testing without a valid client ID configured, allow fallback payload decoding if needed
+      throw new UnauthorizedException(
+        `Invalid Google ID token: ${err.message || 'Verification failed'}`,
+      );
+    }
+
+    if (!payload || !payload.email) {
+      throw new UnauthorizedException(
+        'Google profile does not contain a verified email address.',
+      );
+    }
+
+    const googleId = payload.sub;
+    const email = payload.email.toLowerCase().trim();
+    const name = payload.name || payload.email.split('@')[0];
+    const picture = payload.picture || '';
+
+    // 1. Look up user by googleId
+    let user = await this.usersService.findByGoogleId(googleId);
+
+    // 2. If not found by googleId, look up by email to link account
+    if (!user) {
+      user = await this.usersService.findByEmail(email);
+      if (user) {
+        user = await this.usersService.updateGoogleId(
+          user._id.toString(),
+          googleId,
+          picture,
+        );
+      } else {
+        // 3. Create brand-new user (Sign Up)
+        const initials = this.computeInitials(name);
+        user = await this.usersService.create({
+          name,
+          email,
+          password: '',
+          googleId,
+          picture,
+          avatar: picture,
+          initials,
+        });
+      }
+    } else if (picture && (!user.picture || !user.avatar)) {
+      user = await this.usersService.updateGoogleId(
+        user._id.toString(),
+        googleId,
+        picture,
+      );
+    }
+
+    if (!user) {
+      throw new UnauthorizedException('Failed to process Google authentication.');
+    }
+
+    await this.usersService.updateLastLogin(user._id.toString());
+
+    const token = this.jwtService.sign({
+      sub: user._id.toString(),
+      email: user.email,
+      name: user.name,
+    });
+
+    return {
+      message: 'Authenticated with Google successfully',
+      access_token: token,
+      token,
+      user: {
+        id: user._id.toString(),
+        name: user.name,
+        email: user.email,
+        initials: user.initials,
+        picture: user.picture || user.avatar,
+        avatar: user.avatar || user.picture,
         role: user.role,
       },
     };
   }
 }
-

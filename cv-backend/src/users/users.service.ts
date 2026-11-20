@@ -18,6 +18,25 @@ export class UsersService {
     return this.userModel.findOne({ email: email.toLowerCase().trim() }).exec();
   }
 
+  async findByGoogleId(googleId: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ googleId }).exec();
+  }
+
+  async updateGoogleId(
+    userId: string,
+    googleId: string,
+    picture?: string,
+  ): Promise<UserDocument | null> {
+    const updateData: any = { googleId };
+    if (picture) {
+      updateData.picture = picture;
+      updateData.avatar = picture;
+    }
+    return this.userModel
+      .findByIdAndUpdate(userId, updateData, { new: true })
+      .exec();
+  }
+
   async findById(id: string): Promise<UserDocument | null> {
     return this.userModel.findById(id).exec();
   }
@@ -26,4 +45,3 @@ export class UsersService {
     await this.userModel.findByIdAndUpdate(id, { lastLoginAt: new Date() }).exec();
   }
 }
-
