@@ -12445,17 +12445,57 @@ function setGoogleButtonsLoading(isLoading) {
     });
 }
 
-function initiateGoogleSignIn() {
+function loadGoogleGsiScript() {
+    return new Promise((resolve, reject) => {
+        if (window.google && window.google.accounts && window.google.accounts.id) {
+            return resolve();
+        }
+        let script = document.querySelector('script[src*="accounts.google.com/gsi/client"]');
+        if (!script) {
+            script = document.createElement('script');
+            script.src = 'https://accounts.google.com/gsi/client';
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        let settled = false;
+        script.addEventListener('load', () => {
+            if (!settled) { settled = true; resolve(); }
+        });
+        script.addEventListener('error', () => {
+            if (!settled) { settled = true; reject(new Error('Blocked or network error')); }
+        });
+
+        let elapsed = 0;
+        const interval = setInterval(() => {
+            elapsed += 200;
+            if (window.google && window.google.accounts && window.google.accounts.id) {
+                clearInterval(interval);
+                if (!settled) { settled = true; resolve(); }
+            } else if (elapsed >= 8000) {
+                clearInterval(interval);
+                if (!settled) { settled = true; reject(new Error('Script load timeout')); }
+            }
+        }, 200);
+    });
+}
+
+async function initiateGoogleSignIn() {
+    if (window.location.protocol === 'file:') {
+        showToast('Google Sign-In cannot run from file://. Please run the local server (node server.js) and open http://localhost:8080.');
+        return;
+    }
+
     setGoogleButtonsLoading(true);
 
     const resetSafetyTimer = setTimeout(() => {
         setGoogleButtonsLoading(false);
     }, 15000);
 
-    const tryLaunch = () => {
-        if (!googleAuthInitialized) {
-            initGoogleOAuth();
-        }
+    try {
+        await loadGoogleGsiScript();
+        initGoogleOAuth();
 
         // Programmatic trigger via rendered hidden button
         const renderedBtn = document.querySelector('#g_id_signin_hidden div[role=button]');
@@ -12472,35 +12512,18 @@ function initiateGoogleSignIn() {
                     setGoogleButtonsLoading(false);
                     const cId = window.GOOGLE_CLIENT_ID || '';
                     if (!cId || cId.includes('sampleclientid') || cId.includes('your_google_client_id')) {
-                        showToast('Google OAuth: set your real GOOGLE_CLIENT_ID in .env or Google Cloud Console.');
+                        showToast('Please set your real GOOGLE_CLIENT_ID in .env or Google Cloud Console.');
                     } else {
-                        showToast('Please allow popups / cookies for Google Sign-In.');
+                        showToast('Google prompt was suppressed. Please allow popups or third-party cookies.');
                     }
                 }
             });
-        } else {
-            clearTimeout(resetSafetyTimer);
-            setGoogleButtonsLoading(false);
-            showToast('Google Sign-In is temporarily unreachable. Please check your connection.');
         }
-    };
-
-    if (window.google && window.google.accounts && window.google.accounts.id) {
-        tryLaunch();
-    } else {
-        let attempts = 0;
-        const checkInterval = setInterval(() => {
-            attempts++;
-            if (window.google && window.google.accounts && window.google.accounts.id) {
-                clearInterval(checkInterval);
-                tryLaunch();
-            } else if (attempts > 12) {
-                clearInterval(checkInterval);
-                clearTimeout(resetSafetyTimer);
-                setGoogleButtonsLoading(false);
-                showToast('Google sign-in script could not be loaded.');
-            }
-        }, 200);
+    } catch (err) {
+        clearTimeout(resetSafetyTimer);
+        setGoogleButtonsLoading(false);
+        console.error('Google Sign-In Error:', err);
+        showToast('Google Sign-In script was blocked. Please disable ad-blockers (such as uBlock or Brave Shields) or check your connection.');
     }
 }
 
