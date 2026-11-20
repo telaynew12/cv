@@ -54,7 +54,7 @@ function getGoogleClientId() {
          process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
          envVars.GOOGLE_CLIENT_ID ||
          envVars.VITE_GOOGLE_CLIENT_ID ||
-         '918237465012-sampleclientid.apps.googleusercontent.com';
+         '893410721339-q9gfq6qlu00u6pceb9sktj84e8bvac5l.apps.googleusercontent.com';
 }
 
 const port = process.env.PORT || 8080;

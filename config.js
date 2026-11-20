@@ -19,6 +19,6 @@ if (typeof window.API_BASE === 'undefined') {
 }
 var API_BASE = window.API_BASE;
 
-window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || '918237465012-sampleclientid.apps.googleusercontent.com';
+window.GOOGLE_CLIENT_ID = window.GOOGLE_CLIENT_ID || '893410721339-q9gfq6qlu00u6pceb9sktj84e8bvac5l.apps.googleusercontent.com';
 
 console.log('[Config] Active API_BASE:', window.API_BASE);
