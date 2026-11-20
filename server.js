@@ -90,7 +90,13 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  let filePath = path.join(__dirname, safePath === '/' ? 'index.html' : safePath);
+  let requestedPath = safePath;
+  // Public Privacy Policy routes
+  if (requestedPath === '/privacy' || requestedPath === '/privacy-policy') {
+    requestedPath = '/privacy.html';
+  }
+
+  let filePath = path.join(__dirname, requestedPath === '/' ? 'index.html' : requestedPath);
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {

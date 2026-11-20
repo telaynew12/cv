@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy – CVForge</title>
+    <meta name="description" content="Privacy Policy for CVForge (https://ethpro.online). Learn how we collect, use, and protect your information, including Google Sign-In data.">
+    <link rel="canonical" href="https://ethpro.online/privacy">
+    <meta property="og:title" content="Privacy Policy – CVForge">
+    <meta property="og:description" content="CVForge respects your privacy. Learn how your data is collected and securely stored. We never sell your data.">
+    <meta property="og:url" content="https://ethpro.online/privacy">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --text-dark: #0F172A;
+            --text-muted: #64748B;
+            --bg-body: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --border-color: #E2E8F0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header Navigation */
+        .header {
+            position: sticky;
+            top: 0;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #EFF6FF;
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #DBEAFE;
+        }
+
+        .btn-back:hover {
+            background: #DBEAFE;
+            color: var(--primary-dark);
+        }
+
+        /* Hero */
+        .hero {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 48px 24px 36px 24px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: #F1F5F9;
+            color: #475569;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 15px;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .effective-date {
+            margin-top: 14px;
+            font-size: 13px;
+            color: #94A3B8;
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 900px;
+            margin: 36px auto;
+            padding: 0 24px 64px 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1E293B;
+            margin: 20px 0 8px 0;
+        }
+
+        .card p {
+            font-size: 14.5px;
+            color: #334155;
+            margin-bottom: 14px;
+        }
+
+        .card ul {
+            padding-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .card li {
+            font-size: 14.5px;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        /* Highlights & Callouts */
+        .callout-box {
+            background: #F0FDF4;
+            border-left: 4px solid #16A34A;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 18px 0;
+        }
+
+        .callout-box strong {
+            color: #15803D;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .callout-box p {
+            color: #166534;
+            margin: 0;
+            font-size: 13.5px;
+        }
+
+        .callout-blue {
+            background: #EFF6FF;
+            border-left: 4px solid #2563EB;
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 18px 0;
+        }
+
+        .callout-blue strong {
+            color: #1D4ED8;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .callout-blue p {
+            color: #1E40AF;
+            margin: 0;
+            font-size: 13.5px;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border-color);
+            background: #ffffff;
+            padding: 32px 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <a href="/" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <span>CVForge</span>
+            </a>
+            <a href="/" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Back to CVForge
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Title -->
+    <section class="hero">
+        <div class="hero-badge">
+            <i class="fas fa-shield-halved"></i> Transparency &amp; User Protection
+        </div>
+        <h1>Privacy Policy</h1>
+        <p>Your trust is paramount. Learn how CVForge collects, handles, and protects your information.</p>
+        <div class="effective-date">Last Updated: November 20, 2026 • Applies to https://ethpro.online</div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+
+        <!-- 1. Overview -->
+        <article class="card">
+            <h2><i class="fas fa-circle-info"></i> 1. Introduction &amp; Scope</h2>
+            <p>Welcome to <strong>CVForge</strong> ("we," "our," or "us"), available at <a href="https://ethpro.online" style="color:var(--primary);">https://ethpro.online</a>. CVForge provides a free online curriculum vitae (CV), resume, and cover letter creation and export platform.</p>
+            <p>This Privacy Policy explains what personal information we collect, why we collect it, how it is stored and protected, and your rights regarding your data. By accessing or using CVForge, you agree to the collection and use of information in accordance with this policy.</p>
+        </article>
+
+        <!-- 2. Google OAuth & Collected Data -->
+        <article class="card">
+            <h2><i class="fab fa-google"></i> 2. Information We Collect</h2>
+            <p>We believe in data minimization. We only collect information strictly necessary to provide and synchronize your documents.</p>
+
+            <h3>A. Information from Google Sign-In (OAuth 2.0)</h3>
+            <p>When you choose to sign in or create an account using <strong>Continue with Google</strong>, Google requests your authorization to share specific profile data with CVForge. With your permission, we receive:</p>
+            <ul>
+                <li><strong>Full Name:</strong> Used to personalize your account and pre-fill your CV contact header.</li>
+                <li><strong>Email Address:</strong> Used as your primary account identifier and to associate your saved documents.</li>
+                <li><strong>Profile Picture URL:</strong> Used to display your avatar in the application navigation and optional CV photo preview.</li>
+                <li><strong>Unique Google Identifier (`sub`):</strong> A permanent unique ID provided by Google to securely authenticate you on subsequent logins without storing or requiring passwords.</li>
+            </ul>
+
+            <div class="callout-blue">
+                <strong>Google Identity Services Limited Use:</strong>
+                <p>CVForge's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer" style="color:#1D4ED8;text-decoration:underline;">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+            </div>
+
+            <h3>B. Document and Resume Content</h3>
+            <p>You may optionally input information to build your CVs, resumes, and cover letters, including:</p>
+            <ul>
+                <li>Contact information (phone number, location, LinkedIn/GitHub URLs)</li>
+                <li>Work experience, job titles, company names, and employment dates</li>
+                <li>Educational qualifications, degrees, and institutions</li>
+                <li>Skills, certifications, projects, languages, and career summaries</li>
+            </ul>
+
+            <h3>C. Standard Technical Logs</h3>
+            <p>When you visit the website, standard technical request headers are processed (such as browser type, IP address, and request timestamps) strictly for server operations, security monitoring, and rate limiting.</p>
+        </article>
+
+        <!-- 3. How We Use Data -->
+        <article class="card">
+            <h2><i class="fas fa-gears"></i> 3. How We Use Your Information</h2>
+            <p>We use your information solely to deliver the core functionality of CVForge:</p>
+            <ul>
+                <li><strong>Document Persistence &amp; Sync:</strong> To securely save, retrieve, and synchronize your CVs and cover letters across browser sessions and devices.</li>
+                <li><strong>Account Authentication:</strong> To verify your identity and protect your documents from unauthorized access.</li>
+                <li><strong>Document Generation:</strong> To render ATS-friendly CV templates and format watermark-free PDF exports.</li>
+                <li><strong>System Reliability:</strong> To diagnose server errors, prevent abuse, and maintain site performance.</li>
+            </ul>
+
+            <div class="callout-box">
+                <strong>We Never Sell Your Personal Data:</strong>
+                <p>CVForge does <strong>NOT</strong> sell, rent, monetize, or trade your personal information, contact details, or resume content to recruiters, third-party advertisers, or data brokers. Your documents remain entirely your own.</p>
+            </div>
+        </article>
+
+        <!-- 4. Data Sharing & Third Parties -->
+        <article class="card">
+            <h2><i class="fas fa-share-nodes"></i> 4. Data Sharing &amp; Third-Party Services</h2>
+            <p>We do not share your personal information with external parties, except with trusted cloud infrastructure providers strictly required to host and run the application:</p>
+            <ul>
+                <li><strong>Google Identity Services:</strong> To facilitate secure, passwordless authentication via OAuth 2.0.</li>
+                <li><strong>MongoDB Atlas:</strong> High-security managed cloud database where user accounts and saved documents are stored with encryption at rest.</li>
+                <li><strong>Render:</strong> Cloud hosting platform executing our backend API services over encrypted HTTPS.</li>
+            </ul>
+            <p>All third-party service providers are bound by strict confidentiality and security agreements and are prohibited from using your data for any independent purpose.</p>
+        </article>
+
+        <!-- 5. Security & Retention -->
+        <article class="card">
+            <h2><i class="fas fa-lock"></i> 5. Data Security &amp; Storage</h2>
+            <p>We maintain industry-standard security safeguards to protect your personal information:</p>
+            <ul>
+                <li><strong>Encryption in Transit:</strong> All web traffic and API calls are strictly encrypted using TLS 1.3 over HTTPS.</li>
+                <li><strong>Secure Password Hashing:</strong> For users who sign up via email and password instead of Google, passwords are cryptographically salted and hashed using `bcrypt` and can never be read in plain text.</li>
+                <li><strong>JWT Authentication:</strong> Secure JSON Web Tokens (JWT) signed with secret keys are used to protect all private API endpoints.</li>
+            </ul>
+        </article>
+
+        <!-- 6. User Rights & Data Deletion -->
+        <article class="card">
+            <h2><i class="fas fa-user-shield"></i> 6. Your Rights &amp; Data Deletion</h2>
+            <p>You maintain full control over your data:</p>
+            <ul>
+                <li><strong>Access &amp; Export:</strong> You can view, edit, or download your CVs and cover letters at any time in PDF format.</li>
+                <li><strong>Delete Documents:</strong> You can delete any saved CV or cover letter directly from your Documents dashboard.</li>
+                <li><strong>Complete Account Deletion:</strong> You have the right to request permanent deletion of your account, Google profile link, and all associated document data. To request account deletion, contact us at the email below, and your data will be permanently purged within 48 hours.</li>
+            </ul>
+        </article>
+
+        <!-- 7. Contact Us -->
+        <article class="card">
+            <h2><i class="fas fa-envelope"></i> 7. Contact Us</h2>
+            <p>If you have any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact us:</p>
+            <ul>
+                <li><strong>Application:</strong> CVForge (<a href="https://ethpro.online" style="color:var(--primary);">https://ethpro.online</a>)</li>
+                <li><strong>Email:</strong> <a href="mailto:telaynew11@gmail.com" style="color:var(--primary);">telaynew11@gmail.com</a></li>
+            </ul>
+        </article>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 CVForge (ethpro.online). All rights reserved. • <a href="/">Back to CV Builder</a></p>
+    </footer>
+
+</body>
+</html>
