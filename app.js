@@ -620,8 +620,8 @@
         function getCVData() {
             const nameEl = document.getElementById('userName');
             const jobEl = document.getElementById('userTitle');
-            const name = nameEl ? nameEl.value : 'TELAYNEW AMBACHEW';
-            const job = jobEl ? jobEl.value : 'Full-Stack Developer';
+            const name = (nameEl && nameEl.value.trim()) ? nameEl.value.trim() : ((window.appCurrentUser && window.appCurrentUser.name) ? window.appCurrentUser.name : 'Your Name');
+            const job = (jobEl && jobEl.value.trim()) ? jobEl.value.trim() : 'Full-Stack Developer';
 
             const contacts = Array.from(document.querySelectorAll('#contact-list .row-item')).map(r => {
                 const iconEl = r.querySelector('.c-icon');
@@ -1977,7 +1977,7 @@ label,
             const sideSecs = data.sideSections || [];
 
             // Split name into first and last name
-            const rawName = (data.name || 'TELAYNEW AMBACHEW').trim();
+            const rawName = (data.name || (window.appCurrentUser?.name || 'Your Name')).trim();
             const nameParts = rawName.split(/\s+/);
             const firstName = nameParts.length > 1 ? nameParts.slice(0, -1).join(' ') : nameParts[0];
             const lastName = nameParts.length > 1 ? nameParts[nameParts.length - 1] : '';
@@ -2634,8 +2634,8 @@ label,
             </div>`;
             }
 
-            const rawName = (data.name || 'TELAYNEW AMBACHEW').trim();
-            const initials = rawName.split(/\s+/).map(p => p[0]).slice(0, 2).join('').toUpperCase() || 'IN';
+            const rawName = (data.name || (window.appCurrentUser?.name || 'Your Name')).trim();
+            const initials = rawName.split(/\s+/).map(p => p[0]).slice(0, 2).join('').toUpperCase() || 'U';
             const photoUrl = data.photo || CV_ASSETS.avatar;
 
             return `
@@ -3627,7 +3627,7 @@ label,
             if (!m) return;
 
             // Sync with existing values or defaults
-            const curName = document.getElementById('userName')?.value || 'TELAYNEW AMBACHEW';
+            const curName = document.getElementById('userName')?.value || (window.appCurrentUser?.name || 'Your Name');
             const curRole = document.getElementById('userTitle')?.value || 'Full-Stack Developer';
             const curDoc = document.getElementById('doc-title-input')?.value || `${curName} - CV`;
             const curTpl = document.getElementById('cv-template-select')?.value || 't1';
@@ -3785,21 +3785,24 @@ label,
             const roleInput = document.getElementById('wizard-target-role');
             const nameInput = document.getElementById('wizard-full-name');
 
+            const defaultName = (window.appCurrentUser && window.appCurrentUser.name) ? window.appCurrentUser.name : '';
+
             if (type === 'executive') {
                 if (docNameInput) docNameInput.value = 'Executive AI Engineer Resume';
                 if (roleInput) roleInput.value = 'AI and Data Engineer';
-                if (nameInput) nameInput.value = 'Telaynew Ambachew';
+                if (nameInput) nameInput.value = defaultName;
                 selectWizardTemplate('t1');
                 showToast('Applied Executive AI Engineer preset');
             } else if (type === 'clean') {
                 if (docNameInput) docNameInput.value = 'Minimalist Professional CV';
                 if (roleInput) roleInput.value = 'Software Developer';
-                if (nameInput) nameInput.value = 'Telaynew Ambachew';
+                if (nameInput) nameInput.value = defaultName;
                 selectWizardTemplate('default');
                 showToast('Applied Clean Minimalist preset');
             } else if (type === 'tech') {
                 if (docNameInput) docNameInput.value = 'Senior Tech Lead Resume';
                 if (roleInput) roleInput.value = 'Principal Backend Architect';
+                if (nameInput) nameInput.value = defaultName;
                 selectWizardTemplate('t7');
                 showToast('Applied Modern Tech Lead preset');
             }
@@ -3812,7 +3815,7 @@ label,
 
             const newDocName = docNameInput?.value.trim() || 'My Executive Resume';
             const newRole = roleInput?.value.trim() || 'Full-Stack Developer';
-            const newName = nameInput?.value.trim() || 'Telaynew Ambachew';
+            const newName = nameInput?.value.trim() || (window.appCurrentUser?.name || 'Your Name');
 
             // 1. Update Document Title
             const docTitleInput = document.getElementById('doc-title-input');
@@ -3911,7 +3914,7 @@ label,
             const docInput = document.getElementById('doc-title-input');
             const docGroup = document.getElementById('header-doc-name-group');
 
-            const activeName = (appCurrentUser && appCurrentUser.name) ? appCurrentUser.name : (document.getElementById('userName')?.value || 'TELAYNEW AMBACHEW');
+            const activeName = (appCurrentUser && appCurrentUser.name) ? appCurrentUser.name : (document.getElementById('userName')?.value || 'My Document');
 
             if (view === 'editor') {
                 document.getElementById('view-editor')?.classList.add('active');
@@ -4001,7 +4004,7 @@ label,
 
         function handleSignupSubmit() {
             const nameInput = document.getElementById('signup-name');
-            const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Telaynew Ambachew';
+            const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : (appCurrentUser?.name || 'User');
 
             const userName = document.getElementById('userName');
             if (userName) {
@@ -4104,7 +4107,7 @@ label,
             const userTitle = document.getElementById('userTitle')?.value;
 
             const sName = document.getElementById('cl-sender-name');
-            if (sName && (force || !sName.value)) sName.value = userName || 'TELAYNEW AMBACHEW';
+            if (sName && (force || !sName.value)) sName.value = userName || (appCurrentUser?.name || '');
 
             const sRole = document.getElementById('cl-sender-role');
             if (sRole && (force || !sRole.value)) sRole.value = userTitle || 'Full-Stack Developer';
@@ -4149,11 +4152,11 @@ label,
             if (!clDoc) return;
 
             // Sender Info
-            const candidateName = document.getElementById('cl-sender-name')?.value || document.getElementById('userName')?.value || 'TELAYNEW AMBACHEW';
+            const candidateName = document.getElementById('cl-sender-name')?.value || document.getElementById('userName')?.value || (appCurrentUser?.name || 'Your Name');
             const candidateRole = document.getElementById('cl-sender-role')?.value || document.getElementById('userTitle')?.value || 'AI and Data Engineer';
             const candidateEmail = document.getElementById('cl-sender-email')?.value || 'alex.morgan@example.com';
             const candidatePhone = document.getElementById('cl-sender-phone')?.value || '+1 (555) 019-2834';
-            const candidateLocation = document.getElementById('cl-sender-location')?.value || 'Addis Ababa, Ethiopia';
+            const candidateLocation = document.getElementById('cl-sender-location')?.value || 'San Francisco, CA';
 
             // Recipient Info
             const recipientName = document.getElementById('cl-recipient-name')?.value || 'Hiring Manager';
@@ -5216,13 +5219,13 @@ label,
                     }
                 } else {
                     const cvData = (typeof getCVData === 'function') ? getCVData() : {};
-                    const docTitle = (document.getElementById('doc-title-input')?.value || `${cvData.name || 'Telaynew Ambachew'} - CV`).trim();
+                    const docTitle = (document.getElementById('doc-title-input')?.value || `${cvData.name || (window.appCurrentUser?.name || 'My Resume')} - CV`).trim();
                     const activeTpl = (typeof getActiveTemplate === 'function') ? getActiveTemplate() : 'modern';
 
                     const payload = {
                         userId: activeUserId,
                         title: docTitle,
-                        name: cvData.name || 'TELAYNEW AMBACHEW',
+                        name: cvData.name || (window.appCurrentUser?.name || 'Your Name'),
                         job: cvData.job || 'Full-Stack Developer',
                         template: activeTpl,
                         contacts: cvData.contacts || [],
@@ -5413,6 +5416,7 @@ label,
                 localStorage.removeItem('cv_jwt_token');
             } catch (e) { }
             applyGuestUI();
+            if (typeof initMasterProfile === 'function') initMasterProfile();
             showToast('You have been signed out.');
         }
 
@@ -5424,18 +5428,20 @@ label,
             if (signupBtn) signupBtn.style.display = 'none';
             if (userBtn) userBtn.style.display = 'flex';
 
+            const initials = userData.initials || (userData.name ? userData.name.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 2).toUpperCase() : 'U');
             const headerInitials = document.getElementById('header-user-initials');
             const headerName = document.getElementById('header-user-name');
-            if (headerInitials) headerInitials.textContent = userData.initials || 'TA';
-            if (headerName) headerName.textContent = userData.name.split(' ')[0];
+            if (headerInitials) headerInitials.textContent = initials;
+            const firstName = (userData.name || 'User').split(' ')[0];
+            if (headerName) headerName.textContent = firstName;
 
             const dName = document.getElementById('dropdown-user-name');
             const dEmail = document.getElementById('dropdown-user-email');
-            if (dName) dName.textContent = userData.name;
-            if (dEmail) dEmail.textContent = userData.email;
+            if (dName) dName.textContent = userData.name || 'User Profile';
+            if (dEmail) dEmail.textContent = userData.email || '';
 
             const welcomeName = document.getElementById('dash-welcome-name');
-            if (welcomeName) welcomeName.textContent = 'Welcome back, ' + userData.name.split(' ')[0] + '!';
+            if (welcomeName) welcomeName.textContent = 'Welcome back, ' + firstName + '!';
 
             const dashSignupBtn = document.getElementById('dash-signup-btn');
             if (dashSignupBtn) {
@@ -5889,53 +5895,71 @@ label,
         // MASTER CAREER PROFILE (Central database to store & extract into CVs)
         // ══════════════════════════════════════════════════════════════════════════
 
+        function getMasterProfileStorageKey() {
+            if (window.appCurrentUser && (window.appCurrentUser.id || window.appCurrentUser.email)) {
+                return 'cv_master_profile_' + (window.appCurrentUser.id || window.appCurrentUser.email);
+            }
+            return 'cv_master_profile_guest';
+        }
+
         let masterProfile = {
-            name: "Telaynew Ambachew",
-            title: "Senior Software Engineer",
-            summary: "Dedicated and results-oriented Software Engineer with extensive experience in architecting scalable web applications, RESTful APIs, distributed microservices, and database systems. Proven track record in full-stack development, cloud deployment, and system reliability.",
-            email: "telaynew11@gmail.com",
-            phone: "+251963391736",
-            location: "Addis Ababa, Ethiopia",
-            linkedin: "linkedin.com/in/telaynew",
-            github: "github.com/telaynew12",
-            website: "https://cv.ethpro.online",
+            name: "",
+            title: "",
+            summary: "",
+            email: "",
+            phone: "",
+            location: "",
+            linkedin: "",
+            github: "",
+            website: "",
             photo: "",
-            experiences: [
-                {
-                    title: "Senior Software Engineer",
-                    company: "Ethiopian Electric Power (EEP)",
-                    period: "2022 - Present",
-                    location: "Addis Ababa, Ethiopia",
-                    description: "Lead developer on corporate enterprise applications, architecting microservices, implementing automated deployment pipelines, and managing high-throughput MongoDB and SQL clusters."
-                },
-                {
-                    title: "Full-Stack Web Developer",
-                    company: "Tech Solutions Inc.",
-                    period: "2019 - 2022",
-                    location: "Addis Ababa, Ethiopia",
-                    description: "Developed and maintained full-stack web applications using Node.js, NestJS, and React. Optimized query performance and improved system response time by 40%."
-                }
-            ],
-            educations: [
-                {
-                    degree: "B.Sc. in Computer Science & Information Technology",
-                    school: "Addis Ababa University",
-                    period: "2015 - 2019",
-                    details: "Graduated with High Honors. Focused on Software Engineering, Distributed Systems, and Database Management."
-                }
-            ],
-            skills: ["JavaScript", "TypeScript", "Node.js", "NestJS", "React", "MongoDB", "PostgreSQL", "Docker", "REST APIs", "Git & CI/CD", "Cloud Deployment"]
+            experiences: [],
+            educations: [],
+            skills: []
         };
 
         function initMasterProfile() {
+            const key = getMasterProfileStorageKey();
+            let loaded = null;
             try {
-                const saved = localStorage.getItem('cv_master_profile');
+                const saved = localStorage.getItem(key);
                 if (saved) {
-                    const parsed = JSON.parse(saved);
-                    masterProfile = Object.assign(masterProfile, parsed);
+                    loaded = JSON.parse(saved);
+                } else if (window.appCurrentUser && (window.appCurrentUser.email === 'telaynew11@gmail.com' || (window.appCurrentUser.name && window.appCurrentUser.name.toLowerCase().includes('telaynew')))) {
+                    // Seamlessly preserve Telaynew's existing saved master profile to his user-scoped key
+                    const legacy = localStorage.getItem('cv_master_profile');
+                    if (legacy) {
+                        try {
+                            loaded = JSON.parse(legacy);
+                            localStorage.setItem(key, legacy);
+                        } catch (err) {}
+                    }
                 }
             } catch (e) {
                 console.error("Error reading master profile from localStorage:", e);
+            }
+
+            if (loaded) {
+                masterProfile = Object.assign({
+                    name: "", title: "", summary: "", email: "", phone: "", location: "",
+                    linkedin: "", github: "", website: "", photo: "", experiences: [], educations: [], skills: []
+                }, loaded);
+            } else {
+                masterProfile = {
+                    name: (window.appCurrentUser && window.appCurrentUser.name) ? window.appCurrentUser.name : "",
+                    title: "",
+                    summary: "",
+                    email: (window.appCurrentUser && window.appCurrentUser.email) ? window.appCurrentUser.email : "",
+                    phone: "",
+                    location: "",
+                    linkedin: "",
+                    github: "",
+                    website: "",
+                    photo: "",
+                    experiences: [],
+                    educations: [],
+                    skills: []
+                };
             }
             populateProfileUI();
         }
@@ -5943,12 +5967,12 @@ label,
         function populateProfileUI() {
             const setVal = (id, val) => {
                 const el = document.getElementById(id);
-                if (el && val != null) el.value = val;
+                if (el) el.value = val || '';
             };
-            setVal('prof-full-name', masterProfile.name || '');
+            setVal('prof-full-name', masterProfile.name || (window.appCurrentUser?.name || ''));
             setVal('prof-job-title', masterProfile.title || '');
             setVal('prof-summary', masterProfile.summary || '');
-            setVal('prof-email', masterProfile.email || '');
+            setVal('prof-email', masterProfile.email || (window.appCurrentUser?.email || ''));
             setVal('prof-phone', masterProfile.phone || '');
             setVal('prof-location', masterProfile.location || '');
             setVal('prof-linkedin', masterProfile.linkedin || '');
@@ -5956,13 +5980,16 @@ label,
             setVal('prof-website', masterProfile.website || '');
 
             const crumb = document.getElementById('prof-crumb-name');
-            if (crumb) crumb.textContent = masterProfile.name || 'My Profile';
+            if (crumb) crumb.textContent = masterProfile.name || (window.appCurrentUser?.name || 'My Profile');
 
+            const img = document.getElementById('prof-photo-img');
+            const placeholder = document.getElementById('prof-photo-placeholder');
             if (masterProfile.photo) {
-                const img = document.getElementById('prof-photo-img');
-                const placeholder = document.getElementById('prof-photo-placeholder');
                 if (img) { img.src = masterProfile.photo; img.style.display = 'block'; }
                 if (placeholder) placeholder.style.display = 'none';
+            } else {
+                if (img) { img.src = ''; img.style.display = 'none'; }
+                if (placeholder) placeholder.style.display = 'flex';
             }
 
             renderProfileExperiences();
@@ -6175,20 +6202,24 @@ label,
             gatherProfileEducationsFromDOM();
 
             try {
-                localStorage.setItem('cv_master_profile', JSON.stringify(masterProfile));
+                const key = getMasterProfileStorageKey();
+                localStorage.setItem(key, JSON.stringify(masterProfile));
             } catch (e) {
                 console.warn("Could not write master profile to localStorage:", e);
             }
 
-            const initials = (masterProfile.name || 'TA').split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+            const displayName = masterProfile.name || (window.appCurrentUser?.name || 'User Profile');
+            const displayEmail = masterProfile.email || (window.appCurrentUser?.email || '');
+            const initials = displayName.split(' ').map(n => n[0]).filter(Boolean).join('').slice(0, 2).toUpperCase() || 'U';
+
             const dropdownName = document.getElementById('dropdown-user-name');
             const dropdownEmail = document.getElementById('dropdown-user-email');
             const headerInitials = document.getElementById('header-user-initials');
             const crumb = document.getElementById('prof-crumb-name');
-            if (dropdownName) dropdownName.textContent = masterProfile.name;
-            if (dropdownEmail) dropdownEmail.textContent = masterProfile.email;
+            if (dropdownName) dropdownName.textContent = displayName;
+            if (dropdownEmail) dropdownEmail.textContent = displayEmail;
             if (headerInitials) headerInitials.textContent = initials;
-            if (crumb) crumb.textContent = masterProfile.name;
+            if (crumb) crumb.textContent = displayName;
 
             if (!silent) showToast("Master Profile saved successfully!");
         }
@@ -6794,7 +6825,7 @@ label,
 
             closeNewDocModal();
 
-            const activeName = (window.appCurrentUser && window.appCurrentUser.name) ? window.appCurrentUser.name : 'Telaynew Ambachew';
+            const activeName = (window.appCurrentUser && window.appCurrentUser.name) ? window.appCurrentUser.name : 'My Document';
             const effectiveUserId = (window.appCurrentUser && window.appCurrentUser.id) ? window.appCurrentUser.id : 'guest';
 
             try {
@@ -6844,22 +6875,25 @@ label,
                 if (typeof _orig === 'function') _orig(user);
                 // Update new header elements
                 if (user) {
-                    const initials = user.initials || (user.name ? user.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() : 'TA');
+                    const initials = user.initials || (user.name ? user.name.split(' ').map(w => w[0]).filter(Boolean).join('').substring(0, 2).toUpperCase() : 'U');
                     const el = document.getElementById('header-user-initials');
                     if (el) el.textContent = initials;
+                    const firstName = (user.name || 'User').split(' ')[0];
                     const nameEl = document.getElementById('header-user-name');
-                    if (nameEl) nameEl.textContent = (user.name || 'Telaynew').split(' ')[0];
+                    if (nameEl) nameEl.textContent = firstName;
                     const ddName = document.getElementById('dropdown-user-name');
-                    if (ddName) ddName.textContent = user.name || 'Telaynew Ambachew';
+                    if (ddName) ddName.textContent = user.name || 'User Profile';
                     const ddEmail = document.getElementById('dropdown-user-email');
-                    if (ddEmail) ddEmail.textContent = user.email || 'telaynew11@gmail.com';
+                    if (ddEmail) ddEmail.textContent = user.email || '';
                     const welcomeEl = document.getElementById('dash-welcome-name');
-                    if (welcomeEl) welcomeEl.textContent = 'Welcome back, ' + (user.name || 'Telaynew') + '!';
+                    if (welcomeEl) welcomeEl.textContent = 'Welcome back, ' + firstName + '!';
                     // Switch user button
                     const signupBtn = document.getElementById('btn-header-signup');
                     const userBtn = document.getElementById('btn-header-user');
                     if (signupBtn) signupBtn.style.display = 'none';
                     if (userBtn) userBtn.style.display = 'flex';
+
+                    if (typeof initMasterProfile === 'function') initMasterProfile();
                 }
                 // Show dashboard by default after login
                 switchView('dashboard');
