@@ -18,5 +18,8 @@ scratch/
 .cursor-mini/
 .freebuff/
 
+# Sub-repositories
+cv-frontend/
+
 index.html.pre_redesign_bak
 index.html.bak
