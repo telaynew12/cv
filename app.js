@@ -3991,7 +3991,7 @@ label,
         // â”€â”€â”€ AUTH & SIGNUP HELPERS (media_1794400101553_54656738.png) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
         function openSignupPage() {
             const overlay = document.getElementById('auth-signup-overlay');
-            if (overlay) overlay.classList.add('active');
+            if (overlay) { overlay.classList.add('active'); if (typeof renderGoogleButtons === 'function') setTimeout(renderGoogleButtons, 50); }
         }
 
         function closeSignupPage() {
@@ -5268,7 +5268,7 @@ label,
 
         function showAuthOverlay() {
             const overlay = document.getElementById('auth-gate-overlay');
-            if (overlay) { overlay.classList.remove('hidden'); overlay.style.display = 'flex'; }
+            if (overlay) { overlay.classList.remove('hidden'); overlay.style.display = 'flex'; if (typeof renderGoogleButtons === 'function') setTimeout(renderGoogleButtons, 50); }
         }
 
         function hideAuthOverlay() {
@@ -5600,12 +5600,51 @@ label,
         // ── Google OAuth 2.0 (Google Identity Services) ────────────────────────
         let googleAuthInitialized = false;
 
+        function renderGoogleButtons() {
+            if (!window.google || !window.google.accounts || !window.google.accounts.id) return;
+
+            const slots = [
+                { slotId: 'google-btn-overlay', fallbackId: 'btn-google-auth-overlay' },
+                { slotId: 'google-btn-signup', fallbackId: 'btn-google-auth-signup' }
+            ];
+
+            slots.forEach(({ slotId, fallbackId }) => {
+                const slot = document.getElementById(slotId);
+                const fallback = document.getElementById(fallbackId);
+                if (!slot) return;
+
+                try {
+                    slot.innerHTML = '';
+                    window.google.accounts.id.renderButton(slot, {
+                        type: 'standard',
+                        theme: 'outline',
+                        size: 'large',
+                        text: 'continue_with',
+                        shape: 'rectangular',
+                        logo_alignment: 'left',
+                        width: slot.offsetWidth > 150 ? slot.offsetWidth : 340
+                    });
+                    if (fallback) {
+                        fallback.style.display = 'none';
+                    }
+                } catch (err) {
+                    console.warn('renderButton error for ' + slotId, err);
+                    if (fallback) {
+                        fallback.style.display = 'flex';
+                    }
+                }
+            });
+        }
+
         function initGoogleOAuth() {
             const clientId = window.GOOGLE_CLIENT_ID || '893410721339-q9gfq6qlu00u6pceb9sktj84e8bvac5l.apps.googleusercontent.com';
             if (!window.google || !window.google.accounts || !window.google.accounts.id) {
                 return false;
             }
-            if (googleAuthInitialized) return true;
+            if (googleAuthInitialized) {
+                renderGoogleButtons();
+                return true;
+            }
 
             try {
                 window.google.accounts.id.initialize({
@@ -5615,26 +5654,7 @@ label,
                     cancel_on_tap_outside: true
                 });
                 googleAuthInitialized = true;
-
-                // Render hidden button container for programmatic trigger
-                let hiddenBtnContainer = document.getElementById('g_id_signin_hidden');
-                if (!hiddenBtnContainer) {
-                    hiddenBtnContainer = document.createElement('div');
-                    hiddenBtnContainer.id = 'g_id_signin_hidden';
-                    hiddenBtnContainer.style.position = 'fixed';
-                    hiddenBtnContainer.style.top = '-9999px';
-                    hiddenBtnContainer.style.left = '-9999px';
-                    hiddenBtnContainer.style.width = '1px';
-                    hiddenBtnContainer.style.height = '1px';
-                    hiddenBtnContainer.style.opacity = '0.01';
-                    hiddenBtnContainer.style.pointerEvents = 'none';
-                    document.body.appendChild(hiddenBtnContainer);
-                }
-                window.google.accounts.id.renderButton(hiddenBtnContainer, {
-                    type: 'standard',
-                    theme: 'outline',
-                    size: 'large'
-                });
+                renderGoogleButtons();
                 return true;
             } catch (err) {
                 console.warn('Google Identity Services initialization warning:', err);
@@ -5713,25 +5733,22 @@ label,
             try {
                 await loadGoogleGsiScript();
                 initGoogleOAuth();
+                renderGoogleButtons();
 
-                // Programmatic trigger via rendered hidden button
-                const renderedBtn = document.querySelector('#g_id_signin_hidden div[role=button]');
-                if (renderedBtn) {
-                    renderedBtn.click();
-                    return;
-                }
-
-                // Fallback: prompt One Tap
+                // If user clicked our button, prompt One Tap with smart diagnostic
                 if (window.google && window.google.accounts && window.google.accounts.id) {
                     window.google.accounts.id.prompt((notification) => {
+                        clearTimeout(resetSafetyTimer);
+                        setGoogleButtonsLoading(false);
                         if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                            clearTimeout(resetSafetyTimer);
-                            setGoogleButtonsLoading(false);
-                            const cId = window.GOOGLE_CLIENT_ID || '';
-                            if (!cId || cId.includes('sampleclientid') || cId.includes('your_google_client_id')) {
-                                showToast('Please set your real GOOGLE_CLIENT_ID in .env or Google Cloud Console.');
+                            const reason = (typeof notification.getNotDisplayedReason === 'function') 
+                                ? notification.getNotDisplayedReason() 
+                                : '';
+                            console.log('Google prompt status:', reason);
+                            if (reason === 'suppressed_by_user') {
+                                showToast('Google prompt was closed recently. Please use the Google button or allow third-party cookies.');
                             } else {
-                                showToast('Google prompt was suppressed. Please allow popups or third-party cookies.');
+                                showToast('Please click the official Google button to sign in.');
                             }
                         }
                     });
