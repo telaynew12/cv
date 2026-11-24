@@ -5776,6 +5776,11 @@ label,
                             if (tokenResponse && tokenResponse.access_token) {
                                 await sendGoogleAuthToBackend({ accessToken: tokenResponse.access_token });
                             }
+                        },
+                        error_callback: (err) => {
+                            clearTimeout(resetSafetyTimer);
+                            setGoogleButtonsLoading(false);
+                            console.warn('Google popup error:', err);
                         }
                     });
                     googleTokenClient.requestAccessToken({ prompt: 'select_account' });

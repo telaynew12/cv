@@ -36,11 +36,11 @@ function loadEnv() {
 const envVars = loadEnv();
 
 function getBackendUrl() {
-  let url = process.env.BACKEND_URL || 
-            process.env.API_URL || 
-            envVars.BACKEND_URL || 
-            envVars.API_URL || 
-            'http://localhost:3000/api';
+  let url = process.env.BACKEND_URL ||
+    process.env.API_URL ||
+    envVars.BACKEND_URL ||
+    envVars.API_URL ||
+    'http://localhost:3000/api';
   url = url.trim().replace(/\/+$/, '');
   if (!url.endsWith('/api')) {
     url += '/api';
@@ -50,11 +50,11 @@ function getBackendUrl() {
 
 function getGoogleClientId() {
   return process.env.GOOGLE_CLIENT_ID ||
-         process.env.VITE_GOOGLE_CLIENT_ID ||
-         process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
-         envVars.GOOGLE_CLIENT_ID ||
-         envVars.VITE_GOOGLE_CLIENT_ID ||
-         '893410721339-q9gfq6qlu00u6pceb9sktj84e8bvac5l.apps.googleusercontent.com';
+    process.env.VITE_GOOGLE_CLIENT_ID ||
+    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ||
+    envVars.GOOGLE_CLIENT_ID ||
+    envVars.VITE_GOOGLE_CLIENT_ID ||
+  '893410721339-q9gfq6qlu00u6pceb9sktj84e8bvac5l.apps.googleusercontent.com';
 }
 
 const port = process.env.PORT || 8080;
@@ -80,7 +80,10 @@ const server = http.createServer((req, res) => {
   if (safePath === '/config.js') {
     const backendUrl = getBackendUrl();
     const googleClientId = getGoogleClientId();
-    res.writeHead(200, { 'Content-Type': 'application/javascript; charset=utf-8' });
+    res.writeHead(200, {
+      'Content-Type': 'application/javascript; charset=utf-8',
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
+    });
     res.end(
       'window.API_BASE = "' + backendUrl + '";\n' +
       'window.GOOGLE_CLIENT_ID = "' + googleClientId + '";\n' +
@@ -111,7 +114,10 @@ const server = http.createServer((req, res) => {
         res.writeHead(500, { 'Content-Type': 'text/plain' });
         res.end('Internal Server Error');
       } else {
-        res.writeHead(200, { 'Content-Type': contentType });
+        res.writeHead(200, {
+          'Content-Type': contentType,
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        });
         // Automatically inject window.API_BASE & window.GOOGLE_CLIENT_ID from .env into index.html
         if (filePath.endsWith('index.html')) {
           let html = content.toString('utf-8');
