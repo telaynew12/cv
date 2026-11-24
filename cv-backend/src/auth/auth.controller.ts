@@ -21,7 +21,7 @@ export class AuthController {
 
   @Post('google')
   async googleAuth(@Body() googleAuthDto: GoogleAuthDto) {
-    return this.authService.authenticateWithGoogle(googleAuthDto.idToken);
+    return this.authService.authenticateWithGoogle(googleAuthDto);
   }
 
   @UseGuards(JwtAuthGuard)

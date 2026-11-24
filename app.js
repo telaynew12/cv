@@ -5599,6 +5599,7 @@ label,
 
         // ── Google OAuth 2.0 (Google Identity Services) ────────────────────────
         let googleAuthInitialized = false;
+        let googleTokenClient = null;
 
         function renderGoogleButtons() {
             if (!window.google || !window.google.accounts || !window.google.accounts.id) return;
@@ -5622,7 +5623,7 @@ label,
                         text: 'continue_with',
                         shape: 'rectangular',
                         logo_alignment: 'left',
-                        width: slot.offsetWidth > 150 ? slot.offsetWidth : 340
+                        width: 320
                     });
                     if (fallback) {
                         fallback.style.display = 'none';
@@ -5638,28 +5639,51 @@ label,
 
         function initGoogleOAuth() {
             const clientId = window.GOOGLE_CLIENT_ID || '893410721339-q9gfq6qlu00u6pceb9sktj84e8bvac5l.apps.googleusercontent.com';
-            if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+            if (!window.google || !window.google.accounts) {
                 return false;
-            }
-            if (googleAuthInitialized) {
-                renderGoogleButtons();
-                return true;
             }
 
-            try {
-                window.google.accounts.id.initialize({
-                    client_id: clientId,
-                    callback: handleGoogleCredentialResponse,
-                    auto_select: false,
-                    cancel_on_tap_outside: true
-                });
-                googleAuthInitialized = true;
-                renderGoogleButtons();
-                return true;
-            } catch (err) {
-                console.warn('Google Identity Services initialization warning:', err);
-                return false;
+            // 1. Initialize Google Identity Services (ID Token)
+            if (window.google.accounts.id && !googleAuthInitialized) {
+                try {
+                    window.google.accounts.id.initialize({
+                        client_id: clientId,
+                        callback: handleGoogleCredentialResponse,
+                        auto_select: false,
+                        cancel_on_tap_outside: true
+                    });
+                    googleAuthInitialized = true;
+                } catch (err) {
+                    console.warn('Google Identity Services ID init warning:', err);
+                }
             }
+
+            // 2. Initialize OAuth 2.0 Token Client (Direct popup flow that NEVER suppresses)
+            if (window.google.accounts.oauth2 && !googleTokenClient) {
+                try {
+                    googleTokenClient = window.google.accounts.oauth2.initTokenClient({
+                        client_id: clientId,
+                        scope: 'email profile openid',
+                        callback: async (tokenResponse) => {
+                            setGoogleButtonsLoading(false);
+                            if (tokenResponse && tokenResponse.access_token) {
+                                await sendGoogleAuthToBackend({ accessToken: tokenResponse.access_token });
+                            } else if (tokenResponse && tokenResponse.error) {
+                                console.warn('Google OAuth token error:', tokenResponse);
+                            }
+                        },
+                        error_callback: (err) => {
+                            setGoogleButtonsLoading(false);
+                            console.warn('Google popup error:', err);
+                        }
+                    });
+                } catch (err) {
+                    console.warn('Google OAuth2 client init warning:', err);
+                }
+            }
+
+            renderGoogleButtons();
+            return true;
         }
 
         function setGoogleButtonsLoading(isLoading) {
@@ -5684,7 +5708,7 @@ label,
 
         function loadGoogleGsiScript() {
             return new Promise((resolve, reject) => {
-                if (window.google && window.google.accounts && window.google.accounts.id) {
+                if (window.google && window.google.accounts) {
                     return resolve();
                 }
                 let script = document.querySelector('script[src*="accounts.google.com/gsi/client"]');
@@ -5707,7 +5731,7 @@ label,
                 let elapsed = 0;
                 const interval = setInterval(() => {
                     elapsed += 200;
-                    if (window.google && window.google.accounts && window.google.accounts.id) {
+                    if (window.google && window.google.accounts) {
                         clearInterval(interval);
                         if (!settled) { settled = true; resolve(); }
                     } else if (elapsed >= 8000) {
@@ -5728,36 +5752,43 @@ label,
 
             const resetSafetyTimer = setTimeout(() => {
                 setGoogleButtonsLoading(false);
-            }, 15000);
+            }, 25000);
 
             try {
                 await loadGoogleGsiScript();
                 initGoogleOAuth();
-                renderGoogleButtons();
 
-                // If user clicked our button, prompt One Tap with smart diagnostic
-                if (window.google && window.google.accounts && window.google.accounts.id) {
-                    window.google.accounts.id.prompt((notification) => {
-                        clearTimeout(resetSafetyTimer);
-                        setGoogleButtonsLoading(false);
-                        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                            const reason = (typeof notification.getNotDisplayedReason === 'function') 
-                                ? notification.getNotDisplayedReason() 
-                                : '';
-                            console.log('Google prompt status:', reason);
-                            if (reason === 'suppressed_by_user') {
-                                showToast('Google prompt was closed recently. Please use the Google button or allow third-party cookies.');
-                            } else {
-                                showToast('Please click the official Google button to sign in.');
+                // Direct user-initiated popup via Google OAuth2 Token Client (NEVER SUPPRESSED!)
+                if (googleTokenClient) {
+                    googleTokenClient.requestAccessToken({ prompt: 'select_account' });
+                    return;
+                }
+
+                // If token client not ready yet, initialize and request
+                const clientId = window.GOOGLE_CLIENT_ID || '893410721339-q9gfq6qlu00u6pceb9sktj84e8bvac5l.apps.googleusercontent.com';
+                if (window.google && window.google.accounts && window.google.accounts.oauth2) {
+                    googleTokenClient = window.google.accounts.oauth2.initTokenClient({
+                        client_id: clientId,
+                        scope: 'email profile openid',
+                        callback: async (tokenResponse) => {
+                            clearTimeout(resetSafetyTimer);
+                            setGoogleButtonsLoading(false);
+                            if (tokenResponse && tokenResponse.access_token) {
+                                await sendGoogleAuthToBackend({ accessToken: tokenResponse.access_token });
                             }
                         }
                     });
+                    googleTokenClient.requestAccessToken({ prompt: 'select_account' });
+                } else {
+                    clearTimeout(resetSafetyTimer);
+                    setGoogleButtonsLoading(false);
+                    showToast('Google Sign-In library is loading. Please try again in a moment.');
                 }
             } catch (err) {
                 clearTimeout(resetSafetyTimer);
                 setGoogleButtonsLoading(false);
                 console.error('Google Sign-In Error:', err);
-                showToast('Google Sign-In script was blocked. Please disable ad-blockers (such as uBlock or Brave Shields) or check your connection.');
+                showToast('Google Sign-In was blocked. Please disable ad-blockers (such as uBlock or Brave Shields) or check your connection.');
             }
         }
 
@@ -5775,14 +5806,17 @@ label,
                 showToast('Google sign-in was cancelled or failed.');
                 return;
             }
+            await sendGoogleAuthToBackend({ idToken: response.credential });
+        }
 
+        async function sendGoogleAuthToBackend(payload) {
             setGoogleButtonsLoading(true);
 
             try {
                 const res = await fetch(`${API_BASE}/auth/google`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ idToken: response.credential })
+                    body: JSON.stringify(payload)
                 });
 
                 if (res.ok) {

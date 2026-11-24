@@ -10,6 +10,7 @@ import { OAuth2Client } from 'google-auth-library';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { GoogleAuthDto } from './dto/google-auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -114,28 +115,53 @@ export class AuthService {
     };
   }
 
-  async authenticateWithGoogle(idToken: string) {
-    if (!idToken) {
-      throw new UnauthorizedException('Google ID token is required');
+  async authenticateWithGoogle(googleAuthDto: GoogleAuthDto | string) {
+    const idToken =
+      typeof googleAuthDto === 'string'
+        ? googleAuthDto
+        : googleAuthDto?.idToken;
+    const accessToken =
+      typeof googleAuthDto === 'object'
+        ? googleAuthDto?.accessToken
+        : undefined;
+
+    if (!idToken && !accessToken) {
+      throw new UnauthorizedException('Google ID token or access token is required');
     }
 
-    const clientId =
-      this.configService.get<string>('GOOGLE_CLIENT_ID') ||
-      process.env.GOOGLE_CLIENT_ID ||
-      '';
-
     let payload: any;
-    try {
-      const ticket = await this.googleClient.verifyIdToken({
-        idToken,
-        audience: clientId || undefined,
-      });
-      payload = ticket.getPayload();
-    } catch (err: any) {
-      // In development / testing without a valid client ID configured, allow fallback payload decoding if needed
-      throw new UnauthorizedException(
-        `Invalid Google ID token: ${err.message || 'Verification failed'}`,
-      );
+
+    if (idToken) {
+      const clientId =
+        this.configService.get<string>('GOOGLE_CLIENT_ID') ||
+        process.env.GOOGLE_CLIENT_ID ||
+        '';
+
+      try {
+        const ticket = await this.googleClient.verifyIdToken({
+          idToken,
+          audience: clientId || undefined,
+        });
+        payload = ticket.getPayload();
+      } catch (err: any) {
+        throw new UnauthorizedException(
+          `Invalid Google ID token: ${err.message || 'Verification failed'}`,
+        );
+      }
+    } else if (accessToken) {
+      try {
+        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        if (!res.ok) {
+          throw new Error(`Google returned status ${res.status}`);
+        }
+        payload = await res.json();
+      } catch (err: any) {
+        throw new UnauthorizedException(
+          `Invalid Google access token: ${err.message || 'Verification failed'}`,
+        );
+      }
     }
 
     if (!payload || !payload.email) {
